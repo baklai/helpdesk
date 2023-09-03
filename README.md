@@ -2,9 +2,9 @@
 
 Web application of technical support
 
-## Demo web application: [Helpdesk service](https://helpdesk-service.netlify.app)
+## Demo web application: [Helpdesk app](https://helpdesk-service.netlify.app)
 
-## Demo api application: [Helpdesk service]([https://helpdesk-service.netlify.app](https://helpdesk-api-l8pk.onrender.com/api/v1))
+## Demo api application: [Helpdesk api](https://helpdesk-api-l8pk.onrender.com/api/v1)
 
 ```
 LOGIN: helpdesk
