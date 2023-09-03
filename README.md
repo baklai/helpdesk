@@ -4,7 +4,7 @@ Web application of technical support
 
 ## Helpdesk APP v1 repository [GitHub](https://github.com/baklai/helpdesk-app-v1)
 
-### Demo web application: [APP](https://helpdesk-service.netlify.app)
+### Demo web application: [![Netlify Status](https://api.netlify.com/api/v1/badges/9a95cf10-032a-41ca-9f33-e797564da1d6/deploy-status)](https://helpdesk-service.netlify.app) [APP](https://helpdesk-service.netlify.app)
 
 ```
 LOGIN: helpdesk
