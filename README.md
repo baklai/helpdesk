@@ -2,7 +2,9 @@
 
 Web application of technical support
 
-## Demo application: [Helpdesk service](https://helpdesk-service.netlify.app)
+## Demo web application: [Helpdesk service](https://helpdesk-service.netlify.app)
+
+## Demo api application: [Helpdesk service]([https://helpdesk-service.netlify.app](https://helpdesk-api-l8pk.onrender.com/api/v1))
 
 ```
 LOGIN: helpdesk
@@ -11,6 +13,6 @@ PASSWORD: helpdesk
 
 <img src="preview.png">
 
-## APP Repository [Helpdesk app](https://github.com/baklai/helpdesk-app-v1)
+## Helpdesk APP v1 repository [GitHub](https://github.com/baklai/helpdesk-app-v1)
 
-## API Repository [Helpdesk api](https://github.com/baklai/helpdesk-api-v1)
+## Helpdesk API v1 repository [GitHub](https://github.com/baklai/helpdesk-api-v1)
