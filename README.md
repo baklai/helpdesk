@@ -4,7 +4,7 @@
 
 Web application of technical support
 
-## Helpdesk APP v1 [GitHub repository](https://github.com/baklai/helpdesk-app-v1)
+## [Helpdesk APP v1 repository](https://github.com/baklai/helpdesk-app-v1)
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app-v1/vue)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app-v1/pinia)
@@ -26,7 +26,7 @@ PASSWORD: helpdesk
 
 <img src="preview-app.png">
 
-## Helpdesk API v1 [GitHub repository](https://github.com/baklai/helpdesk-api-v1)
+## [Helpdesk API v1 repository](https://github.com/baklai/helpdesk-api-v1)
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/@nestjs/common)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/@nestjs/config)
