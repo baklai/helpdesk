@@ -21,7 +21,7 @@ Web application of technical support
 
 ```
 LOGIN: helpdesk
-PASSWORD: helpdesk
+PASSWORD: h1e2l3p4d5e6s7k8
 ```
 
 <img src="preview-app.png">
@@ -50,7 +50,7 @@ PASSWORD: helpdesk
 
 ```
 LOGIN: helpdesk
-PASSWORD: helpdesk
+PASSWORD: h1e2l3p4d5e6s7k8
 ```
 
 <img src="preview-api.png">
