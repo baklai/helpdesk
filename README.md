@@ -39,6 +39,6 @@ Web application of technical support
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/netmask)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/pingman)
 
-### Demo: [Helpdesk api](https://helpdesk-api-l8pk.onrender.com/api/v1)
+### Demo: [Helpdesk api](https://helpdesk-api-l8pk.onrender.com)
 
 <img src="preview-api.png">
