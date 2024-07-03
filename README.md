@@ -16,7 +16,7 @@ Web application of technical support
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app-v1/dayjs)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app-v1/html2pdf.js)
 
-### Demo web application: [![Netlify Status](https://api.netlify.com/api/v1/badges/9a95cf10-032a-41ca-9f33-e797564da1d6/deploy-status)](https://helpdesk-service.netlify.app) [Helpdesk app](https://helpdesk-service.netlify.app)
+### Demo web application: [![Netlify Status](https://api.netlify.com/api/v1/badges/a1104e71-033a-4d0b-b6cb-a2c579ab955d/deploy-status)](https://helpdesk-service.netlify.app) [Helpdesk app](https://helpdesk-service.netlify.app)
 
 ```
 LOGIN: helpdesk
