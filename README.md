@@ -18,11 +18,6 @@ Web application of technical support
 
 ### Demo web application: [![Netlify Status](https://api.netlify.com/api/v1/badges/a1104e71-033a-4d0b-b6cb-a2c579ab955d/deploy-status)](https://helpdesk-service.netlify.app) [Helpdesk app](https://helpdesk-service.netlify.app)
 
-```
-LOGIN: helpdesk
-PASSWORD: helpdesk
-```
-
 <img src="preview-app.png">
 
 ## [Helpdesk API v1 repository](https://github.com/baklai/helpdesk-api-v1)
@@ -45,10 +40,5 @@ PASSWORD: helpdesk
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/pingman)
 
 ### Demo api application: [Helpdesk api](https://helpdesk-api-l8pk.onrender.com/api/v1)
-
-```
-LOGIN: helpdesk
-PASSWORD: helpdesk
-```
 
 <img src="preview-api.png">
