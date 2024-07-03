@@ -16,7 +16,7 @@ Web application of technical support
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app-v1/dayjs)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app-v1/html2pdf.js)
 
-### Demo: [![Netlify Status](https://api.netlify.com/api/v1/badges/a1104e71-033a-4d0b-b6cb-a2c579ab955d/deploy-status)](https://helpdesk-service.netlify.app) [Helpdesk app](https://helpdesk-service.netlify.app)
+### Demo: [![Netlify Status](https://api.netlify.com/api/v1/badges/a1104e71-033a-4d0b-b6cb-a2c579ab955d/deploy-status)](https://helpdesk-service.netlify.app) [APP Helpdesk](https://helpdesk-service.netlify.app)
 
 <img src="preview-app.png">
 
@@ -39,6 +39,6 @@ Web application of technical support
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/netmask)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api-v1/pingman)
 
-### Demo: [Helpdesk api](https://helpdesk-api-l8pk.onrender.com)
+### Demo: [API Helpdesk](https://helpdesk-api-l8pk.onrender.com)
 
 <img src="preview-api.png">
