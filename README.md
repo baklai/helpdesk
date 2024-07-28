@@ -69,37 +69,7 @@ Web application of technical support
 | `SMTP_PASSWORD`          | Email service password   |
 | `SMTP_SENDER`            | Email sender             |
 
-### Build Docker images
-
-```bash
-# Build docker image
-docker compose build
-
-# Build docker multiplatform images and Pushes images to the repository
-docker compose build --builder multibuilder --push
-```
-
-If your cloud uses a different CPU architecture than your development
-machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
-you'll want to build the image for that platform, e.g.:
-
-```bash
-# Make sure you have buildx installed. If it is not installed, install it as follows
-docker buildx install
-
-# Build and switch to buildx builder
-docker buildx create --platform linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x --name multibuilder --use
-
-# Start the builder instance
-docker buildx inspect --bootstrap
-```
-
-```bash
-# Use Docker registry
-docker login
-```
-
-### Docker Quick Start
+## Docker Quick Start
 
 ```bash
 # Create custom docker compose file compose.yaml
@@ -139,9 +109,39 @@ In the terminal, run the following command to stop the application.
 docker compose down
 ```
 
-## Default email to the application
+### Default email to the application
 
 The service administrator is created during the first registration on the service
 
 After starting the app on port (3000 as default) you can open
 in your browser helpdesk by typing http://localhost:3000/.
+
+## Build Docker images
+
+```bash
+# Build docker image
+docker compose build
+
+# Build docker multiplatform images and Pushes images to the repository
+docker compose build --builder multibuilder --push
+```
+
+If your cloud uses a different CPU architecture than your development
+machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
+you'll want to build the image for that platform, e.g.:
+
+```bash
+# Make sure you have buildx installed. If it is not installed, install it as follows
+docker buildx install
+
+# Build and switch to buildx builder
+docker buildx create --platform linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x --name multibuilder --use
+
+# Start the builder instance
+docker buildx inspect --bootstrap
+```
+
+```bash
+# Use Docker registry
+docker login
+```
