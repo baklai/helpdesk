@@ -41,9 +41,9 @@ Web application of technical support
 
 ## Demo application
 
-Demo application: [HELPDESK](https://helpdesk-api-l8pk.onrender.com)
+[Web application of technical support](https://helpdesk-api-l8pk.onrender.com)
 
-# HELPDESK
+# HELPDESK IN DOCKER
 
 Web application of technical support
 
@@ -143,5 +143,5 @@ docker compose down
 
 The service administrator is created during the first registration on the service
 
-After starting the app on port (5173 as default) you can open
-in your browser helpdesk by typing http://localhost:5173/.
+After starting the app on port (3000 as default) you can open
+in your browser helpdesk by typing http://localhost:3000/.
