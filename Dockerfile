@@ -4,22 +4,17 @@
 
 ARG NODE_VERSION=18.17.1
 
-ARG GITHUB_USERNAME=baklai
-ARG APP_REPOSITORY=helpdesk-app-v1
-ARG API_REPOSITORY=helpdesk-api-v1
-
 # Building layer API
 FROM node:${NODE_VERSION}-alpine AS build-api
 
-ARG GITHUB_USERNAME=baklai
-ARG APP_REPOSITORY=helpdesk-app-v1
-ARG API_REPOSITORY=helpdesk-api-v1
+ARG USERNAME=baklai
+ARG REPOSITORY=helpdesk-api-v1
 
 RUN apk update && apk add git
 
 WORKDIR /app
 
-RUN git clone https://github.com/${GITHUB_USERNAME}/${API_REPOSITORY}.git .
+RUN git clone https://github.com/${USERNAME}/${REPOSITORY}.git .
 
 # Install dependencies from package.json
 RUN npm install
@@ -30,18 +25,14 @@ RUN npm run build
 # Building layer APP
 FROM node:${NODE_VERSION}-alpine AS build-app
 
-ARG GITHUB_USERNAME=baklai
-ARG APP_REPOSITORY=helpdesk-app-v1
-ARG API_REPOSITORY=helpdesk-api-v1
+ARG USERNAME=baklai
+ARG REPOSITORY=helpdesk-app-v1
 
 RUN apk update && apk add git
 
 WORKDIR /app
 
-ENV VITE_APP_BASE_URL=/
-ENV VITE_API_BASE_URL=/
-
-RUN git clone https://github.com/${GITHUB_USERNAME}/${APP_REPOSITORY}.git .
+RUN git clone https://github.com/${USERNAME}/${REPOSITORY}.git .
 
 # Install dependecies from package.json
 RUN npm install
@@ -55,18 +46,19 @@ FROM node:${NODE_VERSION}-alpine AS production
 WORKDIR /app
 
 # Copy configuration files
-COPY --from=build-api tsconfig*.json ./
-COPY --from=build-api package*.json ./
+COPY --from=build-api /app/tsconfig*.json ./
+COPY --from=build-api /app/package*.json ./
+COPY --from=build-api /app/nest-cli.json ./
 
 # Install runtime dependecies (without dev/test dependecies)
-# RUN npm i --omit=dev
+RUN npm i --omit=dev
 
 # Copy production build
 COPY --from=build-api /app/dist/ ./dist/
 COPY --from=build-app /app/dist/ ./client/
 
-# Открываем порт
-EXPOSE 80
+# Opening the port
+EXPOSE 3000
 
-# Запускаем nginx
+# Let's launch node
 CMD [ "node", "dist/main.js" ]

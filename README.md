@@ -55,8 +55,6 @@ Web application of technical support
 
 | Key                      | Comment                  |
 | ------------------------ | ------------------------ |
-| `PORT`                   | API port (optional)      |
-| `HOST`                   | API host (optional)      |
 | `MONGO_URI`              | Mongo uri                |
 | `BCRYPT_SALT`            | Crypt salt (optional)    |
 | `PUBLIC_TOKEN`           | Public token (optional)  |
@@ -114,7 +112,7 @@ services:
     environment:
       - NODE_ENV=production
     ports:
-      - 80:80
+      - 3000:3000
     restart: unless-stopped
     container_name: helpdesk
 ```

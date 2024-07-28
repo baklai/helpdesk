@@ -19,7 +19,7 @@ services:
     environment:
       - NODE_ENV=production
     ports:
-      - 80:80
+      - 3000:3000
     restart: unless-stopped
     container_name: helpdesk
     image: baklai/helpdesk:latest
