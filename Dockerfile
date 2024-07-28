@@ -43,6 +43,12 @@ RUN npm run build
 # Runtime (production) layer
 FROM node:${NODE_VERSION}-alpine AS production
 
+# Defining an argument for a port
+ARG PORT
+
+# Defining an argument for a host
+ARG HOST
+
 WORKDIR /app
 
 # Copy configuration files
@@ -58,7 +64,13 @@ COPY --from=build-api /app/dist/ ./dist/
 COPY --from=build-app /app/dist/ ./client/
 
 # Opening the port
-EXPOSE 3000
+EXPOSE ${PORT}
+
+# Defining an environment variable for an application
+ENV PORT=${PORT}
+
+# Defining an environment variable for an application
+ENV HOST=${HOST}
 
 # Let's launch node
 CMD [ "node", "dist/main.js" ]

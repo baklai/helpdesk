@@ -16,10 +16,7 @@ services:
       platforms:
         - linux/amd64
         - linux/arm64
-    environment:
-      - NODE_ENV=production
-    ports:
-      - 3000:3000
-    restart: unless-stopped
-    container_name: helpdesk
+      args:
+        PORT: 3000
+        HOST: '0.0.0.0'
     image: baklai/helpdesk:latest
