@@ -1,7 +1,5 @@
 # HELPDESK («Heldesk Service»)
 
-![GitHub package.json version (subfolder of monorepo)](https://img.shields.io/github/package-json/v/baklai/helpdesk-app-v1)
-
 Web application of technical support
 
 ## [Helpdesk APP v1 repository](https://github.com/baklai/helpdesk-app-v1)
