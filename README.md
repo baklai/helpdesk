@@ -39,7 +39,11 @@ Web application of technical support
 
 ## Demo application
 
-[Web application of technical support](https://helpdesk-api-l8pk.onrender.com)
+[Web application of technical support](https://helpdesk-7s9s.onrender.com)
+
+[Docs of the web application of technical support](https://helpdesk-7s9s.onrender.com/docs)
+
+[API of the web application of technical support](https://helpdesk-7s9s.onrender.com/api)
 
 # HELPDESK IN DOCKER
 
