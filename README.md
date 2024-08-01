@@ -121,7 +121,7 @@ in your browser helpdesk by typing http://localhost:3000/.
 docker compose build
 
 # Build docker multiplatform images and Pushes images to the repository
-docker compose build --builder multibuilder --push
+docker compose build --builder multibuilder --no-cache --push
 ```
 
 If your cloud uses a different CPU architecture than your development
