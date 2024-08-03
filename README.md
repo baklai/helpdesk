@@ -96,7 +96,7 @@ docker compose up -d
 
 ```bash
 # Logs application
-docker logs -f helpdesk
+docker logs --tail 30 -f helpdesk
 ```
 
 ```bash
