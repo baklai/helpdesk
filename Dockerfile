@@ -2,7 +2,7 @@
 # If you need more help, visit the Dockerfile reference guide at
 # https://docs.docker.com/go/dockerfile-reference/
 
-ARG NODE_VERSION=18.17.1
+ARG NODE_VERSION=20.16.0
 
 # Building layer API
 FROM node:${NODE_VERSION}-alpine AS build-api
