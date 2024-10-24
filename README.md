@@ -2,7 +2,7 @@
 
 Веб-додаток технічної підтримки
 
-## [Helpdesk APP repository](https://github.com/baklai/helpdesk-app)
+## [Helpdesk APP](https://github.com/baklai/helpdesk-app)
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/vue)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/pinia)
@@ -15,13 +15,13 @@
 
 <img src="preview-app.png">
 
-## [Helpdesk Docs repository](https://github.com/baklai/helpdesk-docs)
+## [Helpdesk Docs](https://github.com/baklai/helpdesk-docs)
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-docs/vitepress)
 
 <img src="preview-docs.png">
 
-## [Helpdesk API repository](https://github.com/baklai/helpdesk-api)
+## [Helpdesk API](https://github.com/baklai/helpdesk-api)
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api/@nestjs/common)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-api/@nestjs/config)
@@ -42,19 +42,19 @@
 
 <img src="preview-api.png">
 
-## Demo application
+## Демо-додаток
 
-[Web application of technical support](https://helpdesk-7s9s.onrender.com)
+[Веб-додаток технічної підтримки](https://helpdesk-7s9s.onrender.com)
 
 # HELPDESK IN DOCKER
 
-Web application of technical support
+Веб-додаток технічної підтримки
 
-## Prerequisites
+## Передумови
 
-- Docker - [Download & Install Docker](https://docs.docker.com/engine/install/).
+- Docker - [Завантажте та встановіть Docker](https://docs.docker.com/engine/install/).
 
-## Project variables
+## Змінні проекту
 
 | Key                      | Comment                  |
 | ------------------------ | ------------------------ |
@@ -72,10 +72,10 @@ Web application of technical support
 | `SMTP_PASSWORD`          | Email service password   |
 | `SMTP_SENDER`            | Email sender             |
 
-## Docker Quick Start
+## Швидкий старт Docker
 
 ```bash
-# Create custom docker compose file compose.yaml
+# Створіть спеціальний файл створення докерів `compose.yaml`
 services:
   app:
     image: baklai/helpdesk:latest
@@ -91,56 +91,54 @@ services:
 ```
 
 ```bash
-# Start application
+# Запустіть додаток
 docker compose up -d
 ```
 
 ```bash
-# Logs application
+# Логи додатку
 docker logs --tail 30 -f helpdesk
 ```
 
 ```bash
-# Restart application
+# Перезапустити додаток
 docker compose down && docker rmi baklai/helpdesk && docker compose up -d && docker logs -f helpdesk
 ```
 
-In the terminal, run the following command to stop the application.
-
 ```bash
-# Delete application
+# Видалити додаток
 docker compose down
 ```
 
-After starting the app on port (3000 as default) you can open
-in your browser helpdesk by typing http://localhost:3000/.
+Після запуску програми на порту (3000 за замовчуванням) ви можете відкрити
+у службу підтримки, ввівши http://localhost:3000/.
 
-## Build Docker images
+## Створюйте образи Docker
 
 ```bash
-# Build docker image
+# Використовуйте реєстр Docker
+docker login
+```
+
+```bash
+# Створення образу Docker
 docker compose build
 
-# Build docker multiplatform images and Pushes images to the repository
+# Створюйте мультиплатформенні образи докерів і надсилайте зображення до репозиторію
 docker compose build --builder multibuilder --no-cache --push
 ```
 
-If your cloud uses a different CPU architecture than your development
-machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
-you'll want to build the image for that platform, e.g.:
+Якщо ваша середовище використовує іншу архітектуру ЦП, ніж ваша розробка
+(наприклад, ви використовуєте Mac M1, а ваш хмарний постачальник amd64),
+ви захочете створити образ для цієї платформи, наприклад:
 
 ```bash
-# Make sure you have buildx installed. If it is not installed, install it as follows
+# Переконайтеся, що у вас встановлено buildx. Якщо він не встановлений, встановіть його наступним чином
 docker buildx install
 
-# Build and switch to buildx builder
+# Збірка та перехід на buildx builder
 docker buildx create --platform linux/amd64,linux/i386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x --name multibuilder --use
 
-# Start the builder instance
+# Запустіть екземпляр конструктора
 docker buildx inspect --bootstrap
-```
-
-```bash
-# Use Docker registry
-docker login
 ```
