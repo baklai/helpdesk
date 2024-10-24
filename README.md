@@ -11,12 +11,11 @@
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/primevue)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/primeicons)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/axios)
-![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/dayjs)
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-app/html2pdf.js)
 
 <img src="preview-app.png">
 
-## [Helpdesk Docs repository](https://github.com/baklai/helpdesk-api)
+## [Helpdesk Docs repository](https://github.com/baklai/helpdesk-docs)
 
 ![GitHub package.json dependency version (subfolder of monorepo)](https://img.shields.io/github/package-json/dependency-version/baklai/helpdesk-docs/vitepress)
 
