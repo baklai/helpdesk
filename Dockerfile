@@ -30,18 +30,18 @@ RUN git clone https://github.com/${USERNAME}/${REPOSITORY}.git .
 RUN npm install
 RUN npm run build
 
-# FROM node:${NODE_VERSION}-alpine AS build-docs
+FROM node:${NODE_VERSION}-alpine AS build-docs
 
-# ARG USERNAME=baklai
-# ARG REPOSITORY=helpdesk-docs
+ARG USERNAME=baklai
+ARG REPOSITORY=helpdesk-docs
 
-# RUN apk update && apk add git
+RUN apk update && apk add git
 
-# WORKDIR /app
+WORKDIR /app
 
-# RUN git clone https://github.com/${USERNAME}/${REPOSITORY}.git .
-# RUN npm install
-# RUN npm run build
+RUN git clone https://github.com/${USERNAME}/${REPOSITORY}.git .
+RUN npm install
+RUN npm run build
 
 FROM node:${NODE_VERSION}-alpine AS production
 
@@ -58,7 +58,7 @@ RUN npm i --omit=dev
 
 COPY --from=build-api /app/dist/ ./dist/
 COPY --from=build-app /app/dist/ ./app/
-# COPY --from=build-docs /app/.vitepress/dist/ ./docs/
+COPY --from=build-docs /app/.vitepress/dist/ ./docs/
 
 EXPOSE ${PORT}
 
