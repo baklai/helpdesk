@@ -93,18 +93,21 @@ services:
     container_name: helpdesk
 ```
 
+### Запустіть додаток
+
 ```bash
-# Запустіть додаток
 docker compose up -d
 ```
 
+### Логи додатку
+
 ```bash
-# Логи додатку
 docker logs --tail 30 -f helpdesk
 ```
 
+### Перезапустити додаток
+
 ```bash
-# Перезапустити додаток
 docker compose down && docker rmi baklai/helpdesk && docker compose up -d && docker logs -f helpdesk
 ```
 
@@ -118,16 +121,21 @@ docker compose down
 
 ## Створюйте образи Docker
 
+### Використовуйте реєстр Docker
+
 ```bash
-# Використовуйте реєстр Docker
 docker login
 ```
 
-```bash
-# Створення образу Docker
-docker compose build
+### Створення образу Docker
 
-# Створюйте мультиплатформенні образи докерів і надсилайте зображення до репозиторію
+```bash
+docker compose build
+```
+
+### Створюйте мультиплатформенні образи докерів і надсилайте зображення до репозиторію
+
+```bash
 docker compose build --builder multibuilder --no-cache --push
 ```
 
