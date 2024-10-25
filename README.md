@@ -111,8 +111,9 @@ docker logs --tail 30 -f helpdesk
 docker compose down && docker rmi baklai/helpdesk && docker compose up -d && docker logs -f helpdesk
 ```
 
+### Видалити додаток
+
 ```bash
-# Видалити додаток
 docker compose down
 ```
 
