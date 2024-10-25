@@ -56,21 +56,24 @@
 
 ## Змінні проекту
 
-| Key                      | Comment                  |
-| ------------------------ | ------------------------ |
-| `MONGO_URI`              | Mongo uri                |
-| `BCRYPT_SALT`            | Crypt salt (optional)    |
-| `PUBLIC_TOKEN`           | Public token (optional)  |
-| `JWT_ACCESS_SECRET`      | Access token secret key  |
-| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in  |
-| `JWT_REFRESH_SECRET`     | Refresh token secret key |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in |
-| `STORAGE_PATH`           | Storage path (optional)  |
-| `SMTP_HOST`              | Email service host       |
-| `SMTP_PORT`              | Email service port       |
-| `SMTP_USERNAME`          | Email service login      |
-| `SMTP_PASSWORD`          | Email service password   |
-| `SMTP_SENDER`            | Email sender             |
+| Key                      | Comment                        |
+| ------------------------ | ------------------------------ |
+| `MONGO_URI`              | Mongo uri                      |
+| `BCRYPT_SALT`            | Crypt salt (optional)          |
+| `PUBLIC_TOKEN`           | Public token (optional)        |
+| `JWT_ACCESS_SECRET`      | Access token secret key        |
+| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in        |
+| `JWT_REFRESH_SECRET`     | Refresh token secret key       |
+| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in       |
+| `STORAGE_PATH`           | Storage path (optional)        |
+| `SMTP_HOST`              | Email service host             |
+| `SMTP_PORT`              | Email service port             |
+| `SMTP_USERNAME`          | Email service login            |
+| `SMTP_PASSWORD`          | Email service password         |
+| `SMTP_SENDER`            | Email sender                   |
+| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку      |
+| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку  |
+| `VITE_DOCS_BASE_URL`     | Базова URL-адреса документації |
 
 ## Швидкий старт Docker
 
