@@ -45,6 +45,8 @@ RUN npm run build
 
 FROM node:${NODE_VERSION}-alpine AS production
 
+ENV TZ=Europe/Kyiv
+
 ARG PORT
 ARG HOST
 
