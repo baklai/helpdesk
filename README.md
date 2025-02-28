@@ -91,6 +91,8 @@ services:
       - 3000:3000
     restart: unless-stopped
     container_name: helpdesk
+    volumes:
+      - ./certs:/app/certs
 ```
 
 ### Запустіть додаток
