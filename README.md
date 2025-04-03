@@ -24,17 +24,18 @@
 
 ## Змінні проекту
 
-| Key                      | Comment                        |
-| ------------------------ | ------------------------------ |
-| `MONGO_URI`              | Mongo uri                      |
-| `BCRYPT_SALT`            | Crypt salt (optional)          |
-| `JWT_ACCESS_SECRET`      | Access token secret key        |
-| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in        |
-| `JWT_REFRESH_SECRET`     | Refresh token secret key       |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in       |
-| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку      |
-| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку  |
-| `VITE_DOCS_BASE_URL`     | Базова URL-адреса документації |
+| Key                      | Comment                             |
+| ------------------------ | ----------------------------------- |
+| `MONGO_URI`              | Mongo uri                           |
+| `BCRYPT_SALT`            | Crypt salt (optional)               |
+| `JWT_ACCESS_SECRET`      | Access token secret key             |
+| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in             |
+| `JWT_REFRESH_SECRET`     | Refresh token secret key            |
+| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in            |
+| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку           |
+| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку       |
+| `VITE_DOCS_BASE_URL`     | Базова URL-адреса документації      |
+| `VITE_STORAGE_BASE_URL`  | Базова URL-адреса файлового сховища |
 
 ## Швидкий старт Docker
 
@@ -48,10 +49,10 @@ services:
       - NODE_ENV=production
     ports:
       - 3000:3000
-    restart: unless-stopped
-    container_name: helpdesk
     volumes:
       - ./certs:/app/certs
+    restart: unless-stopped
+    container_name: helpdesk
 ```
 
 ### Запустіть додаток
