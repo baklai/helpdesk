@@ -1,14 +1,10 @@
 # HELPDESK («Heldesk Service»)
 
-Веб-додаток технічної підтримки
+Веб-додаток сервісної підтримки
 
 ## [Helpdesk APP](https://github.com/baklai/helpdesk-app)
 
 <img src="preview-app.png">
-
-## [Helpdesk Docs](https://github.com/baklai/helpdesk-docs)
-
-<img src="preview-docs.png">
 
 ## [Helpdesk API](https://github.com/baklai/helpdesk-api)
 
@@ -34,7 +30,6 @@
 | `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in            |
 | `VITE_APP_BASE_URL`      | Базова URL-адреса додатку           |
 | `VITE_API_BASE_URL`      | Базова URL-адреса API додатку       |
-| `VITE_DOCS_BASE_URL`     | Базова URL-адреса документації      |
 | `VITE_STORAGE_BASE_URL`  | Базова URL-адреса файлового сховища |
 
 ## Швидкий старт Docker
