@@ -43,8 +43,6 @@
 services:
   app:
     image: baklai/helpdesk:latest
-    volumes:
-      - ${STORAGE_PATH}:${STORAGE_PATH}
     env_file: .env
     environment:
       - NODE_ENV=production
