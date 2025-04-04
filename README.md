@@ -1,4 +1,4 @@
-# HELPDESK («Heldesk Service»)
+# HELPDESK (Cервісна підтримка)
 
 Веб-додаток сервісної підтримки
 
