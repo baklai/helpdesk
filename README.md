@@ -50,6 +50,22 @@ services:
     container_name: helpdesk
 ```
 
+```bash
+# Створіть спеціальний файл створення докерів `compose.yaml` якщо база на томуж хосту що і контейнер
+# Порт та хост прописати в .env
+services:
+  app:
+    image: baklai/helpdesk:latest
+    network_mode: host
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./certs:/app/certs
+    restart: unless-stopped
+    container_name: helpdesk
+```
+
 ### Запустіть додаток
 
 ```bash
