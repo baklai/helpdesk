@@ -2,40 +2,36 @@
 
 Веб-додаток сервісної підтримки
 
-## [Helpdesk APP](https://github.com/baklai/helpdesk-app)
+## HELPDESK APP
 
-<img src="preview-app.png">
+Репозиторій веб-додаток сервісної підтримки <a href="https://github.com/baklai/helpdesk-app" target="_blank">helpdesk-app</a>
 
-## [Helpdesk API](https://github.com/baklai/helpdesk-api)
+## HELPDESK API
 
-<img src="preview-api.png">
-
-# HELPDESK IN DOCKER
-
-Веб-додаток технічної підтримки
+Репозиторій API сервісної підтримки <a href="https://github.com/baklai/helpdesk-api" target="_blank">helpdesk-api</a>
 
 ## Передумови
 
 - Docker - [Завантажте та встановіть Docker](https://docs.docker.com/engine/install/).
 
-## Змінні проекту
+## Змінні проекту `.env`
 
-| Key                      | Comment                             |
-| ------------------------ | ----------------------------------- |
-| `MONGO_URI`              | Mongo uri                           |
-| `BCRYPT_SALT`            | Crypt salt (optional)               |
-| `JWT_ACCESS_SECRET`      | Access token secret key             |
-| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in             |
-| `JWT_REFRESH_SECRET`     | Refresh token secret key            |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in            |
-| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку           |
-| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку       |
-| `VITE_STORAGE_BASE_URL`  | Базова URL-адреса файлового сховища |
+| Key                      | Comment                       |
+| ------------------------ | ----------------------------- |
+| `PORT`                   | Service port (optional)       |
+| `HOST`                   | Service host (optional)       |
+| `MONGO_URI`              | Mongo uri                     |
+| `BCRYPT_SALT`            | Crypt salt (optional)         |
+| `JWT_ACCESS_SECRET`      | Access token secret key       |
+| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in       |
+| `JWT_REFRESH_SECRET`     | Refresh token secret key      |
+| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in      |
+| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку     |
+| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку |
 
-## Швидкий старт Docker
+## Конфігураційний файл для Docker Compose `compose.yaml`
 
 ```bash
-# Створіть спеціальний файл створення докерів `compose.yaml`
 services:
   app:
     image: baklai/helpdesk:latest
@@ -51,8 +47,6 @@ services:
 ```
 
 ```bash
-# Створіть спеціальний файл створення докерів `compose.yaml` якщо база на томуж хосту що і контейнер
-# Порт та хост прописати в .env
 services:
   app:
     image: baklai/helpdesk:latest
@@ -75,7 +69,7 @@ docker compose up -d
 ### Логи додатку
 
 ```bash
-docker logs --tail 30 -f helpdesk
+docker logs --tail 50 -f helpdesk
 ```
 
 ### Перезапустити додаток
