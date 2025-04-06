@@ -2,9 +2,9 @@
 
 Веб-додаток сервісної підтримки
 
-### HELPDESK APP Репозиторій веб-додатоку [helpdesk-app ↗](https://github.com/baklai/helpdesk-app)
+#### HELPDESK APP Репозиторій веб-додатоку [helpdesk-app ↗](https://github.com/baklai/helpdesk-app)
 
-### HELPDESK API Репозиторій API додатоку [helpdesk-api ↗](https://github.com/baklai/helpdesk-api)
+#### HELPDESK API Репозиторій API додатоку [helpdesk-api ↗](https://github.com/baklai/helpdesk-api)
 
 ## Передумови
 
