@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-body:
+    'e-Ukraine', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+
+  --font-size: 11px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+html {
+  font-family: var(--font-body);
+  font-size: var(--font-size);
+}
+
+body {
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
+
+svg {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:focus {
+  box-shadow: none !important;
+}
+
+*:focus-visible {
+  outline: 2px solid transparent !important;
+  outline-offset: 2px !important;
+}
+
+/* Scrollbar on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-500) transparent;
+}
+
+/* Scrollbar on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 1px;
+  border: 1px solid var(--surface-500);
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
