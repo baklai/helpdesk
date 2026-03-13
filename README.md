@@ -1,10 +1,6 @@
 # HELPDESK (Cервісна підтримка)
 
-Веб-додаток сервісної підтримки
-
-#### HELPDESK APP Репозиторій веб-додатоку [helpdesk-app ↗](https://github.com/baklai/helpdesk-app)
-
-#### HELPDESK API Репозиторій API додатоку [helpdesk-api ↗](https://github.com/baklai/helpdesk-api)
+Helpdesk — сервіс підтримки, що надає оперативну допомогу користувачам у вирішенні ІТ-інцидентів та запитів, забезпечуючи швидке відновлення роботи систем і сервісів
 
 ## Передумови
 
@@ -12,18 +8,31 @@
 
 ## Змінні проекту `.env`
 
-| Key                      | Comment                       |
-| ------------------------ | ----------------------------- |
-| `PORT`                   | Service port (optional)       |
-| `HOST`                   | Service host (optional)       |
-| `MONGO_URI`              | Mongo uri                     |
-| `BCRYPT_SALT`            | Crypt salt (optional)         |
-| `JWT_ACCESS_SECRET`      | Access token secret key       |
-| `JWT_ACCESS_EXPIRES_IN`  | Access token expires in       |
-| `JWT_REFRESH_SECRET`     | Refresh token secret key      |
-| `JWT_REFRESH_EXPIRES_IN` | Refresh token expires in      |
-| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку     |
-| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку |
+| Key                      | Comment                                                                 |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `PORT`                   | Порт сервісу (необов'язково, за замовчуванням 3000)                     |
+| `HOST`                   | Хост сервісу (необов'язково, за замовчуванням 127.0.0.1)                |
+| `MONGO_URI`              | Рядок підключення до бази даних MongoDB                                 |
+| `CORS_ORIGIN`            | Дозволене джерело для міжсайтових запитів (CORS)                        |
+| `BCRYPT_SALT`            | Кількість раундів хешування bcrypt (необов'язково, за замовчуванням 10) |
+| `JWT_ACCESS_SECRET`      | Секретний ключ для підпису access-токена                                |
+| `JWT_ACCESS_EXPIRES_IN`  | Термін дії access-токена (необов'язково, за замовчуванням 15m)          |
+| `JWT_REFRESH_SECRET`     | Секретний ключ для підпису refresh-токена                               |
+| `JWT_REFRESH_EXPIRES_IN` | Термін дії refresh-токена (необов'язково, за замовчуванням 7d)          |
+| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку                                               |
+| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку                                           |
+
+### Перевікра з [ESLint](https://eslint.org/)
+
+```bash
+npm run lint
+```
+
+### Формат з [Prettier](https://prettier.io/)
+
+```bash
+npm run format
+```
 
 ## Конфігураційний файл для Docker Compose `compose.yaml`
 

@@ -1,36 +1,43 @@
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
 ARG NODE_VERSION=20.16.0
 
 FROM node:${NODE_VERSION}-alpine AS build-api
 
-ARG USERNAME=baklai
-ARG REPOSITORY=helpdesk-api
-ARG GITHUB_TOKEN
-
-RUN apk update && apk add git
-
 WORKDIR /app
 
-RUN git clone https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPOSITORY}.git .
-RUN npm install
-RUN npm run build
+COPY package*.json ./
+COPY packages/api/package*.json ./packages/api/
+
+RUN npm install --workspace api
+
+COPY packages/api/ ./packages/api/
+
+RUN npm run build --workspace api
 
 FROM node:${NODE_VERSION}-alpine AS build-app
 
-ARG USERNAME=baklai
-ARG REPOSITORY=helpdesk-app
-ARG GITHUB_TOKEN
+WORKDIR /app
 
-RUN apk update && apk add git
+COPY package*.json ./
+COPY packages/app/package*.json ./packages/app/
+
+RUN npm install --workspace app
+
+COPY packages/app/ ./packages/app/
+
+RUN npm run build --workspace app
+
+FROM node:${NODE_VERSION}-alpine AS build-docs
 
 WORKDIR /app
 
-RUN git clone https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPOSITORY}.git .
-RUN npm install
-RUN npm run build
+COPY package*.json ./
+COPY packages/docs/package*.json ./packages/docs/
+
+RUN npm install --workspace docs
+
+COPY packages/docs/ ./packages/docs/
+
+RUN npm run build --workspace docs
 
 FROM node:${NODE_VERSION}-alpine AS production
 
@@ -41,18 +48,19 @@ ARG HOST
 
 WORKDIR /app
 
-COPY --from=build-api /app/tsconfig*.json ./
-COPY --from=build-api /app/package*.json ./
-COPY --from=build-api /app/nest-cli.json ./
+COPY --from=build-api /app/packages/api/tsconfig*.json ./
+COPY --from=build-api /app/packages/api/package*.json ./
+COPY --from=build-api /app/packages/api/nest-cli.json ./
 
 RUN npm i --omit=dev
 
-COPY --from=build-api /app/dist/ ./dist/
-COPY --from=build-app /app/dist/ ./app/
+COPY --from=build-api /app/packages/api/dist/ ./dist/
+COPY --from=build-app /app/packages/app/dist/ ./app/
+COPY --from=build-docs /app/packages/docs/.vitepress/dist/ ./docs/
 
 EXPOSE ${PORT}
 
 ENV PORT=${PORT}
 ENV HOST=${HOST}
 
-CMD [ "node", "dist/main.js" ]
+CMD ["node", "dist/main.js"]

@@ -1,0 +1,81 @@
+import { UseGuards } from '@nestjs/common';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+
+import { Scope } from 'src/common/decorators/user-scope.decorator';
+import { Role } from 'src/common/decorators/user-role.decorator';
+import { PaginateArgs } from 'src/common/dto/paginate.args';
+import { UserRole } from 'src/common/enums/user-role.enum';
+import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
+import { UserRoleGuard } from 'src/common/guards/user-role.guard';
+import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
+import { UserEntity, UserPaginated, UserShortEntity } from './entities/user.entity';
+import { UsersService } from './users.service';
+
+@Resolver('Користувачі')
+@UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
+export class UsersResolver {
+  constructor(private readonly usersService: UsersService) {}
+
+  @Mutation(() => UserEntity, { name: 'createOneUser', description: 'Створити нового користувача' })
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
+  @Scope({ user: ['create'] })
+  async create(@Args('input') input: CreateUserInput): Promise<UserEntity> {
+    return this.usersService.create(input);
+  }
+
+  @Query(() => UserPaginated, {
+    name: 'findAllUsers',
+    description: 'Отримати список усіх користувачів'
+  })
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
+  @Scope({ user: ['read'] })
+  async findAll(@Args() args: PaginateArgs): Promise<UserPaginated> {
+    return this.usersService.findAllPaginated(args);
+  }
+
+  @Query(() => [UserShortEntity], {
+    name: 'findAllUsersForNotice',
+    description: 'Отримати список користувачів для розсилки повідомлень'
+  })
+  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
+  @Scope({ user: ['read'] })
+  async findAllForNotice(@Args('scope') scope: string): Promise<UserShortEntity[]> {
+    return this.usersService.findAllForNotice(scope);
+  }
+
+  @Query(() => UserEntity, {
+    name: 'findOneUserById',
+    description: 'Отримати користувача за ідентифікатором запису'
+  })
+  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
+  @Scope({ user: ['read'] })
+  async findOneById(@Args('id', { type: () => ID }) id: string): Promise<UserEntity> {
+    return this.usersService.findOneById(id);
+  }
+
+  @Mutation(() => UserEntity, {
+    name: 'updateOneUserById',
+    description: 'Оновити дані користувача за ідентифікатором запису'
+  })
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
+  @Scope({ user: ['update'] })
+  async updateOneById(
+    @Args('id', { type: () => ID }) id: string,
+    @Args('input') input: UpdateUserInput
+  ): Promise<UserEntity> {
+    return this.usersService.updateOneById(id, input);
+  }
+
+  @Mutation(() => UserShortEntity, {
+    name: 'removeOneUserById',
+    description: 'Видалити користувача за ідентифікатором запису'
+  })
+  @Role(UserRole.ADMIN)
+  @Scope({ user: ['delete'] })
+  async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<UserShortEntity> {
+    return this.usersService.removeOneById(id);
+  }
+}

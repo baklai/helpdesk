@@ -1,0 +1,2097 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Користувач системи"""
+type UserShort {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Прізвище та ім'я"""
+  fullname: String!
+}
+
+"""Користувач системи"""
+type User {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Прізвище та ім'я"""
+  fullname: String!
+
+  """Електронна пошта"""
+  email: String!
+
+  """Номер телефону"""
+  phone: String!
+
+  """Статус облікового запису"""
+  status: UserStatus!
+
+  """Роль користувача"""
+  role: UserRole!
+
+  """Bitmask прав доступу (серіалізований BigInt)"""
+  scope: String!
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Поточний стан облікового запису користувача"""
+enum UserStatus {
+  PENDING
+  ACTIVE
+  BLOCKED
+  DISABLED
+}
+
+"""Ролі користувачів для контролю доступу (RBAC)"""
+enum UserRole {
+  ADMIN
+  MANAGER
+  SUPPORT
+  CLIENT
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список користувачів"""
+  docs: [User!]!
+}
+
+"""Системне сповіщення"""
+type Notice {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Заголовок повідомлення"""
+  title: String!
+
+  """Текст повідомлення"""
+  message: String!
+
+  """Рівень важливості"""
+  status: LevelStatusType!
+
+  """Ідентифікатор користувача"""
+  user: ID!
+
+  """Дата автоматичного видалення 90 днів"""
+  expiresAt: DateTime
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Рівні важливості системних повідомлень"""
+enum LevelStatusType {
+  SUCCESS
+  INFO
+  WARN
+  ERROR
+  SECONDARY
+}
+
+"""Канал звязку"""
+type Channel {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Місцезнаходження з"""
+  locationFrom: String!
+
+  """Пристрій від"""
+  deviceFrom: String!
+
+  """Місцезнаходження до"""
+  locationTo: String!
+
+  """Пристрій до"""
+  deviceTo: String!
+
+  """Рівень каналу"""
+  level: String!
+
+  """Тип каналу"""
+  channelType: String!
+
+  """Швидкість каналу"""
+  speed: String!
+
+  """Стан каналу"""
+  status: String!
+
+  """Оператор каналу"""
+  operator: String!
+
+  """Склад каналу"""
+  composition: String!
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+type ChannelPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список каналів"""
+  docs: [Channel!]!
+}
+
+"""Відділ"""
+type Department {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва відділу"""
+  name: String!
+
+  """Опис відділу"""
+  description: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Пристрій"""
+type Device {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва пристрою"""
+  name: String!
+
+  """Додатковий опис пристрою"""
+  description: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Подія"""
+type Event {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва події"""
+  title: String!
+
+  """Опис події"""
+  description: String
+
+  """Дата початку"""
+  startDateTime: DateTime!
+
+  """Дата закінчення"""
+  endDateTime: DateTime!
+
+  """Місце проведення"""
+  location: String
+
+  """Тип події"""
+  eventType: EventType
+
+  """Список учасників"""
+  participants: [String!]
+
+  """Дата автоматичного видалення 365 днів"""
+  expiresAt: DateTime
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Класифікація типів подій"""
+enum EventType {
+  EVENT
+  MEETING
+  WEBINAR
+  CONFERENCE
+  WORKSHOP
+  HOLIDAY
+  ENTERTAINMENT
+  LECTURE
+  OTHER
+}
+
+"""ПК SysInspector"""
+type Inspector {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """IP-адреса"""
+  ipaddress: String!
+
+  """Материнська плата"""
+  baseboard: JSON
+
+  """BIOS"""
+  bios: JSON
+
+  """Операційна система"""
+  os: JSON
+
+  """Процесор (CPU)"""
+  cpu: [JSON!]
+
+  """Дискові накопичувачі"""
+  diskdrive: [JSON!]
+
+  """Модулі оперативної пам'яті"""
+  memorychip: [JSON!]
+
+  """Мережеві адаптери"""
+  netadapter: [JSON!]
+
+  """Відео адаптери"""
+  videoadapter: [JSON!]
+
+  """Дісплеї"""
+  display: [JSON!]
+
+  """Аудіо адаптори"""
+  sound: [JSON!]
+
+  """Принтери"""
+  printer: [JSON!]
+
+  """Встановлене ПЗ"""
+  product: [JSON!]
+
+  """Оновлення ОС"""
+  fixupdate: [JSON!]
+
+  """Спільні ресурси"""
+  share: [JSON!]
+
+  """Облікові записи"""
+  useraccount: [JSON!]
+
+  """Групи облікових записів"""
+  usergroup: [JSON!]
+
+  """Список адміністраторів"""
+  useradmin: [String!]
+
+  """Наявність запису IP-адреси"""
+  isIpaddress: Boolean
+
+  """Назва материнської плати"""
+  baseboardName: String
+
+  """Назва CPU"""
+  cpuName: String
+
+  """Інформація про ОС"""
+  system: JSON
+
+  """Розмір HDD"""
+  hddSize: Float
+
+  """Розмір RAM"""
+  ramSize: Float
+
+  """Кількість встановлених оновлень"""
+  countFixupdate: Float
+
+  """Кількість облікових записів"""
+  countUseraccount: Float
+
+  """Кількість встаповленого ПЗ"""
+  countProduct: Float
+
+  """Кількість спільних ресурсів"""
+  countShare: Float
+
+  """Дата автоматичного видалення 365 днів"""
+  expiresAt: DateTime
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type InspectorPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список документів"""
+  docs: [Inspector!]!
+}
+
+"""Локація"""
+type Location {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва локації"""
+  name: String!
+
+  """Регіон локації"""
+  region: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Організація"""
+type Organization {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва організації"""
+  name: String!
+
+  """Юридична/фактична адреса"""
+  address: String
+
+  """Додатковий опис"""
+  description: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Посада"""
+type Position {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва посади"""
+  name: String!
+
+  """Опис посади"""
+  description: String!
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Підрозділ"""
+type Subdivision {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Внутрішній код підрозділу"""
+  code: String
+
+  """Назва підрозділу"""
+  name: String!
+
+  """Фактична адреса"""
+  address: String
+
+  """Додаткова інформація"""
+  description: String
+
+  """Ідентифікатор асоційованої організації"""
+  organization: String!
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Параметри мережевої маски"""
+type CIDR {
+  """Префікс (напр. 24)"""
+  value: Float!
+
+  """Маска (напр. 255.255.255.0)"""
+  mask: String!
+}
+
+"""Доступ до мережі Інтернет"""
+type Internet {
+  """Номер розпорядження"""
+  reqnum: String
+
+  """Статус доступу"""
+  status: InternetStatusType
+
+  """Примітка"""
+  comment: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Статус доступу до Інтернету"""
+enum InternetStatusType {
+  NONE
+  ACTIVE
+  BLOCKED
+  CLOSED
+}
+
+"""Мережева IP-адреса"""
+type Ipaddress {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """IP-адреса"""
+  ipaddress: String!
+
+  """Маска підмережі"""
+  mask: String
+
+  """Шлюз за замовчуванням"""
+  gateway: String
+
+  """Числовий індекс IP"""
+  indexip: Float!
+
+  """Параметри CIDR"""
+  cidr: CIDR!
+
+  """Доступ до Інтернету"""
+  internet: Internet
+
+  """Номер запиту"""
+  reqnum: String
+
+  """Призвіще та ім'я"""
+  fullname: String
+
+  """Номер телефону"""
+  phone: String
+
+  """Електронна пошта"""
+  email: String
+
+  """Інвентарний номер"""
+  inventory: String
+
+  """Автовідповідь"""
+  autoanswer: String
+
+  """Коментар"""
+  comment: String
+
+  """Пристрій"""
+  device: Device
+
+  """Локація"""
+  location: Location
+
+  """Організація"""
+  organization: Organization
+
+  """Підрозділ"""
+  subdivision: Subdivision
+
+  """Відділ"""
+  department: Department
+
+  """Посада"""
+  position: Position
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+type IpaddressPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список IP-адрес"""
+  docs: [Ipaddress!]!
+}
+
+"""Поштові скриньки"""
+type Mailbox {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Номер розпорядження/заявки"""
+  reqnum: String!
+
+  """Електронна адреса"""
+  email: String!
+
+  """Прізвище та ім’я власника"""
+  fullname: String
+
+  """Контактний телефон"""
+  phone: String
+
+  """Статус поштової скриньки"""
+  status: MailboxStatusType
+
+  """Коментар"""
+  comment: String
+
+  """Організація"""
+  organization: Organization
+
+  """Підрозділ"""
+  subdivision: Subdivision
+
+  """Відділ"""
+  department: Department
+
+  """Посада"""
+  position: Position
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Статус електронної пошти"""
+enum MailboxStatusType {
+  OPENED
+  BLOCKED
+  CLOSED
+}
+
+type MailboxPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список документів"""
+  docs: [Mailbox!]!
+}
+
+"""Шаблон динамічного звіту"""
+type Report {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Назва звіту"""
+  name: String!
+
+  """Опис звіту"""
+  description: String
+
+  """Автор шаблону"""
+  creator: UserShort
+
+  """Назва колекції для аналізу"""
+  datacollection: String!
+
+  """Обрані поля: { "dbField": "Заголовок колонки" }"""
+  fields: JSON
+
+  """Правила сортування: { "field": 1 | -1 }"""
+  sorts: JSON
+
+  """Умови фільтрації (MongoDB-сумісний об'єкт)"""
+  filters: JSON
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+type ReportCollectionField {
+  name: String!
+  label: String!
+  fields: [String!]!
+}
+
+"""Заявка техпідтримки"""
+type Request {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Прізвище та ім’я заявника"""
+  fullname: String
+
+  """Номер телефону"""
+  phone: String
+
+  """IP-адреса"""
+  ipaddress: String
+
+  """Номер вхідного запиту"""
+  reqnum: String
+
+  """Текст звернення"""
+  request: String
+
+  """Коментар спеціаліста"""
+  comment: String
+
+  """Технічний висновок"""
+  conclusion: String
+
+  """Профіль користувача"""
+  opened: UserShort
+
+  """Профіль користувача"""
+  closed: UserShort
+
+  """Статус заявки"""
+  status: RequestStatusType
+
+  """Посада"""
+  position: Position
+
+  """Локація"""
+  location: Location
+
+  """Організація"""
+  organization: Organization
+
+  """Підрозділ"""
+  subdivision: Subdivision
+
+  """Відділ"""
+  department: Department
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Статус заявки"""
+enum RequestStatusType {
+  OPENED
+  PENDING
+  PROCESSING
+  RESOLVED
+  CLOSED
+  REJECTED
+  CANCELLED
+}
+
+type RequestPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список заявок техпідтримки"""
+  docs: [Request!]!
+}
+
+"""Системні налаштування"""
+type SysConf {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """Ключ налаштування"""
+  key: String!
+
+  """Значення конфігурації"""
+  value: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Системний лог"""
+type SysLog {
+  """Ідентифікатор запису"""
+  id: ID!
+
+  """IP-адреса або хост запиту"""
+  ipaddress: String!
+
+  """Ідентифікатор користувача"""
+  user: UserShort
+
+  """
+  Метод "QUERY" чи "MUTATION"
+  """
+  method: String!
+
+  """Назва метода"""
+  methodName: String!
+
+  """Статус відповіді"""
+  status: Int!
+
+  """Дані про клієнт"""
+  userAgent: String!
+
+  """Інформація про помилку"""
+  error: String
+
+  """Дата автоматичного видалення 180 днів"""
+  expiresAt: DateTime
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+type SysLogPaginated {
+  """Загальна кількість знайдених документів"""
+  totalDocs: Int!
+
+  """Поточний ліміт записів на сторінку"""
+  limit: Int!
+
+  """Кількість пропущених записів від початку"""
+  offset: Int!
+
+  """Загальна кількість доступних сторінок"""
+  totalPages: Int!
+
+  """Порядковий номер поточної сторінки"""
+  page: Int
+
+  """Номер попередньої сторінки"""
+  prevPage: Int
+
+  """Номер наступної сторінки"""
+  nextPage: Int
+
+  """Чи доступна попередня сторінка"""
+  hasPrevPage: Boolean
+
+  """Чи доступна наступна сторінка"""
+  hasNextPage: Boolean
+
+  """Лічильник порядкового номера першого документа на сторінці"""
+  pagingCounter: Int
+
+  """Список системних логів"""
+  docs: [SysLog!]!
+}
+
+type Query {
+  """Інформація про API"""
+  getAboutAPI: String!
+
+  """Отримання інформації про поточного користувача"""
+  me: User!
+
+  """Отримати список усіх користувачів"""
+  findAllUsers(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): UserPaginated!
+
+  """Отримати список користувачів для розсилки повідомлень"""
+  findAllUsersForNotice(scope: String!): [UserShort!]!
+
+  """Отримати користувача за ідентифікатором запису"""
+  findOneUserById(id: ID!): User!
+
+  """Отримати список усіх сповіщень"""
+  findAllNotices: [Notice!]!
+
+  """Отримати список подій за вказаний період"""
+  findAllEvents(
+    """Дата початку періоду"""
+    startDateTime: DateTime!
+
+    """Дата закінчення періоду"""
+    endDateTime: DateTime!
+  ): [Event!]!
+
+  """Отримати подію за ідентифікатором запису"""
+  findOneEventById(id: ID!): Event!
+
+  """Отримати список IP-адрес із пагінацією"""
+  findAllIpaddresses(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): IpaddressPaginated!
+
+  """Отримати запис IP-адреси за ідентифікатором запису"""
+  findOneIpaddressById(id: ID!): Ipaddress!
+
+  """Отримати запис IP-адреси за IP-адресою"""
+  findOneIpaddressByIP(ip: String!): Ipaddress!
+
+  """Отримати список усіх пристроїв"""
+  findAllDevices: [Device!]!
+
+  """Отримати пристрій за ідентифікатором запису"""
+  findOneDeviceById(id: ID!): Device!
+
+  """Отримати список усіх локацій"""
+  findAllLocations: [Location!]!
+
+  """Пошук локації за ідентифікатором запису"""
+  findOneLocationById(id: ID!): Location!
+
+  """Отримати список усіх організацій"""
+  findAllOrganizations: [Organization!]!
+
+  """Отримати організацію за ідентифікатором запису"""
+  findOneOrganizationById(id: ID!): Organization!
+
+  """Отримати список усіх підрозділів"""
+  findAllSubdivisions: [Subdivision!]!
+
+  """Отримати підрозділ за ідентифікатором запису"""
+  findOneSubdivisionById(id: ID!): Subdivision!
+
+  """Отримати список усіх відділів"""
+  findAllDepartments: [Department!]!
+
+  """Отримати відділ за ідентифікатором запису"""
+  findOneDepartmentById(id: ID!): Department!
+
+  """Отримати список усіх посад"""
+  findAllPositions: [Position!]!
+
+  """Отримати посаду за ідентифікатором запису"""
+  findOnePositionById(id: ID!): Position!
+
+  """Отримати список поштових скриньок із пагінацією"""
+  findAllMailboxes(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): MailboxPaginated!
+
+  """Отримати поштову скриньку за ідентифікатором запису"""
+  findOneMailboxById(id: ID!): Mailbox!
+
+  """Отримати список заявок із пагінацією та фільтрами"""
+  findAllRequests(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): RequestPaginated!
+
+  """Отримати заявку за ідентифікатором запису"""
+  findOneRequestById(id: ID!): Request!
+
+  """Отримати список записів із пагінацією"""
+  findAllInspectors(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): InspectorPaginated!
+
+  """Отримати запис за ідентифікатором запису"""
+  findOneInspectorById(id: ID!): Inspector!
+
+  """Отримати список усіх звітів"""
+  findAllReports: [Report!]!
+
+  """Отримати звіт за ідентифікатором"""
+  findOneReportById(id: ID!): Report!
+
+  """Виконати звіт за ідентифікатором — повертає масив рядків таблиці"""
+  executeReportById(id: ID!): [JSON!]!
+
+  """
+  Отримати список доступних колекцій та їхніх полів для конструктора звітів
+  """
+  getReportCollections: [ReportCollectionField!]!
+
+  """Отримати посилання для перевірки зв'язку (Ping)"""
+  getLinkPing(
+    """IP-адреса хоста для системних перевірок"""
+    host: String!
+  ): String!
+
+  """Отримати посилання для віддаленого робочого столу (RDP)"""
+  getLinkRDP(
+    """IP-адреса хоста для системних перевірок"""
+    host: String!
+  ): String!
+
+  """Отримати посилання для віддаленого керування (VNC)"""
+  getLinkVNC(
+    """IP-адреса хоста для системних перевірок"""
+    host: String!
+  ): String!
+
+  """Отримати список усіх системних логів"""
+  findAllSysLogs(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): SysLogPaginated!
+
+  """Отримати системний лог за ідентифікатором запису"""
+  findOneSysLogById(id: ID!): SysLog!
+
+  """Отримати список усіх налаштувань"""
+  findAllSysConfs: [SysConf!]!
+
+  """Отримати зведену статистику мережевих ресурсів"""
+  getNetworkStatistic: JSON!
+
+  """Отримати зведену статистику електронної пошти"""
+  getMailboxStatistic: JSON!
+
+  """Отримати статистику за заявками та зверненнями"""
+  getRequestStatistic: JSON!
+
+  """Отримати статистику за звітами SysInspector"""
+  getInspectorStatistic: JSON!
+
+  """Отримати загальну статистику"""
+  getDashboardStatistic: JSON!
+
+  """Отримати список усіх каналів"""
+  findAllChannels(
+    """Кількість записів на сторінці"""
+    limit: Int! = 5
+
+    """Кількість записів, які потрібно пропустити"""
+    offset: Int! = 0
+
+    """Обʼєкт сортування"""
+    sort: JSON
+
+    """Обʼєкт фільтрів"""
+    filters: JSON
+  ): ChannelPaginated!
+
+  """Пошук каналу за ідентифікатором запису"""
+  findOneChannelById(id: ID!): Channel!
+}
+
+type Mutation {
+  """Автентифікація користувача та отримання токена"""
+  signin(input: SigninAuthInput!): String!
+
+  """Реєстрація нового користувача"""
+  signup(input: SignupAuthInput!): User!
+
+  """Завершення сеансу (вихід)"""
+  signout: Boolean!
+
+  """Оновлення токена доступу"""
+  refresh: String!
+
+  """Створити нового користувача"""
+  createOneUser(input: CreateUserInput!): User!
+
+  """Оновити дані користувача за ідентифікатором запису"""
+  updateOneUserById(id: ID!, input: UpdateUserInput!): User!
+
+  """Видалити користувача за ідентифікатором запису"""
+  removeOneUserById(id: ID!): UserShort!
+
+  """Створити нове сповіщення"""
+  createOneNotice(input: CreateNoticeInput!): [Notice!]!
+
+  """Видалити сповіщення за ідентифікатором запису"""
+  removeOneNoticeById(id: String!): Notice!
+
+  """Створити нову подію"""
+  createOneEvent(input: CreateEventInput!): Event!
+
+  """Оновити дані події за ідентифікатором запису"""
+  updateOneEventById(id: ID!, input: UpdateEventInput!): Event!
+
+  """Видалити подію за ідентифікатором запису"""
+  removeOneEventById(id: ID!): Event!
+
+  """Створити новий запис IP-адреси"""
+  createOneIpaddress(input: CreateIpaddressInput!): Ipaddress!
+
+  """Оновити дані IP-адреси за ідентифікатором запису"""
+  updateOneIpaddressById(id: ID!, input: UpdateIpaddressInput!): Ipaddress!
+
+  """Видалити запис IP-адреси за ідентифікатором запису"""
+  removeOneIpaddressById(id: ID!): Ipaddress!
+
+  """Створити новий пристрій"""
+  createOneDevice(input: CreateDeviceInput!): Device!
+
+  """Оновити дані пристрою за ідентифікатором запису"""
+  updateOneDeviceById(id: ID!, input: UpdateDeviceInput!): Device!
+
+  """Видалити пристрій за ідентифікатором запису"""
+  removeOneDeviceById(id: ID!): Device!
+
+  """Створити нову локацію"""
+  createOneLocation(input: CreateLocationInput!): Location!
+
+  """Оновити дані локації за ідентифікатором запису"""
+  updateOneLocationById(id: ID!, input: UpdateLocationInput!): Location!
+
+  """Видалити локацію за ідентифікатором запису"""
+  removeOneLocationById(id: ID!): Location!
+
+  """Створити нову організацію"""
+  createOneOrganization(input: CreateOrganizationInput!): Organization!
+
+  """Оновити дані організації за ідентифікатором запису"""
+  updateOneOrganizationById(id: ID!, input: UpdateOrganizationInput!): Organization!
+
+  """Видалити організацію за ідентифікатором запису"""
+  removeOneOrganizationById(id: ID!): Organization!
+
+  """Створити новий підрозділ"""
+  createOneSubdivision(input: CreateSubdivisionInput!): Subdivision!
+
+  """Оновити дані підрозділу за ідентифікатором запису"""
+  updateOneSubdivisionById(id: ID!, input: UpdateSubdivisionInput!): Subdivision!
+
+  """Видалити підрозділ за ідентифікатором запису"""
+  removeOneSubdivisionById(id: ID!): Subdivision!
+
+  """Створити новий відділ"""
+  createOneDepartment(input: CreateDepartmentInput!): Department!
+
+  """Оновити дані відділу за ідентифікатором запису"""
+  updateOneDepartmentById(id: ID!, input: UpdateDepartmentInput!): Department!
+
+  """Видалити відділ за ідентифікатором запису"""
+  removeOneDepartmentById(id: ID!): Department!
+
+  """Створити нову посаду"""
+  createOnePosition(input: CreatePositionInput!): Position!
+
+  """Оновити дані посади за ідентифікатором запису"""
+  updateOnePositionById(id: ID!, input: UpdatePositionInput!): Position!
+
+  """Видалити посаду за ідентифікатором запису"""
+  removeOnePositionById(id: ID!): Position!
+
+  """Створити нову поштову скриньку"""
+  createOneMailbox(input: CreateMailboxInput!): Mailbox!
+
+  """Оновити дані поштової скриньки за ідентифікатором запису"""
+  updateOneMailboxById(id: ID!, input: UpdateMailboxInput!): Mailbox!
+
+  """Видалити запис поштової скриньки за ідентифікатором запису"""
+  removeOneMailboxById(id: ID!): Mailbox!
+
+  """Створити новий запис у журналі заявок"""
+  createOneRequest(input: CreateRequestInput!): Request!
+
+  """Оновити дані заявки за ідентифікатором запису"""
+  updateOneRequestById(id: ID!, input: UpdateRequestInput!): Request!
+
+  """Видалити запис заявки за ідентифікатором запису"""
+  removeOneRequestById(id: ID!): Request!
+
+  """Створити новий запис PC SysLogInspector"""
+  createOneInspector(input: CreateInspectorInput!): Boolean!
+
+  """Видалити запис за ідентифікатором запису"""
+  removeOneInspectorById(id: ID!): Inspector!
+
+  """Створити новий звіт"""
+  createOneReport(input: CreateReportInput!): Report!
+
+  """Оновити дані звіту за ідентифікатором"""
+  updateOneReportById(id: ID!, input: UpdateReportInput!): Report!
+
+  """Видалити звіт за ідентифікатором"""
+  removeOneReportById(id: ID!): Report!
+
+  """Видалити системний лог за ідентифікатором запису"""
+  removeOneSysLogById(id: ID!): SysLog!
+
+  """Повне очищення системного журналу"""
+  removeAllSysLogs: String!
+
+  """Створити/оновити системне налаштування"""
+  upsertOneSysConf(input: UpsertSysConfInput!): SysConf!
+
+  """Створити новий канал"""
+  createOneChannel(input: CreateChannelInput!): Channel!
+
+  """Оновити дані каналу за ідентифікатором запису"""
+  updateOneChannelById(id: ID!, input: UpdateChannelInput!): Channel!
+
+  """Видалити канал за ідентифікатором запису"""
+  removeOneChannelById(id: ID!): Channel!
+}
+
+"""Авторизація користувача"""
+input SigninAuthInput {
+  """Електронна пошта"""
+  email: String!
+
+  """Пароль"""
+  password: String!
+}
+
+"""Реєстрація користувача"""
+input SignupAuthInput {
+  """Прізвище та ім’я"""
+  fullname: String!
+
+  """Електронна пошта"""
+  email: String!
+
+  """Номер телефону"""
+  phone: String!
+
+  """Пароль"""
+  password: String!
+}
+
+"""Створення користувача"""
+input CreateUserInput {
+  """Електронна пошта"""
+  email: String!
+
+  """Пароль (мінімум 8 символів)"""
+  password: String!
+
+  """Прізвище та ім'я"""
+  fullname: String!
+
+  """Номер телефону (UA)"""
+  phone: String!
+
+  """Статус облікового запису"""
+  status: UserStatus = ACTIVE
+
+  """Роль у системі"""
+  role: UserRole = CLIENT
+
+  """Bitmask прав доступу (серіалізований BigInt у вигляді рядка)"""
+  scope: String = "0"
+}
+
+"""Оновлення користувача"""
+input UpdateUserInput {
+  """Електронна пошта"""
+  email: String
+
+  """Пароль (мінімум 8 символів)"""
+  password: String
+
+  """Прізвище та ім'я"""
+  fullname: String
+
+  """Номер телефону (UA)"""
+  phone: String
+
+  """Статус облікового запису"""
+  status: UserStatus = ACTIVE
+
+  """Роль у системі"""
+  role: UserRole = CLIENT
+
+  """Bitmask прав доступу (серіалізований BigInt у вигляді рядка)"""
+  scope: String = "0"
+}
+
+"""Створення сповіщення"""
+input CreateNoticeInput {
+  """Заголовок повідомлення"""
+  title: String!
+
+  """Текст повідомлення"""
+  message: String!
+
+  """Рівень важливості"""
+  status: LevelStatusType! = INFO
+
+  """Список ідентифікаторів користувачів"""
+  users: [ID!]!
+}
+
+"""Створення події"""
+input CreateEventInput {
+  """Назва події"""
+  title: String!
+
+  """Опис події"""
+  description: String
+
+  """Дата початку"""
+  startDateTime: DateTime!
+
+  """Дата закінчення"""
+  endDateTime: DateTime!
+
+  """Місце проведення"""
+  location: String
+
+  """Тип події"""
+  eventType: EventType
+
+  """Список учасників"""
+  participants: [String!]
+}
+
+"""Оновлення події"""
+input UpdateEventInput {
+  """Назва події"""
+  title: String
+
+  """Опис події"""
+  description: String
+
+  """Дата початку"""
+  startDateTime: DateTime
+
+  """Дата закінчення"""
+  endDateTime: DateTime
+
+  """Місце проведення"""
+  location: String
+
+  """Тип події"""
+  eventType: EventType
+
+  """Список учасників"""
+  participants: [String!]
+}
+
+"""Створення IP-адреси"""
+input CreateIpaddressInput {
+  """IPv4-адреса"""
+  ipaddress: String!
+
+  """Налаштування CIDR"""
+  cidr: CreateCIDRInput!
+
+  """Номер запиту"""
+  reqnum: String!
+
+  """Прізвище та ім'я клієнта"""
+  fullname: String!
+
+  """Контактний телефон"""
+  phone: String
+
+  """Електронна пошта"""
+  email: String
+
+  """Коментар"""
+  comment: String
+
+  """Доступ до Інтернету"""
+  internet: CreateInternetInput
+
+  """Інвентарний номер"""
+  inventory: String
+
+  """Автовідповідь"""
+  autoanswer: String
+
+  """Ідентифікатор пристрою"""
+  device: ID
+
+  """Ідентифікатор локації"""
+  location: ID
+
+  """Ідентифікатор організації"""
+  organization: ID
+
+  """Ідентифікатор підрозділу"""
+  subdivision: ID
+
+  """Ідентифікатор відділу"""
+  department: ID
+
+  """Ідентифікатор посади"""
+  position: ID
+}
+
+"""Параметри мережевої маски"""
+input CreateCIDRInput {
+  """Префікс (напр. 24)"""
+  value: Float!
+
+  """Маска (напр. 255.255.255.0)"""
+  mask: String!
+}
+
+"""Доступ до мережі Інтернет"""
+input CreateInternetInput {
+  """Номер розпорядження"""
+  reqnum: String
+
+  """Статус доступу"""
+  status: InternetStatusType
+
+  """Примітка"""
+  comment: String
+
+  """Дата створення запису"""
+  createdAt: DateTime
+
+  """Дата оновлення запису"""
+  updatedAt: DateTime
+}
+
+"""Оновлення IP-адреси"""
+input UpdateIpaddressInput {
+  """IPv4-адреса"""
+  ipaddress: String
+
+  """Налаштування CIDR"""
+  cidr: CreateCIDRInput
+
+  """Номер запиту"""
+  reqnum: String
+
+  """Прізвище та ім'я клієнта"""
+  fullname: String
+
+  """Контактний телефон"""
+  phone: String
+
+  """Електронна пошта"""
+  email: String
+
+  """Коментар"""
+  comment: String
+
+  """Доступ до Інтернету"""
+  internet: CreateInternetInput
+
+  """Інвентарний номер"""
+  inventory: String
+
+  """Автовідповідь"""
+  autoanswer: String
+
+  """Ідентифікатор пристрою"""
+  device: ID
+
+  """Ідентифікатор локації"""
+  location: ID
+
+  """Ідентифікатор організації"""
+  organization: ID
+
+  """Ідентифікатор підрозділу"""
+  subdivision: ID
+
+  """Ідентифікатор відділу"""
+  department: ID
+
+  """Ідентифікатор посади"""
+  position: ID
+}
+
+"""Створення пристрою"""
+input CreateDeviceInput {
+  """Назва пристрою"""
+  name: String!
+
+  """Додатковий опис пристрою"""
+  description: String
+}
+
+"""Оновлення пристрою"""
+input UpdateDeviceInput {
+  """Назва пристрою"""
+  name: String
+
+  """Додатковий опис пристрою"""
+  description: String
+}
+
+"""Створення локації"""
+input CreateLocationInput {
+  """Назва локації"""
+  name: String!
+
+  """Регіон локації"""
+  region: String
+}
+
+"""Оновлення локації"""
+input UpdateLocationInput {
+  """Назва локації"""
+  name: String
+
+  """Регіон локації"""
+  region: String
+}
+
+"""Створення організації"""
+input CreateOrganizationInput {
+  """Назва організації"""
+  name: String!
+
+  """Юридична або фактична адреса"""
+  address: String
+
+  """Додаткова інформація про організацію"""
+  description: String
+}
+
+"""Оновлення організації"""
+input UpdateOrganizationInput {
+  """Назва організації"""
+  name: String
+
+  """Юридична або фактична адреса"""
+  address: String
+
+  """Додаткова інформація про організацію"""
+  description: String
+}
+
+"""Створення підрозділу"""
+input CreateSubdivisionInput {
+  """Внутрішній код підрозділу"""
+  code: String
+
+  """Назва підрозділу"""
+  name: String!
+
+  """Фактична адреса підрозділу"""
+  address: String
+
+  """Додатковий опис або примітки"""
+  description: String
+
+  """Ідентифікатор організації"""
+  organization: ID!
+}
+
+"""Оновлення підрозділу"""
+input UpdateSubdivisionInput {
+  """Внутрішній код підрозділу"""
+  code: String
+
+  """Назва підрозділу"""
+  name: String
+
+  """Фактична адреса підрозділу"""
+  address: String
+
+  """Додатковий опис або примітки"""
+  description: String
+
+  """Ідентифікатор організації"""
+  organization: ID
+}
+
+"""Створення відділу"""
+input CreateDepartmentInput {
+  """Назва відділу"""
+  name: String!
+
+  """Опис відділу"""
+  description: String
+}
+
+"""Оновлення відділу"""
+input UpdateDepartmentInput {
+  """Назва відділу"""
+  name: String
+
+  """Опис відділу"""
+  description: String
+}
+
+"""Створення посади"""
+input CreatePositionInput {
+  """Назва посади"""
+  name: String!
+}
+
+"""Оновлення посади"""
+input UpdatePositionInput {
+  """Назва посади"""
+  name: String
+}
+
+"""Створення поштової скриньки"""
+input CreateMailboxInput {
+  """Номер листа/розпорядження"""
+  reqnum: String!
+
+  """Електронна пошта"""
+  email: String!
+
+  """Прізвище та ім’я користувача"""
+  fullname: String!
+
+  """Контактний номер телефону"""
+  phone: String!
+
+  """Статус поштової скриньки"""
+  status: MailboxStatusType
+
+  """Коментар"""
+  comment: String
+
+  """Ідентифікатор організації"""
+  organization: ID
+
+  """Ідентифікатор підрозділу"""
+  subdivision: ID
+
+  """Ідентифікатор відділу"""
+  department: ID
+
+  """Ідентифікатор посади"""
+  position: ID
+}
+
+"""Оновлення поштової скриньки"""
+input UpdateMailboxInput {
+  """Номер листа/розпорядження"""
+  reqnum: String
+
+  """Електронна пошта"""
+  email: String
+
+  """Прізвище та ім’я користувача"""
+  fullname: String
+
+  """Контактний номер телефону"""
+  phone: String
+
+  """Статус поштової скриньки"""
+  status: MailboxStatusType
+
+  """Коментар"""
+  comment: String
+
+  """Ідентифікатор організації"""
+  organization: ID
+
+  """Ідентифікатор підрозділу"""
+  subdivision: ID
+
+  """Ідентифікатор відділу"""
+  department: ID
+
+  """Ідентифікатор посади"""
+  position: ID
+}
+
+"""Створення заявки"""
+input CreateRequestInput {
+  """Прізвище та ім’я заявника"""
+  fullname: String!
+
+  """Контактний номер телефону"""
+  phone: String!
+
+  """IP-адреса заявника"""
+  ipaddress: String
+
+  """Внутрішній номер запиту"""
+  reqnum: String
+
+  """Опис проблеми"""
+  request: String!
+
+  """Коментар технічного спеціаліста"""
+  comment: String
+
+  """Результат вирішення"""
+  conclusion: String
+
+  """Профіль користувача"""
+  opened: ID
+
+  """Профіль користувача"""
+  closed: ID
+
+  """Статус поточної заявки"""
+  status: RequestStatusType
+
+  """Ідентифікатор локації"""
+  location: ID
+
+  """Ідентифікатор організації"""
+  organization: ID
+
+  """Ідентифікатор підрозділу"""
+  subdivision: ID
+
+  """Ідентифікатор відділу"""
+  department: ID
+
+  """Ідентифікатор посади"""
+  position: ID
+}
+
+"""Оновлення заявки"""
+input UpdateRequestInput {
+  """Прізвище та ім’я заявника"""
+  fullname: String
+
+  """Контактний номер телефону"""
+  phone: String
+
+  """IP-адреса заявника"""
+  ipaddress: String
+
+  """Внутрішній номер запиту"""
+  reqnum: String
+
+  """Опис проблеми"""
+  request: String
+
+  """Коментар технічного спеціаліста"""
+  comment: String
+
+  """Результат вирішення"""
+  conclusion: String
+
+  """Профіль користувача"""
+  opened: ID
+
+  """Профіль користувача"""
+  closed: ID
+
+  """Статус поточної заявки"""
+  status: RequestStatusType
+
+  """Ідентифікатор локації"""
+  location: ID
+
+  """Ідентифікатор організації"""
+  organization: ID
+
+  """Ідентифікатор підрозділу"""
+  subdivision: ID
+
+  """Ідентифікатор відділу"""
+  department: ID
+
+  """Ідентифікатор посади"""
+  position: ID
+}
+
+"""ПК SysInspector"""
+input CreateInspectorInput {
+  """Материнська плата"""
+  baseboard: JSON
+
+  """BIOS"""
+  bios: JSON
+
+  """Операційна система"""
+  os: JSON
+
+  """Процесори"""
+  cpu: [JSON!]
+
+  """Дискові накопичувачі"""
+  diskdrive: [JSON!]
+
+  """Модулі пам'яті"""
+  memorychip: [JSON!]
+
+  """Мережеві адаптери"""
+  netadapter: [JSON!]
+
+  """Відео адаптери"""
+  videoadapter: [JSON!]
+
+  """Дісплеї"""
+  display: [JSON!]
+
+  """Аудіо адаптори"""
+  sound: [JSON!]
+
+  """Принтери"""
+  printer: [JSON!]
+
+  """Встановлене ПЗ"""
+  product: [JSON!]
+
+  """Оновлення ОС"""
+  fixupdate: [JSON!]
+
+  """Спільні ресурси"""
+  share: [JSON!]
+
+  """Облікові записи"""
+  useraccount: [JSON!]
+
+  """Групи облікових записів"""
+  usergroup: [JSON!]
+
+  """Список адміністраторів"""
+  useradmin: [String!]
+}
+
+"""Створення звіту"""
+input CreateReportInput {
+  """Назва звіту"""
+  name: String!
+
+  """Опис звіту"""
+  description: String
+
+  """Профіль користувача"""
+  creator: ID
+
+  """Назва колекції"""
+  datacollection: String!
+
+  """Обрані поля: { "field": "Заголовок колонки" }"""
+  fields: JSON
+
+  """Правила сортування: { "field": 1 } або { "field": -1 }"""
+  sorts: JSON
+
+  """Умови фільтрації"""
+  filters: JSON
+}
+
+"""Оновлення звіту"""
+input UpdateReportInput {
+  """Назва звіту"""
+  name: String
+
+  """Опис звіту"""
+  description: String
+
+  """Профіль користувача"""
+  creator: ID
+
+  """Назва колекції"""
+  datacollection: String
+
+  """Обрані поля: { "field": "Заголовок колонки" }"""
+  fields: JSON
+
+  """Правила сортування: { "field": 1 } або { "field": -1 }"""
+  sorts: JSON
+
+  """Умови фільтрації"""
+  filters: JSON
+}
+
+"""Створення налаштування"""
+input UpsertSysConfInput {
+  """Унікальний ключ"""
+  key: String!
+
+  """Значення налаштування"""
+  value: String
+}
+
+"""Створення каналу"""
+input CreateChannelInput {
+  """Місцезнаходження з"""
+  locationFrom: String!
+
+  """Пристрій від"""
+  deviceFrom: String!
+
+  """Місцезнаходження до"""
+  locationTo: String!
+
+  """Пристрій до"""
+  deviceTo: String!
+
+  """Рівень каналу"""
+  level: String!
+
+  """Тип каналу"""
+  channelType: String!
+
+  """Швидкість каналу"""
+  speed: String!
+
+  """Стан каналу"""
+  status: String!
+
+  """Оператор каналу"""
+  operator: String!
+
+  """Склад каналу"""
+  composition: String!
+}
+
+"""Оновлення каналу"""
+input UpdateChannelInput {
+  """Місцезнаходження з"""
+  locationFrom: String
+
+  """Пристрій від"""
+  deviceFrom: String
+
+  """Місцезнаходження до"""
+  locationTo: String
+
+  """Пристрій до"""
+  deviceTo: String
+
+  """Рівень каналу"""
+  level: String
+
+  """Тип каналу"""
+  channelType: String
+
+  """Швидкість каналу"""
+  speed: String
+
+  """Стан каналу"""
+  status: String
+
+  """Оператор каналу"""
+  operator: String
+
+  """Склад каналу"""
+  composition: String
+}
