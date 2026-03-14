@@ -138,16 +138,16 @@ const handleUpdate = async key => {
           <AccordionContent>
             <div class="flex w-full flex-col gap-y-4 p-4">
               <SysConfField
-                description="Прізвище та ім'я"
+                description="Прізвище та ім'я адміністратора системи"
                 label="Прізвище та ім'я"
                 :loading="loading"
                 name="systemadmin"
-                placeholder="Вкажіть призвище та ім'я"
+                placeholder="Вкажіть прізвище та ім'я"
                 @save="handleUpdate"
               />
 
               <SysConfField
-                description="Номер телефону"
+                description="Контактний номер телефону адміністратора системи"
                 label="Номер телефону"
                 :loading="loading"
                 name="systemphone"
@@ -156,7 +156,7 @@ const handleUpdate = async key => {
               />
 
               <SysConfField
-                description="Електронна пошта"
+                description="Контактна електронна пошта адміністратора системи"
                 label="Електронна пошта"
                 :loading="loading"
                 name="systememail"
@@ -183,11 +183,11 @@ const handleUpdate = async key => {
           <AccordionContent>
             <div class="flex w-full flex-col gap-y-4 p-4">
               <SysConfField
-                description="URL Посилання"
-                label="URL Посилання"
+                description="Посилання на файлове сховище системи"
+                label="Файлове сховище"
                 :loading="loading"
                 name="filestorage"
-                placeholder="Вкажіть URL Посилання"
+                placeholder="Вкажіть адресу посилання"
                 @save="handleUpdate"
               />
             </div>
