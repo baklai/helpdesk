@@ -37,7 +37,7 @@ const { errors, handleSubmit, controlledValues, values, setValues } = useForm({
     email: yup.string().email('Невірний формат email').required('Потрібно вказати значення'),
     status: yup.string().required('Потрібно вказати значення'),
     role: yup.string().required('Потрібно вказати значення'),
-    scope: yup.array()
+    scope: yup.string()
   }),
   initialValues: props.initialValues
 });
@@ -178,7 +178,6 @@ const handleSave = handleSubmit(() => {
     password: controlledValues?.value?.password || undefined,
     status: controlledValues?.value?.status,
     role: controlledValues?.value?.role,
-    // getScopeKeyList → ['event:read', ...] → encodeScopeList → '2097153' (BigInt-рядок для API)
     scope: encodeScopeList(getScopeKeyList(controlledValues?.value?.scope))
   });
 });
@@ -248,7 +247,6 @@ const handleSave = handleSubmit(() => {
           class="flex h-full flex-col overflow-y-auto p-6"
           :value="idxPanel"
         >
-          <!-- Вкладка "Звіт" — передаємо поточні значення форми у UserPartial -->
           <template v-if="tabPanel.key === 'report'">
             <UserPartial :data="values" />
           </template>
