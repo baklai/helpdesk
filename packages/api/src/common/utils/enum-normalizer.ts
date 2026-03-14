@@ -1,8 +1,8 @@
 import { EventType } from 'src/common/enums/event.enum';
 import {
   InternetStatusType,
-  LevelStatusType,
   MailboxStatusType,
+  NoticeStatusType,
   RequestStatusType
 } from 'src/common/enums/status.enum';
 import { UserRole } from 'src/common/enums/user-role.enum';
@@ -12,7 +12,7 @@ const GRAPHQL_ENUM_KEY_TO_DB_VALUE = new Map<string, string>([
   ...Object.entries(RequestStatusType),
   ...Object.entries(InternetStatusType),
   ...Object.entries(MailboxStatusType),
-  ...Object.entries(LevelStatusType),
+  ...Object.entries(NoticeStatusType),
   ...Object.entries(UserStatus),
   ...Object.entries(UserRole),
   ...Object.entries(EventType)

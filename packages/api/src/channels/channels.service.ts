@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import type { PaginateModel } from 'mongoose';
 
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { BaseCrudService } from 'src/common/services/base.service';
 import { NoticesService } from 'src/notices/notices.service';
 
@@ -25,7 +25,7 @@ export class ChannelsService extends BaseCrudService<
     super(channelModel);
   }
 
-  private async sendNotice(doc: ChannelEntity, title: string, status: LevelStatusType) {
+  private async sendNotice(doc: ChannelEntity, title: string, status: NoticeStatusType) {
     const message = [
       doc.locationFrom && `Місцезнаходження з: ${doc.locationFrom}`,
       doc.deviceFrom && `Пристрій від: ${doc.deviceFrom}`,
@@ -40,19 +40,19 @@ export class ChannelsService extends BaseCrudService<
 
   override async create(input: CreateChannelInput): Promise<ChannelEntity> {
     const result = await super.create(input);
-    void this.sendNotice(result, 'Створення каналу', LevelStatusType.SUCCESS);
+    void this.sendNotice(result, 'Створення каналу', NoticeStatusType.SUCCESS);
     return result;
   }
 
   override async updateOneById(id: string, input: UpdateChannelInput): Promise<ChannelEntity> {
     const result = await super.updateOneById(id, input);
-    void this.sendNotice(result, 'Оновлення каналу', LevelStatusType.INFO);
+    void this.sendNotice(result, 'Оновлення каналу', NoticeStatusType.INFO);
     return result;
   }
 
   override async removeOneById(id: string): Promise<ChannelEntity> {
     const result = await super.removeOneById(id);
-    void this.sendNotice(result, 'Видалення каналу', LevelStatusType.WARN);
+    void this.sendNotice(result, 'Видалення каналу', NoticeStatusType.WARN);
     return result;
   }
 }

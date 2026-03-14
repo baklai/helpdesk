@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import mongoose from 'mongoose';
-import { LevelStatusType } from 'src/common/enums/status.enum';
+
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 
 @ObjectType('Notice', { description: 'Системне сповіщення' })
 export class NoticeEntity {
@@ -13,8 +14,8 @@ export class NoticeEntity {
   @Field(() => String, { description: 'Текст повідомлення' })
   readonly message: string;
 
-  @Field(() => LevelStatusType, { description: 'Рівень важливості' })
-  readonly status: LevelStatusType;
+  @Field(() => NoticeStatusType, { description: 'Рівень важливості' })
+  readonly status: NoticeStatusType;
 
   @Field(() => ID, { description: 'Ідентифікатор користувача' })
   readonly user: mongoose.Types.ObjectId;

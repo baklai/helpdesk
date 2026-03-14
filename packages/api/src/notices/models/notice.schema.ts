@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 
 @Schema()
 export class Notice {
@@ -12,11 +12,11 @@ export class Notice {
 
   @Prop({
     type: String,
-    enum: LevelStatusType,
-    default: LevelStatusType.SECONDARY,
+    enum: NoticeStatusType,
+    default: NoticeStatusType.SECONDARY,
     required: true
   })
-  readonly status: LevelStatusType;
+  readonly status: NoticeStatusType;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

@@ -109,7 +109,7 @@ type Notice {
   message: String!
 
   """Рівень важливості"""
-  status: LevelStatusType!
+  status: NoticeStatusType!
 
   """Ідентифікатор користувача"""
   user: ID!
@@ -124,8 +124,8 @@ type Notice {
   updatedAt: DateTime
 }
 
-"""Рівні важливості системних повідомлень"""
-enum LevelStatusType {
+"""Статус системних повідомлень"""
+enum NoticeStatusType {
   SUCCESS
   INFO
   WARN
@@ -1448,7 +1448,7 @@ input CreateNoticeInput {
   message: String!
 
   """Рівень важливості"""
-  status: LevelStatusType! = INFO
+  status: NoticeStatusType! = INFO
 
   """Список ідентифікаторів користувачів"""
   users: [ID!]!

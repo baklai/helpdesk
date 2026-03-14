@@ -11,7 +11,7 @@ import type { Model, PaginateModel, PaginateResult } from 'mongoose';
 import { Types } from 'mongoose';
 
 import { PaginateArgs } from 'src/common/dto/paginate.args';
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
 import { deserializeScopeMask } from 'src/common/scope/scope.bitmask';
 import { BaseCrudService } from 'src/common/services/base.service';
@@ -41,7 +41,7 @@ export class UsersService extends BaseCrudService<
     super(userModel);
   }
 
-  private async sendNotice(doc: UserEntity, title: string, status: LevelStatusType) {
+  private async sendNotice(doc: UserEntity, title: string, status: NoticeStatusType) {
     const message = [
       doc.fullname && `Прізвище та ім'я: ${doc.fullname}`,
       doc.email && `Електронна пошта: ${doc.email}`,
@@ -61,7 +61,7 @@ export class UsersService extends BaseCrudService<
 
     const result = await super.create({ ...input, password: passwordHash });
 
-    void this.sendNotice(result, 'Створення користувача', LevelStatusType.SUCCESS);
+    void this.sendNotice(result, 'Створення користувача', NoticeStatusType.SUCCESS);
 
     return result;
   }

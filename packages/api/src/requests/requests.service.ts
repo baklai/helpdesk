@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import type { PaginateModel } from 'mongoose';
 
-import { LevelStatusType, RequestStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType, RequestStatusType } from 'src/common/enums/status.enum';
 import { BaseCrudService } from 'src/common/services/base.service';
 import type { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { NoticesService } from 'src/notices/notices.service';
@@ -26,7 +26,7 @@ export class RequestsService extends BaseCrudService<
     super(requestModel);
   }
 
-  private async sendNotice(doc: RequestEntity, title: string, status: LevelStatusType) {
+  private async sendNotice(doc: RequestEntity, title: string, status: NoticeStatusType) {
     const message = [
       `Від: ${doc.fullname}`,
       `Тел: ${doc.phone}`,
@@ -42,7 +42,7 @@ export class RequestsService extends BaseCrudService<
 
   async createOpened(user: JwtPayload, input: CreateRequestInput): Promise<RequestEntity> {
     const result = await super.create({ ...input, opened: user.id });
-    void this.sendNotice(result, 'Нова заявка', LevelStatusType.SUCCESS);
+    void this.sendNotice(result, 'Нова заявка', NoticeStatusType.SUCCESS);
     return result;
   }
 
@@ -55,13 +55,13 @@ export class RequestsService extends BaseCrudService<
       id,
       input.status === RequestStatusType.CLOSED ? { ...input, closed: user.id } : input
     );
-    void this.sendNotice(result, 'Оновлення заявки', LevelStatusType.SUCCESS);
+    void this.sendNotice(result, 'Оновлення заявки', NoticeStatusType.SUCCESS);
     return result;
   }
 
   override async removeOneById(id: string): Promise<RequestEntity> {
     const result = await super.removeOneById(id);
-    void this.sendNotice(result, 'Видалення заявки', LevelStatusType.WARN);
+    void this.sendNotice(result, 'Видалення заявки', NoticeStatusType.WARN);
     return result;
   }
 }

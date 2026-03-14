@@ -1,6 +1,6 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
 import { ArrayUnique, IsArray, IsEnum, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 
 @InputType({ description: 'Створення сповіщення' })
 export class CreateNoticeInput {
@@ -14,12 +14,12 @@ export class CreateNoticeInput {
   @IsNotEmpty({ message: 'Текст повідомлення є обов’язковим' })
   readonly message: string;
 
-  @Field(() => LevelStatusType, {
+  @Field(() => NoticeStatusType, {
     description: 'Рівень важливості',
-    defaultValue: LevelStatusType.INFO
+    defaultValue: NoticeStatusType.INFO
   })
-  @IsEnum(LevelStatusType, { message: 'Недійсний статус повідомлення' })
-  readonly status: LevelStatusType;
+  @IsEnum(NoticeStatusType, { message: 'Недійсний статус повідомлення' })
+  readonly status: NoticeStatusType;
 
   @Field(() => [ID], { description: 'Список ідентифікаторів користувачів' })
   @IsArray({ message: 'Користувачі мають бути масивом' })

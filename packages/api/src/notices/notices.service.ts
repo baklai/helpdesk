@@ -7,7 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
 import { getScopeNoticeMask } from 'src/common/scope/scope.bitmask';
 import { ScopeResource } from 'src/common/scope/scope.config';
@@ -101,7 +101,7 @@ export class NoticesService {
 
   async createNoticeByUserScope(
     resource: ScopeResource,
-    status = LevelStatusType.SECONDARY,
+    status = NoticeStatusType.SECONDARY,
     title: string,
     message: string
   ): Promise<boolean> {

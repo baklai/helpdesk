@@ -5,7 +5,7 @@ import type { PaginateModel, PaginateResult } from 'mongoose';
 import { Netmask } from 'netmask';
 
 import { PaginateArgs } from 'src/common/dto/paginate.args';
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { BaseCrudService } from 'src/common/services/base.service';
 import { NoticesService } from 'src/notices/notices.service';
 
@@ -28,7 +28,7 @@ export class IpaddressesService extends BaseCrudService<
     super(ipaddressModel);
   }
 
-  private async sendNotice(doc: IpaddressEntity, title: string, status: LevelStatusType) {
+  private async sendNotice(doc: IpaddressEntity, title: string, status: NoticeStatusType) {
     const message = [
       doc.ipaddress && `IP-адреса: ${doc.ipaddress}`,
       doc.reqnum && `Номер листа: ${doc.reqnum}`,
@@ -52,7 +52,7 @@ export class IpaddressesService extends BaseCrudService<
     const indexip = new Netmask(ipaddress).netLong;
     const result = await super.create({ ...input, indexip } as unknown as CreateIpaddressInput);
 
-    void this.sendNotice(result, 'Створення IP-адреси', LevelStatusType.SUCCESS);
+    void this.sendNotice(result, 'Створення IP-адреси', NoticeStatusType.SUCCESS);
 
     return result;
   }
@@ -78,14 +78,14 @@ export class IpaddressesService extends BaseCrudService<
       indexip
     } as unknown as UpdateIpaddressInput);
 
-    void this.sendNotice(result, 'Оновлення IP-адреси', LevelStatusType.INFO);
+    void this.sendNotice(result, 'Оновлення IP-адреси', NoticeStatusType.INFO);
 
     return result;
   }
 
   override async removeOneById(id: string): Promise<IpaddressEntity> {
     const result = await super.removeOneById(id);
-    void this.sendNotice(result, 'Видалення IP-адреси', LevelStatusType.WARN);
+    void this.sendNotice(result, 'Видалення IP-адреси', NoticeStatusType.WARN);
     return result;
   }
 

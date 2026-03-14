@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import type { PaginateModel, PaginateResult } from 'mongoose';
 
 import { PaginateArgs } from 'src/common/dto/paginate.args';
-import { LevelStatusType } from 'src/common/enums/status.enum';
+import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { BaseCrudService } from 'src/common/services/base.service';
 import { NoticesService } from 'src/notices/notices.service';
 
@@ -26,7 +26,7 @@ export class MailboxesService extends BaseCrudService<
     super(mailboxModel);
   }
 
-  private async sendNotice(doc: MailboxEntity, title: string, severity: LevelStatusType) {
+  private async sendNotice(doc: MailboxEntity, title: string, severity: NoticeStatusType) {
     const message = [
       `Email: ${doc.email}`,
       `ПІБ: ${doc.fullname}`,
@@ -41,7 +41,7 @@ export class MailboxesService extends BaseCrudService<
 
   override async create(input: CreateMailboxInput): Promise<MailboxEntity> {
     const result = await super.create(input);
-    void this.sendNotice(result, 'Створення поштової скриньки', LevelStatusType.SUCCESS);
+    void this.sendNotice(result, 'Створення поштової скриньки', NoticeStatusType.SUCCESS);
     return result;
   }
 
@@ -55,13 +55,13 @@ export class MailboxesService extends BaseCrudService<
 
   async updateOneById(id: string, input: UpdateMailboxInput): Promise<MailboxEntity> {
     const result = await super.updateOneById(id, input);
-    void this.sendNotice(result, 'Оновлення поштової скриньки', LevelStatusType.INFO);
+    void this.sendNotice(result, 'Оновлення поштової скриньки', NoticeStatusType.INFO);
     return result;
   }
 
   async removeOneById(id: string): Promise<MailboxEntity> {
     const result = await super.removeOneById(id);
-    void this.sendNotice(result, 'Видалення поштової скриньки', LevelStatusType.WARN);
+    void this.sendNotice(result, 'Видалення поштової скриньки', NoticeStatusType.WARN);
     return result;
   }
 }
