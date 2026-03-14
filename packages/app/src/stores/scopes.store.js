@@ -14,8 +14,7 @@ const SCOPE_DEFINITIONS = [
   { scope: 'location', comment: 'Локації' },
   { scope: 'position', comment: 'Посади' },
   { scope: 'device', comment: 'Пристрої' },
-  { scope: 'user', comment: 'Користувачі' },
-  { scope: 'notice', comment: 'Сповіщення' }
+  { scope: 'user', comment: 'Користувачі' }
 ];
 
 const SCOPE_ACTIONS = ['create', 'read', 'update', 'delete', 'notice'];
