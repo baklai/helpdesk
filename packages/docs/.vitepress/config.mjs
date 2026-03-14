@@ -11,18 +11,17 @@ export default defineConfig({
 
     nav: [
       { text: 'Головна', link: '/' },
-      { text: 'Керівництво', link: '/guide/' },
-      { text: 'API', link: '/api/overview' },
-      { text: 'Застосунок', link: '/app/overview' }
+      { text: 'Застосунок', link: '/app/overview' },
+      { text: 'API', link: '/guide/api/overview' }
     ],
 
     sidebar: [
       {
         text: 'Початок роботи',
         items: [
-          { text: 'Огляд системи', link: '/guide/' },
-          { text: 'Встановлення', link: '/guide/installation' },
-          { text: 'Авторизація', link: '/guide/auth' }
+          { text: 'Огляд системи', link: '/' },
+          { text: 'Встановлення', link: '/installation' },
+          { text: 'Авторизація', link: '/auth' }
         ]
       },
       {
@@ -49,10 +48,11 @@ export default defineConfig({
       }
     ],
 
-    socialLinks: [],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/baklai/helpdesk' }],
 
     footer: {
-      message: 'Авторські права © 2026 Helpdesk. Всі права захищені.'
+      message: 'Опубліковано за ліцензією MIT.',
+      copyright: '© 2026 Helpdesk. Всі права захищені.'
     },
 
     outline: {
