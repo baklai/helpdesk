@@ -157,6 +157,34 @@ export const EVENT_SCHEMA = {
   }
 };
 
+export const NOTICE_STATUS = [
+  {
+    key: 'SUCCESS',
+    label: 'Успіх',
+    comment: 'Повідомлення про успішне завершення операції'
+  },
+  {
+    key: 'INFO',
+    label: 'Інформація',
+    comment: 'Інформаційне повідомлення або системна зміна'
+  },
+  {
+    key: 'WARN',
+    label: 'Попередження',
+    comment: 'Попередження про потенційну проблему або видалення'
+  },
+  {
+    key: 'ERROR',
+    label: 'Помилка',
+    comment: 'Повідомлення про помилку виконання або критичну подію'
+  },
+  {
+    key: 'SECONDARY',
+    label: 'Додатково',
+    comment: 'Допоміжна або нейтральна інформація'
+  }
+];
+
 export const INTERNET_STATUS = [
   {
     key: 'NONE',

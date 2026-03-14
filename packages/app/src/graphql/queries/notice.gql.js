@@ -17,16 +17,7 @@ export const FIND_ALL_NOTICES = gql`
 
 export const CREATE_ONE_NOTICE = gql`
   mutation CreateOneNotice($input: CreateNoticeInput!) {
-    notices: createOneNotice(input: $input) {
-      id
-      title
-      message
-      status
-      user
-      expiresAt
-      createdAt
-      updatedAt
-    }
+    status: createOneNotice(input: $input)
   }
 `;
 

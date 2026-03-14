@@ -1,11 +1,13 @@
 <script setup>
+import { mdiBellRingOutline } from '@mdi/js';
 import { useToast } from 'primevue/usetoast';
 import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import * as yup from 'yup';
 
+import { NOTICE_STATUS } from '@/constants/ui.const';
 import { apolloClient } from '@/graphql/apollo.client';
-import { CREATE_ONE_NOTICE, FIND_ALL_USERS_FOR_NOTICE } from '@/graphql/apollo.gql';
+import { CREATE_ONE_NOTICE, FIND_ALL_USERS_ACTIVE } from '@/graphql/apollo.gql';
 
 const toast = useToast();
 
@@ -23,7 +25,6 @@ const { values, errors, handleSubmit, resetForm, defineField } = useForm({
 
 const visible = ref(false);
 const records = ref([]);
-const severities = ref(['success', 'info', 'warn', 'error', 'secondary']);
 
 const [title, titleAttrs] = defineField('title');
 const [message, messageAttrs] = defineField('message');
@@ -39,7 +40,7 @@ defineExpose({
 const onShowModal = async () => {
   try {
     const { data } = await apolloClient.query({
-      query: FIND_ALL_USERS_FOR_NOTICE,
+      query: FIND_ALL_USERS_ACTIVE,
       fetchPolicy: 'no-cache',
       variables: { scope: 'all' }
     });
@@ -103,11 +104,11 @@ const onCloseModal = () => {
     <template #header>
       <div class="flex w-full justify-between">
         <div class="flex items-center justify-center">
-          <i class="pi pi-bell mr-4 text-4xl!"></i>
+          <AppIcon class="mr-2" :path="mdiBellRingOutline" :size="36" />
           <div>
             <p class="line-height-2 text-lg font-bold">HD Сповіщення</p>
             <p class="line-height-2 text-surface-500 text-base font-normal">
-              Сповіщення системи служби сервісної підтримки
+              Сповіщення сервісної підтримки
             </p>
           </div>
         </div>
@@ -116,7 +117,7 @@ const onCloseModal = () => {
 
     <form v-autocomplete-off class="flex flex-col gap-y-4" @submit.prevent="onSendNotice">
       <div class="flex flex-col gap-2">
-        <label class="font-bold" for="users">Користувачі сповіщень</label>
+        <label class="font-bold" for="users">Адресати сповіщення</label>
         <MultiSelect
           id="users"
           v-model="users"
@@ -127,7 +128,7 @@ const onCloseModal = () => {
           :maxSelectedLabels="3"
           optionLabel="fullname"
           :options="records"
-          placeholder="Користувачі сповіщень"
+          placeholder="Оберіть користувачів"
         >
           <template #option="slotProps">
             <div class="flex items-center">
@@ -148,13 +149,16 @@ const onCloseModal = () => {
           v-model="status"
           v-bind="statusAttrs"
           aria-describedby="status-help"
+          fluid
           :invalid="!!errors?.status"
-          :options="severities"
-          placeholder="Статус сповіщення"
+          optionLabel="comment"
+          :options="NOTICE_STATUS"
+          optionValue="key"
+          placeholder="Оберіть статус сповіщення"
         >
           <template #option="slotProps">
-            <Message :severity="slotProps.option">
-              Статус сповіщення: {{ slotProps.option }}
+            <Message :severity="slotProps.option?.key?.toLowerCase()">
+              {{ slotProps.option?.comment }}
             </Message>
           </template>
         </Select>
@@ -171,7 +175,7 @@ const onCloseModal = () => {
           v-bind="titleAttrs"
           aria-describedby="title-help"
           :invalid="!!errors?.title"
-          placeholder="Заголовок сповіщення"
+          placeholder="Вкажіть заголовок сповіщення"
         />
         <small v-if="errors?.title" id="title-help" class="text-red-500">
           {{ errors.title }}
@@ -186,7 +190,7 @@ const onCloseModal = () => {
           v-bind="messageAttrs"
           aria-describedby="message-help"
           :invalid="!!errors?.message"
-          placeholder="Текст сповіщення"
+          placeholder="Введіть текст сповіщення"
           rows="10"
         />
         <small v-if="errors?.message" id="message-help" class="text-red-500">

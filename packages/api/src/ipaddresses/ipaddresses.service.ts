@@ -39,7 +39,7 @@ export class IpaddressesService extends BaseCrudService<
       .filter(Boolean)
       .join('\n');
 
-    await this.noticesService.createNoticeByUserScope('ipaddress', status, title, message);
+    await this.noticesService.createOneByUser('ipaddress', status, title, message);
   }
 
   override async create(input: CreateIpaddressInput): Promise<IpaddressEntity> {

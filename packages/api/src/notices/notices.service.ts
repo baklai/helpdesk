@@ -11,10 +11,9 @@ import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
 import { getScopeNoticeMask } from 'src/common/scope/scope.bitmask';
 import { ScopeResource } from 'src/common/scope/scope.config';
-import { UserShortEntity } from 'src/users/entities/user.entity';
+import { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { User, UserDocument } from 'src/users/models/user.schema';
 
-import { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { CreateNoticeInput } from './dto/create-notice.input';
 import { NoticeEntity } from './entities/notice.entity';
 import { Notice, NoticeDocument } from './models/notice.schema';
@@ -26,31 +25,9 @@ export class NoticesService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>
   ) {}
 
-  private async findAllForNotice(resource: ScopeResource): Promise<UserShortEntity[]> {
-    const noticeMask = getScopeNoticeMask(resource);
-
-    if (noticeMask === 0n) return [];
-
-    const users = await this.userModel
-      .find({ status: UserStatus.ACTIVE })
-      .select({ _id: 1, scope: 1 })
-      .lean();
-
-    return users
-      .filter(u => {
-        try {
-          const userMask = BigInt(u.scope ?? '0');
-          return (userMask & noticeMask) === noticeMask;
-        } catch {
-          return false;
-        }
-      })
-      .map(u => ({ id: u._id.toString(), fullname: '' }));
-  }
-
-  async create(input: CreateNoticeInput): Promise<NoticeEntity[]> {
+  async create(input: CreateNoticeInput): Promise<boolean> {
     if (!input.users?.length) {
-      return [];
+      return false;
     }
 
     try {
@@ -61,11 +38,57 @@ export class NoticesService {
         message: input.message
       }));
 
-      return await this.noticeModel.create(noticesData);
+      await this.noticeModel.create(noticesData);
+
+      return true;
     } catch {
       throw new UnprocessableEntityException(
         'Не вдалося створити сповіщення. Перевірте коректність даних'
       );
+    }
+  }
+
+  async createOneByUser(
+    resource: ScopeResource,
+    status = NoticeStatusType.SECONDARY,
+    title: string,
+    message: string
+  ): Promise<boolean> {
+    try {
+      const noticeMask = getScopeNoticeMask(resource);
+
+      if (noticeMask === 0n) return false;
+
+      const userslist = await this.userModel
+        .find({ status: UserStatus.ACTIVE })
+        .select({ _id: 1, scope: 1 })
+        .lean();
+
+      const users = userslist
+        .filter(u => {
+          try {
+            const userMask = BigInt(u.scope ?? '0');
+            return (userMask & noticeMask) === noticeMask;
+          } catch {
+            return false;
+          }
+        })
+        .map(u => ({ id: u._id.toString() }));
+
+      if (users.length > 0) {
+        const noticesData = users.map(({ id }) => ({
+          user: id,
+          status,
+          title,
+          message
+        }));
+
+        await this.noticeModel.create(noticesData);
+      }
+
+      return true;
+    } catch {
+      return false;
     }
   }
 
@@ -97,31 +120,5 @@ export class NoticesService {
     }
 
     return deletedNotice;
-  }
-
-  async createNoticeByUserScope(
-    resource: ScopeResource,
-    status = NoticeStatusType.SECONDARY,
-    title: string,
-    message: string
-  ): Promise<boolean> {
-    try {
-      const users = await this.findAllForNotice(resource);
-
-      if (users.length > 0) {
-        const noticesData = users.map(({ id }) => ({
-          user: id,
-          status,
-          title,
-          message
-        }));
-
-        await this.noticeModel.create(noticesData);
-      }
-
-      return true;
-    } catch {
-      return false;
-    }
   }
 }

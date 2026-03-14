@@ -1,8 +1,8 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { Scope } from 'src/common/decorators/user-scope.decorator';
 import { Role } from 'src/common/decorators/user-role.decorator';
+import { Scope } from 'src/common/decorators/user-scope.decorator';
 import { PaginateArgs } from 'src/common/dto/paginate.args';
 import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
@@ -37,13 +37,12 @@ export class UsersResolver {
   }
 
   @Query(() => [UserShortEntity], {
-    name: 'findAllUsersForNotice',
-    description: 'Отримати список користувачів для розсилки повідомлень'
+    name: 'findAllUsersActive',
+    description: 'Отримати список профілів для сповіщень'
   })
-  @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ user: ['read'] })
-  async findAllForNotice(@Args('scope') scope: string): Promise<UserShortEntity[]> {
-    return this.usersService.findAllForNotice(scope);
+  @Role(UserRole.ADMIN, UserRole.MANAGER)
+  async findAllActive(): Promise<UserShortEntity[]> {
+    return this.usersService.findAllActive();
   }
 
   @Query(() => UserEntity, {

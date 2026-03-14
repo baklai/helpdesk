@@ -13,17 +13,17 @@ import { CreateNoticeInput } from './dto/create-notice.input';
 import { NoticeEntity } from './entities/notice.entity';
 import { NoticesService } from './notices.service';
 
-@Resolver('Сповіщення')
+@Resolver(() => NoticeEntity)
 @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
 export class NoticesResolver {
   constructor(private readonly noticesService: NoticesService) {}
 
-  @Mutation(() => [NoticeEntity], {
+  @Mutation(() => Boolean, {
     name: 'createOneNotice',
     description: 'Створити нове сповіщення'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  async create(@Args('input') input: CreateNoticeInput): Promise<NoticeEntity[]> {
+  async create(@Args('input') input: CreateNoticeInput): Promise<boolean> {
     return this.noticesService.create(input);
   }
 

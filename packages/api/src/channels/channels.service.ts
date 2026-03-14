@@ -35,7 +35,7 @@ export class ChannelsService extends BaseCrudService<
       .filter(Boolean)
       .join('\n');
 
-    await this.noticesService.createNoticeByUserScope('channel', status, title, message);
+    await this.noticesService.createOneByUser('channel', status, title, message);
   }
 
   override async create(input: CreateChannelInput): Promise<ChannelEntity> {

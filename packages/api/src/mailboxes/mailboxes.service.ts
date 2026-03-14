@@ -36,7 +36,7 @@ export class MailboxesService extends BaseCrudService<
       .filter(Boolean)
       .join('\n');
 
-    await this.noticesService.createNoticeByUserScope('mailbox', severity, title, message);
+    await this.noticesService.createOneByUser('mailbox', severity, title, message);
   }
 
   override async create(input: CreateMailboxInput): Promise<MailboxEntity> {

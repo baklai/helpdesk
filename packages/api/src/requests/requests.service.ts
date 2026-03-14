@@ -37,7 +37,7 @@ export class RequestsService extends BaseCrudService<
       .filter(Boolean)
       .join('\n');
 
-    await this.noticesService.createNoticeByUserScope('request', status, title, message);
+    await this.noticesService.createOneByUser('request', status, title, message);
   }
 
   async createOpened(user: JwtPayload, input: CreateRequestInput): Promise<RequestEntity> {

@@ -60,7 +60,7 @@ const onRemoveRecord = async id => {
           <div class="flex items-center justify-center">
             <Button
               v-tooltip.bottom="'Створити сповіщення'"
-              icon="pi pi-plus-circle"
+              icon="pi pi-plus-circle text-xl!"
               rounded
               severity="secondary"
               variant="text"
@@ -83,17 +83,21 @@ const onRemoveRecord = async id => {
               :key="index"
               class="w-full shrink-0 border-none p-4 py-2"
             >
-              <Message :pt="{ text: { class: ['w-full'] } }" :severity="item.status || 'secondary'">
+              <Message
+                :pt="{ text: { class: ['w-full'] } }"
+                :severity="item?.status?.toLowerCase() || 'secondary'"
+              >
                 <div class="flex w-full flex-row justify-start gap-3">
                   <div class="align-items-start flex w-full flex-col overflow-auto">
                     <div class="flex w-full items-center">
                       <div class="flex w-full items-center">
                         <i class="pi pi-info-circle mr-2 text-2xl!"></i>
                         <div class="align my-2 flex flex-col">
-                          <span class="text-sm font-medium">{{ item?.title }}</span>
-                          <span class="text-muted-color text-xs font-normal">
+                          <p class="text-base font-medium">{{ item?.title }}</p>
+                          <p v-if="item.message" class="text-sm font-normal">{{ item?.message }}</p>
+                          <p class="text-muted-color text-xs font-normal">
                             {{ dateTimeToStr(item?.createdAt) || '-' }}
-                          </span>
+                          </p>
                         </div>
                       </div>
 
@@ -101,7 +105,7 @@ const onRemoveRecord = async id => {
                         v-tooltip.bottom="'Закрити сповіщення'"
                         icon="pi pi-times"
                         rounded
-                        :severity="item.status || 'secondary'"
+                        :severity="item.status?.toLowerCase() || 'secondary'"
                         variant="text"
                         @click="onRemoveRecord(item.id)"
                       />

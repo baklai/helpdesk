@@ -996,8 +996,8 @@ type Query {
     filters: JSON
   ): UserPaginated!
 
-  """Отримати список користувачів для розсилки повідомлень"""
-  findAllUsersForNotice(scope: String!): [UserShort!]!
+  """Отримати список профілів для сповіщень"""
+  findAllUsersActive: [UserShort!]!
 
   """Отримати користувача за ідентифікатором запису"""
   findOneUserById(id: ID!): User!
@@ -1238,7 +1238,7 @@ type Mutation {
   removeOneUserById(id: ID!): UserShort!
 
   """Створити нове сповіщення"""
-  createOneNotice(input: CreateNoticeInput!): [Notice!]!
+  createOneNotice(input: CreateNoticeInput!): Boolean!
 
   """Видалити сповіщення за ідентифікатором запису"""
   removeOneNoticeById(id: String!): Notice!

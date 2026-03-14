@@ -7,10 +7,9 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import bcrypt from 'bcrypt';
-import type { Model, PaginateModel, PaginateResult } from 'mongoose';
+import type { Model, PaginateModel } from 'mongoose';
 import { Types } from 'mongoose';
 
-import { PaginateArgs } from 'src/common/dto/paginate.args';
 import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
 import { deserializeScopeMask } from 'src/common/scope/scope.bitmask';
@@ -21,7 +20,7 @@ import { Request, RequestDocument } from 'src/requests/models/request.schema';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity, UserShortEntity } from './entities/user.entity';
 import { User, UserDocument } from './models/user.schema';
 
 @Injectable()
@@ -50,7 +49,7 @@ export class UsersService extends BaseCrudService<
       .filter(Boolean)
       .join('\n');
 
-    await this.noticesService.createNoticeByUserScope('user', status, title, message);
+    await this.noticesService.createOneByUser('user', status, title, message);
   }
 
   override async create(input: CreateUserInput): Promise<UserEntity> {
@@ -66,12 +65,8 @@ export class UsersService extends BaseCrudService<
     return result;
   }
 
-  override async findAllPaginated(args: PaginateArgs): Promise<PaginateResult<UserEntity>> {
-    return super.findAllPaginated({
-      ...args,
-      sort: args.sort ?? { indexip: 1 },
-      filters: args.filters
-    });
+  async findAllActive(): Promise<UserShortEntity[]> {
+    return await this.userModel.find({ status: UserStatus.ACTIVE }).exec();
   }
 
   async findAllForNotice(scopeMaskStr: string): Promise<UserEntity[]> {

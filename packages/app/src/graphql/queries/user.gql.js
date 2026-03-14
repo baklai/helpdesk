@@ -32,10 +32,11 @@ export const FIND_ALL_USERS = gql`
   }
 `;
 
-export const FIND_ALL_USERS_FOR_NOTICE = gql`
-  query FindAllUsersForNotice($scope: String!) {
-    users: findAllUsersForNotice(scope: $scope) {
-      ${USER_FIELDS}
+export const FIND_ALL_USERS_ACTIVE = gql`
+  query FindAllUsersActive {
+    users: findAllUsersActive {
+      id
+      fullname
     }
   }
 `;
