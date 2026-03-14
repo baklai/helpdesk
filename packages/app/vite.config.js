@@ -29,6 +29,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          jspdf: ['html2canvas-pro', 'jspdf'],
           primevue: ['primevue'],
           apollo: ['@apollo/client', '@vue/apollo-composable'],
           charts: ['chart.js']
