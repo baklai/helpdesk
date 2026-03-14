@@ -73,6 +73,7 @@ const configStore = useConfigStore();
           <BtnInfoProfile />
           <BtnToggleTheme />
           <BtnStorageClient />
+          <BtnDocuments />
           <BtnAuth />
         </div>
       </div>

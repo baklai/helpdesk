@@ -19,6 +19,7 @@ const { toggleAppSideBar } = useConfigStore();
       <BtnToggleTheme class="hidden md:flex" />
       <BtnNotifications class="hidden md:flex" />
       <BtnFullScreen class="hidden md:flex" />
+      <BtnDocuments class="hidden md:flex" />
       <BtnFullMenu />
     </div>
   </header>
