@@ -1,11 +1,11 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { Schema } from 'mongoose';
 import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
@@ -47,12 +47,13 @@ import { UsersModule } from './users/users.module';
     ServeStaticModule.forRoot(
       {
         rootPath: join(__dirname, '..', 'app'),
-        exclude: ['/api/*path']
+        serveRoot: '/app',
+        exclude: ['/api', '/api/(.*)']
       },
       {
         rootPath: join(__dirname, '..', 'docs'),
         serveRoot: '/docs',
-        exclude: ['/api/*path']
+        exclude: ['/api', '/api/(.*)']
       }
     ),
     ConfigModule.forRoot({

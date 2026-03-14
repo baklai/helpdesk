@@ -1,6 +1,8 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
+  base: '/docs/',
+
   title: 'Helpdesk',
   description: 'Документація системи сервісної підтримки',
   lang: 'uk-UA',
