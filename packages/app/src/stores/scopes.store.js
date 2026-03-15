@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
 const SCOPE_DEFINITIONS = [
+  { scope: 'user', comment: 'Користувачі' },
   { scope: 'event', comment: 'Календар подій' },
   { scope: 'channel', comment: 'Канали мережі' },
   { scope: 'ipaddress', comment: 'IP-адреси мережі' },
@@ -13,8 +14,7 @@ const SCOPE_DEFINITIONS = [
   { scope: 'department', comment: 'Відділи' },
   { scope: 'location', comment: 'Локації' },
   { scope: 'position', comment: 'Посади' },
-  { scope: 'device', comment: 'Пристрої' },
-  { scope: 'user', comment: 'Користувачі' }
+  { scope: 'device', comment: 'Пристрої' }
 ];
 
 const SCOPE_ACTIONS = ['create', 'read', 'update', 'delete', 'notice'];

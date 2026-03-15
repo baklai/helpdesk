@@ -1,6 +1,7 @@
 const STEP = 5n;
 
 const RESOURCES = [
+  'user',
   'event',
   'channel',
   'ipaddress',
@@ -13,8 +14,7 @@ const RESOURCES = [
   'department',
   'location',
   'position',
-  'device',
-  'user'
+  'device'
 ] as const;
 
 export const SCOPE_REGISTRY = Object.freeze(
