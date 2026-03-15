@@ -19,7 +19,7 @@ import {
 } from '@mdi/js';
 import { createRouter, createWebHistory, RouterView } from 'vue-router';
 
-import { hasAllScopes } from '@/utils/ScopeMethods';
+import { useScopeStore } from '@/stores/scopes.store';
 
 const router = createRouter({
   history: createWebHistory('/app'),
@@ -510,6 +510,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, _from) => {
   const authStore = useAuthStore();
+  const { hasScope } = useScopeStore();
 
   const baseTitle = 'HD';
   const pageTitle = to.meta.title || 'Сервісна підтримка';
@@ -538,7 +539,7 @@ router.beforeEach(async (to, _from) => {
   }
 
   if (to.meta.permissions?.length && !authStore.isAdmin) {
-    if (!hasAllScopes(authStore.user?.scope, to.meta.permissions)) {
+    if (!hasScope(authStore.user?.scope, to.meta.permissions)) {
       return { name: 'access-denied' };
     }
   }

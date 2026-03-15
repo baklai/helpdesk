@@ -16,7 +16,6 @@ import UserPartial from '@/components/partials/UserPartial.vue';
 import ScopeDataTable from '@/components/tables/ScopeDataTable.vue';
 import { USER_ROLES, USER_STATUS } from '@/constants/ui.const';
 import { useScopeStore } from '@/stores/scopes.store';
-import { encodeScopeList } from '@/utils/ScopeMethods';
 
 const props = defineProps({
   initialValues: { type: Object, default: () => ({}) },
@@ -25,7 +24,8 @@ const props = defineProps({
 
 const emit = defineEmits(['submit', 'cancel']);
 
-const { getSelectScope, getDefaultScope, getScopeKeyList } = useScopeStore();
+const { getSelectScope, getDefaultScope, getCustomScope, getMaskFromRows, serialize } =
+  useScopeStore();
 
 const { errors, handleSubmit, controlledValues, values, setValues } = useForm({
   validationSchema: yup.object({
@@ -39,7 +39,13 @@ const { errors, handleSubmit, controlledValues, values, setValues } = useForm({
     role: yup.string().required('Потрібно вказати значення'),
     scope: yup.string()
   }),
-  initialValues: props.initialValues
+  initialValues: {
+    ...props.initialValues,
+    scope:
+      typeof props.initialValues.scope === 'string'
+        ? getCustomScope(props.initialValues.scope)
+        : props.initialValues.scope || getDefaultScope()
+  }
 });
 
 const refSelectMenu = ref();
@@ -178,7 +184,7 @@ const handleSave = handleSubmit(() => {
     password: controlledValues?.value?.password || undefined,
     status: controlledValues?.value?.status,
     role: controlledValues?.value?.role,
-    scope: encodeScopeList(getScopeKeyList(controlledValues?.value?.scope))
+    scope: serialize(getMaskFromRows(controlledValues?.value?.scope))
   });
 });
 </script>

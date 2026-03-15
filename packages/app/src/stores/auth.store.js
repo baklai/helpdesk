@@ -5,16 +5,17 @@ import { useRouter } from 'vue-router';
 import { USER_ROLE, USER_STATUS } from '@/constants/enums.const';
 import { apolloClient } from '@/graphql/apollo.client';
 import { ME, REFRESH, SIGN_IN, SIGN_OUT, SIGN_UP } from '@/graphql/apollo.gql';
-import { decodeScopeToList } from '@/utils/ScopeMethods';
+import { useScopeStore } from '@/stores/scopes.store';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
+  const { toList } = useScopeStore();
 
   const user = ref(null);
   const token = ref(null);
 
   const scopeMask = computed(() => user?.value?.scope ?? null);
-  const scopeList = computed(() => decodeScopeToList(user?.value?.scope));
+  const scopeList = computed(() => toList(user?.value?.scope));
 
   const loggedIn = computed(() => !!token.value && !!user.value);
   const isActivated = computed(() => user?.value?.status === USER_STATUS.ACTIVE);
@@ -23,12 +24,6 @@ export const useAuthStore = defineStore('auth', () => {
   const isSupport = computed(() => user?.value?.role === USER_ROLE.SUPPORT);
   const isClient = computed(() => user?.value?.role === USER_ROLE.CLIENT);
 
-  /**
-   * Відновлює сесію при завантаженні/оновленні сторінки.
-   * Спочатку оновлює access-токен через refresh-cookie,
-   * потім отримує дані поточного користувача.
-   * Якщо refresh-cookie відсутній або протермінований — кидає помилку.
-   */
   async function me() {
     try {
       const { data: refreshData } = await apolloClient.mutate({

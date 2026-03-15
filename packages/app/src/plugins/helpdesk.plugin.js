@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores/auth.store';
+import { useScopeStore } from '@/stores/scopes.store';
 import { useSysConfStore } from '@/stores/sysconf.store';
-import { hasScope } from '@/utils/ScopeMethods';
 
 export default {
   install: (app, options) => {
@@ -8,6 +8,7 @@ export default {
 
     const authStore = useAuthStore();
     const sysConfStore = useSysConfStore();
+    const scopeStore = useScopeStore();
 
     app.config.globalProperties.$helpdesk = {
       ...options,
@@ -46,7 +47,7 @@ export default {
 
       scope(permission) {
         if (authStore?.isAdmin) return true;
-        return hasScope(authStore?.user?.scope, permission);
+        return scopeStore.hasScope(authStore?.user?.scope, permission);
       },
 
       notImplemented() {

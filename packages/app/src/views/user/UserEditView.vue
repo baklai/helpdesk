@@ -7,7 +7,6 @@ import { useRoute, useRouter } from 'vue-router';
 import AppLoading from '@/components/AppLoading.vue';
 import { FIND_ONE_USER, UPDATE_ONE_USER } from '@/graphql/apollo.gql.js';
 import { useScopeStore } from '@/stores/scopes.store';
-import { decodeScopeToList } from '@/utils/ScopeMethods';
 
 const router = useRouter();
 const route = useRoute();
@@ -30,7 +29,7 @@ const initialValues = computed(() => {
     phone: user.phone,
     status: user.status,
     role: user.role,
-    scope: getCustomScope(decodeScopeToList(user.scope))
+    scope: getCustomScope(user.scope)
   };
 });
 

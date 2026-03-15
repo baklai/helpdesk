@@ -15,12 +15,14 @@ import { useRoute, useRouter } from 'vue-router';
 import AppLoading from '@/components/AppLoading.vue';
 import UserPartial from '@/components/partials/UserPartial.vue';
 import { FIND_ONE_USER } from '@/graphql/apollo.gql.js';
+import { useScopeStore } from '@/stores/scopes.store';
 import { dateTimeToStr } from '@/utils/DateMethods';
-import { decodeScopeToList } from '@/utils/ScopeMethods';
 import NotFoundView from '@/views/error/NotFoundView.vue';
 
 const route = useRoute();
 const router = useRouter();
+
+const { deserialize } = useScopeStore();
 
 const { result, loading } = useQuery(
   FIND_ONE_USER,
@@ -29,7 +31,12 @@ const { result, loading } = useQuery(
 );
 
 const user = computed(() => result.value?.user);
-const scopeList = computed(() => decodeScopeToList(user.value?.scope));
+
+const scopeList = computed(() => {
+  if (!user.value?.scope) return [];
+  const mask = deserialize(user.value.scope);
+  return useScopeStore().fromList ? useScopeStore().toList(mask) : [];
+});
 
 const handleBack = () => router.back();
 const handleEdit = () => router.push({ name: 'user-edit', params: { id: route.params.id } });
