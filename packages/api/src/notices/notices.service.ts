@@ -9,11 +9,10 @@ import { Model, Types } from 'mongoose';
 
 import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
-import { getScopeNoticeMask } from 'src/common/scope/scope.bitmask';
-import { ScopeResource } from 'src/common/scope/scope.config';
+
+import { type ScopeResource, UserScope } from 'src/common/scope/user.scope';
 import { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { User, UserDocument } from 'src/users/models/user.schema';
-
 import { CreateNoticeInput } from './dto/create-notice.input';
 import { NoticeEntity } from './entities/notice.entity';
 import { Notice, NoticeDocument } from './models/notice.schema';
@@ -55,7 +54,7 @@ export class NoticesService {
     message: string
   ): Promise<boolean> {
     try {
-      const noticeMask = getScopeNoticeMask(resource);
+      const noticeMask = UserScope.getBit(resource, 'notice');
 
       if (noticeMask === 0n) return false;
 

@@ -1,12 +1,12 @@
-import { SCOPE_ACTION_OFFSET, SCOPE_REGISTRY, ScopeAction, ScopeResource } from './scope.config';
+import { SCOPE_ACTION_OFFSET, SCOPE_REGISTRY, ScopeAction, ScopeResource } from './config.scope';
 
 export type ScopeInput = Partial<Record<ScopeResource, ScopeAction[]>>;
+
 export type { ScopeAction, ScopeResource };
 
 const BIT_MAP = new Map<string, bigint>();
 
 for (const [resource, entry] of Object.entries(SCOPE_REGISTRY)) {
-  if ('deprecated' in entry) continue;
   for (const [action, offset] of Object.entries(SCOPE_ACTION_OFFSET)) {
     BIT_MAP.set(`${resource}:${action}`, 1n << BigInt(entry.bit + offset));
   }
@@ -78,6 +78,6 @@ export function hasAnyScope(userMask: bigint, required: ScopeInput): boolean {
   return (userMask & requiredMask) !== 0n;
 }
 
-export function getScopeNoticeMask(resource: ScopeResource): bigint {
-  return BIT_MAP.get(`${resource}:notice`) ?? 0n;
+export function getScopeMask(resource: ScopeResource, action: ScopeAction): bigint {
+  return BIT_MAP.get(`${resource}:${action}`) ?? 0n;
 }

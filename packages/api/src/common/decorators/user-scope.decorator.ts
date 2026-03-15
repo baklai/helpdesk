@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-import { ScopeInput } from 'src/common/scope/scope.bitmask';
+import { type ScopeInput } from 'src/common/scope/user.scope';
 
 export const SCOPE_KEY = 'USER_SCOPE';
 

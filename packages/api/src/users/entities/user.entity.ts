@@ -36,10 +36,6 @@ export class UserEntity {
   @Field(() => UserRole, { description: 'Роль користувача', defaultValue: UserRole.CLIENT })
   role: UserRole;
 
-  /**
-   * Bitmask прав доступу у вигляді рядка (серіалізований BigInt).
-   * Клієнт може розшифрувати через decodeScopeMask() або відобразити як число.
-   */
   @Field(() => String, {
     description: 'Bitmask прав доступу (серіалізований BigInt)',
     defaultValue: '0'

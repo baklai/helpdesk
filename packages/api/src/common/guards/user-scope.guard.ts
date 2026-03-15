@@ -10,7 +10,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 
 import { SCOPE_KEY } from 'src/common/decorators/user-scope.decorator';
 import { UserRole } from 'src/common/enums/user-role.enum';
-import { ScopeInput, deserializeScopeMask, hasScopes } from 'src/common/scope/scope.bitmask';
+import { type ScopeInput, UserScope } from 'src/common/scope/user.scope';
 
 @Injectable()
 export class UserScopeGuard implements CanActivate {
@@ -38,9 +38,9 @@ export class UserScopeGuard implements CanActivate {
     }
 
     const rawScope = typeof user.scope === 'string' ? user.scope : undefined;
-    const userMask = deserializeScopeMask(rawScope);
+    const userMask = UserScope.deserialize(rawScope);
 
-    if (!hasScopes(userMask, required)) {
+    if (!UserScope.has(userMask, required)) {
       throw new ForbiddenException('Недостатньо повноважень для виконання цієї дії');
     }
 

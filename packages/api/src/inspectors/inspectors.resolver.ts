@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { IpAddress } from 'src/common/decorators/ip-address.decorator';
+import { IPv4 } from 'src/common/decorators/ipv4.decorator';
 import { Role } from 'src/common/decorators/user-role.decorator';
 import { Scope } from 'src/common/decorators/user-scope.decorator';
 import { PaginateArgs } from 'src/common/dto/paginate.args';
@@ -22,7 +22,7 @@ export class InspectorsResolver {
     name: 'createOneInspector',
     description: 'Створити новий запис PC SysLogInspector'
   })
-  async create(@IpAddress() ipaddress: string, @Args('input') input: CreateInspectorInput) {
+  async create(@IPv4() ipaddress: string, @Args('input') input: CreateInspectorInput) {
     return this.inspectorsService.create(ipaddress, input);
   }
 

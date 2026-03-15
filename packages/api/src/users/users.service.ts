@@ -12,7 +12,7 @@ import { Types } from 'mongoose';
 
 import { NoticeStatusType } from 'src/common/enums/status.enum';
 import { UserStatus } from 'src/common/enums/user-status.enum';
-import { deserializeScopeMask } from 'src/common/scope/scope.bitmask';
+import { UserScope } from 'src/common/scope/user.scope';
 import { BaseCrudService } from 'src/common/services/base.service';
 import { Notice, NoticeDocument } from 'src/notices/models/notice.schema';
 import { NoticesService } from 'src/notices/notices.service';
@@ -70,7 +70,7 @@ export class UsersService extends BaseCrudService<
   }
 
   async findAllForNotice(scopeMaskStr: string): Promise<UserEntity[]> {
-    const filterMask = deserializeScopeMask(scopeMaskStr);
+    const filterMask = UserScope.deserialize(scopeMaskStr);
 
     if (filterMask === 0n) return [];
 
