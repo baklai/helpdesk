@@ -16,10 +16,20 @@ import Tooltip from 'primevue/tooltip';
 import { vAutocompleteOff } from '@/directives/autocomplete-off.directive';
 import { apolloClient } from '@/graphql/apollo.client';
 import HelpdeskPlugin from '@/plugins/helpdesk.plugin';
+import { useAuthStore } from '@/stores/auth.store';
 
 import '@/assets/base.css';
 import '@/assets/fonts.css';
 import 'primeicons/primeicons.css';
+
+async function bootstrap() {
+  const authStore = useAuthStore();
+  try {
+    await authStore.me();
+  } catch {
+    authStore.clear();
+  }
+}
 
 const app = createApp(App);
 
@@ -257,4 +267,6 @@ app.config.warnHandler = (msg, instance, trace) => {
   }
 };
 
-app.mount('#app');
+bootstrap().finally(() => {
+  app.mount('#app');
+});

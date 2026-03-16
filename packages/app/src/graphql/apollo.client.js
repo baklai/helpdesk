@@ -12,16 +12,37 @@ import { REFRESH } from '@/graphql/apollo.gql';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth.store';
 
-let refreshPromise = null;
+let refreshTokenPromise = null;
+let apolloClient = null;
 
-/**
- * Оголошуємо як `let` щоб refreshAccessToken міг посилатися на змінну
- * до присвоєння — виклик відбувається лише після ініціалізації клієнта,
- * але явна форма усуває залежність від порядку оголошення.
- *
- * @type {ApolloClient}
- */
-let apolloClient;
+async function refreshAccessToken() {
+  if (refreshTokenPromise) {
+    return refreshTokenPromise;
+  }
+
+  refreshTokenPromise = (async () => {
+    try {
+      const authStore = useAuthStore();
+
+      const { data } = await apolloClient.mutate({
+        mutation: REFRESH,
+        fetchPolicy: 'no-cache'
+      });
+
+      if (!data?.refresh) {
+        throw new Error('Failed to refresh token');
+      }
+
+      authStore.setToken(data.refresh);
+
+      return data.refresh;
+    } finally {
+      refreshTokenPromise = null;
+    }
+  })();
+
+  return refreshTokenPromise;
+}
 
 const httpLink = new HttpLink({
   uri: import.meta.env.VITE_API_BASE_URL,
@@ -43,77 +64,43 @@ const authLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-async function refreshAccessToken() {
-  const authStore = useAuthStore();
+const errorLink = onError(({ graphQLErrors, operation, forward }) => {
+  if (!graphQLErrors) return;
 
-  const { data } = await apolloClient.mutate({
-    mutation: REFRESH,
-    fetchPolicy: 'no-cache'
-  });
+  for (const err of graphQLErrors) {
+    if (operation.operationName === 'Refresh') return;
 
-  authStore.setToken(data.refresh);
-  return data.refresh;
-}
+    if (err?.extensions?.code == 401 || err?.message === 'Unauthorized') {
+      return new Observable(observer => {
+        refreshAccessToken()
+          .then(newToken => {
+            const oldHeaders = operation?.getContext()?.headers || {};
+            operation.setContext({
+              headers: {
+                ...oldHeaders,
+                authorization: `Bearer ${newToken}`
+              }
+            });
+            forward(operation).subscribe({
+              next: observer.next.bind(observer),
+              error: observer.error.bind(observer),
+              complete: observer.complete.bind(observer)
+            });
+          })
+          .catch(error => {
+            const authStore = useAuthStore();
 
-const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
-  if (import.meta.env.DEV) {
-    if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, path }) =>
-        console.error(`[GraphQL error]: Message: ${message}, Path: ${path}`)
-      );
+            authStore.clear();
+
+            router.push({ name: 'signin' }).catch(() => {
+              window.location.href = '/app/signin';
+            });
+
+            observer.error(error);
+          });
+      });
     }
-
-    if (networkError) console.error(`[Network error]: ${networkError}`);
   }
-
-  const unauth = graphQLErrors?.some(error => error.extensions?.code === 'UNAUTHENTICATED');
-
-  if (!unauth) return;
-
-  if (operation.operationName === 'Refresh' || operation.operationName === 'Signout') {
-    return;
-  }
-
-  if (!forward) return;
-
-  if (!refreshPromise) {
-    refreshPromise = refreshAccessToken().finally(() => (refreshPromise = null));
-  }
-
-  return new Observable(observer => {
-    let innerSub;
-    let active = true;
-
-    refreshPromise
-      .catch(() => {
-        const authStore = useAuthStore();
-        authStore.clearSession();
-        router.push({ name: 'signin' }).catch(() => {
-          window.location.href = '/signin';
-        });
-        return null;
-      })
-      .then(token => {
-        if (!active || !token) {
-          observer.complete();
-          return;
-        }
-        operation.setContext({
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        innerSub = forward(operation).subscribe({
-          next: value => observer.next(value),
-          error: err => observer.error(err),
-          complete: () => observer.complete()
-        });
-      })
-      .catch(err => observer.error(err));
-
-    return () => {
-      active = false;
-      if (innerSub) innerSub.unsubscribe();
-    };
-  });
 });
 
 apolloClient = new ApolloClient({

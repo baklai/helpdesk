@@ -1,6 +1,7 @@
 <script setup>
 import { useToast } from 'primevue/usetoast';
 import { useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
 import * as yup from 'yup';
 
 import { useAuthStore } from '@/stores/auth.store';
@@ -8,7 +9,7 @@ import { useAuthStore } from '@/stores/auth.store';
 const SUBMIT_COUNT = 3;
 
 const toast = useToast();
-
+const router = useRouter();
 const auth = useAuthStore();
 
 const { values, errors, submitCount, handleSubmit, defineField } = useForm({
@@ -34,12 +35,15 @@ const [remember, rememberAttrs] = defineField('remember');
 const onSignin = handleSubmit(async values => {
   try {
     await auth.signin(values);
+
     toast.add({
       severity: 'success',
       summary: 'Інформація',
       detail: 'Авторизація пройшла успішно',
       life: 3000
     });
+
+    router.push({ name: 'home' });
   } catch (err) {
     toast.add({
       severity: 'warn',
