@@ -1,19 +1,11 @@
 <script setup>
-import {
-  mdiAccountCheckOutline,
-  mdiAccountCogOutline,
-  mdiAccountOutline,
-  mdiCheckCircleOutline,
-  mdiCloseCircleOutline,
-  mdiFormatListBulleted,
-  mdiShieldAccountOutline
-} from '@mdi/js';
+import { mdiAccountCheckOutline, mdiAccountOutline, mdiShieldAccountOutline } from '@mdi/js';
 import { useQuery } from '@vue/apollo-composable';
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import AppLoading from '@/components/AppLoading.vue';
-import UserPartial from '@/components/partials/UserPartial.vue';
+import { USER_ROLES, USER_STATUS } from '@/constants/ui.const';
 import { FIND_ONE_USER } from '@/graphql/apollo.gql.js';
 import { useScopeStore } from '@/stores/scopes.store';
 import { dateTimeToStr } from '@/utils/DateMethods';
@@ -22,7 +14,7 @@ import NotFoundView from '@/views/error/NotFoundView.vue';
 const route = useRoute();
 const router = useRouter();
 
-const { deserialize } = useScopeStore();
+const { ACTION_DEFINITIONS, getCustomScope, getScopeLength } = useScopeStore();
 
 const { result, loading } = useQuery(
   FIND_ONE_USER,
@@ -31,78 +23,19 @@ const { result, loading } = useQuery(
 );
 
 const user = computed(() => result.value?.user);
-
-const scopeList = computed(() => {
-  if (!user.value?.scope) return [];
-  const mask = deserialize(user.value.scope);
-  return useScopeStore().fromList ? useScopeStore().toList(mask) : [];
-});
+const userRole = computed(() => USER_ROLES.find(role => role.key === result.value?.user?.role));
+const userStatus = computed(() =>
+  USER_STATUS.find(status => status.key === result.value?.user?.status)
+);
+const userScopes = computed(() =>
+  result.value?.user?.scope ? getCustomScope(result.value.user.scope) : []
+);
+const userScopeLength = computed(() =>
+  result.value?.user?.scope ? getScopeLength(result.value.user.scope) : 0
+);
 
 const handleBack = () => router.back();
 const handleEdit = () => router.push({ name: 'user-edit', params: { id: route.params.id } });
-
-const STATUS_MAP = {
-  pending: { label: 'Очікує', severity: 'secondary', icon: mdiCloseCircleOutline },
-  active: { label: 'Активний', severity: 'success', icon: mdiCheckCircleOutline },
-  blocked: { label: 'Заблоковано', severity: 'danger', icon: mdiCloseCircleOutline },
-  disabled: { label: 'Вимкнено', severity: 'secondary', icon: mdiCloseCircleOutline }
-};
-
-const statusInfo = computed(
-  () =>
-    STATUS_MAP[user.value?.status] ?? {
-      label: '-',
-      severity: 'secondary',
-      icon: mdiCloseCircleOutline
-    }
-);
-
-const ROLE_MAP = {
-  admin: { label: 'Адміністратор', severity: 'danger' },
-  manager: { label: 'Менеджер', severity: 'warn' },
-  support: { label: 'Спеціаліст', severity: 'info' },
-  client: { label: 'Клієнт', severity: 'secondary' }
-};
-
-const roleInfo = computed(
-  () => ROLE_MAP[user.value?.role] ?? { label: user.value?.role ?? '-', severity: 'secondary' }
-);
-
-const scopeGroups = computed(() => {
-  const groups = {};
-  for (const s of scopeList.value) {
-    const [resource] = s.split(':');
-    if (!groups[resource]) groups[resource] = [];
-    groups[resource].push(s);
-  }
-  return Object.entries(groups).map(([resource, items]) => ({ resource, items }));
-});
-
-const SCOPE_ACTION_LABEL = {
-  create: 'Створення',
-  read: 'Перегляд',
-  update: 'Редагування',
-  delete: 'Видалення',
-  notice: 'Сповіщення'
-};
-
-const SCOPE_RESOURCE_LABEL = {
-  event: 'Події',
-  channel: 'Канали',
-  ipaddress: 'IP-адреси',
-  mailbox: 'Пошта',
-  request: 'Заявки',
-  inspector: 'Інспектор',
-  report: 'Звіти',
-  organization: 'Організації',
-  subdivision: 'Підрозділи',
-  department: 'Відділи',
-  location: 'Локації',
-  position: 'Посади',
-  device: 'Пристрої',
-  user: 'Користувачі',
-  notice: 'Сповіщення'
-};
 </script>
 
 <template>
@@ -137,7 +70,7 @@ const SCOPE_RESOURCE_LABEL = {
 
     <AppLoading v-if="loading" />
 
-    <div v-if="!loading && user" class="flex flex-col gap-6 overflow-y-auto p-4 lg:flex-row">
+    <div v-if="!loading && user" class="flex h-full flex-col gap-6 overflow-y-auto p-4 lg:flex-row">
       <div class="flex flex-1 flex-col gap-4">
         <div class="border-surface-200 dark:border-surface-700 rounded-xl border p-6">
           <div class="mb-4 flex items-center justify-between">
@@ -145,14 +78,7 @@ const SCOPE_RESOURCE_LABEL = {
               <AppIcon :path="mdiAccountOutline" :size="20" />
               <span class="text-lg font-medium uppercase">Профіль</span>
             </div>
-            <Tag :severity="statusInfo.severity">
-              <template #default>
-                <div class="flex items-center gap-1">
-                  <AppIcon :path="statusInfo.icon" :size="14" />
-                  <span>{{ statusInfo.label }}</span>
-                </div>
-              </template>
-            </Tag>
+            <Tag :value="userStatus?.label" />
           </div>
 
           <div class="flex flex-col gap-4">
@@ -217,9 +143,9 @@ const SCOPE_RESOURCE_LABEL = {
                 <p class="text-muted-color text-xs font-medium tracking-wide uppercase">
                   Поточна роль
                 </p>
-                <p class="text-base font-medium">{{ roleInfo.label }}</p>
+                <p class="text-base font-medium">{{ userRole.key }}</p>
               </div>
-              <Tag :severity="roleInfo.severity" :value="roleInfo.label" />
+              <Tag :value="userRole.label" />
             </div>
 
             <Divider type="dashed" />
@@ -227,31 +153,10 @@ const SCOPE_RESOURCE_LABEL = {
             <div class="flex flex-col gap-y-1">
               <p class="text-muted-color text-xs font-medium tracking-wide uppercase">Опис ролі</p>
               <p class="text-base">
-                <template v-if="user.role === 'admin'">
-                  Повний доступ до всіх модулів, налаштувань та логів системи
-                </template>
-                <template v-else-if="user.role === 'manager'">
-                  Управління звітами, перегляд статистики та базове адміністрування
-                </template>
-                <template v-else-if="user.role === 'support'">
-                  Операційна робота: обробка заявок, керування IP-адресами та технікою
-                </template>
-                <template v-else-if="user.role === 'client'">
-                  Тільки перегляд доступних ресурсів (без права редагування)
-                </template>
-                <template v-else>-</template>
+                {{ userRole.comment }}
               </p>
             </div>
           </div>
-        </div>
-
-        <div class="border-surface-200 dark:border-surface-700 rounded-xl border p-6">
-          <div class="mb-4 flex items-center gap-2">
-            <AppIcon :path="mdiFormatListBulleted" :size="20" />
-            <span class="text-lg font-medium">Зведення</span>
-          </div>
-
-          <UserPartial :data="user" />
         </div>
       </div>
 
@@ -262,44 +167,44 @@ const SCOPE_RESOURCE_LABEL = {
               <AppIcon :path="mdiShieldAccountOutline" :size="20" />
               <span class="text-lg font-medium uppercase">Права доступу</span>
             </div>
-            <Tag severity="secondary" :value="`${scopeList.length} дозволів`" />
+            <Tag severity="secondary" :value="`${userScopeLength} дозволів`" />
           </div>
 
-          <div v-if="scopeGroups.length === 0" class="text-muted-color text-sm">
-            Дозволи не призначені
-          </div>
-
-          <div v-else class="flex flex-col gap-4">
-            <div v-for="group in scopeGroups" :key="group.resource" class="flex flex-col gap-2">
-              <div class="flex items-center gap-2">
-                <AppIcon :path="mdiAccountCogOutline" :size="16" />
-                <span class="text-sm font-semibold tracking-wide uppercase">
-                  {{ SCOPE_RESOURCE_LABEL[group.resource] ?? group.resource }}
-                </span>
+          <DataTable
+            class="min-w-full overflow-x-auto"
+            responsiveLayout="scroll"
+            rowHover
+            scrollable
+            scrollHeight="flex"
+            :value="userScopes"
+          >
+            <template #empty>
+              <div class="text-center">
+                <h5>Записів не знайдено</h5>
               </div>
+            </template>
 
-              <div class="flex flex-wrap gap-2 pl-6">
-                <Tag
-                  v-for="scope in group.items"
-                  :key="scope"
-                  class="text-xs!"
-                  severity="secondary"
-                >
-                  <template #default>
-                    <span>{{
-                      SCOPE_ACTION_LABEL[scope.split(':')[1]] ?? scope.split(':')[1]
-                    }}</span>
-                  </template>
-                </Tag>
-              </div>
+            <Column class="font-bold!" field="scope" frozen header="">
+              <template #body="{ data }">
+                {{ data.comment }}
+              </template>
+            </Column>
 
-              <Divider
-                v-if="group !== scopeGroups[scopeGroups.length - 1]"
-                class="my-0!"
-                type="dashed"
-              />
-            </div>
-          </div>
+            <Column
+              v-for="col of ACTION_DEFINITIONS"
+              :key="col.key"
+              class="text-center!"
+              :field="col.key"
+              headerClass="text-center"
+            >
+              <template #header>
+                <p class="w-full text-center">{{ col.comment }}</p>
+              </template>
+              <template #body="{ data, field }">
+                <Checkbox v-model="data[field]" binary :indeterminate="!data[field]" readonly />
+              </template>
+            </Column>
+          </DataTable>
         </div>
       </div>
     </div>

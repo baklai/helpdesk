@@ -324,6 +324,14 @@ export const USER_ROLES = [
   }
 ];
 
+export const SCOPE_ACTION_ICON = {
+  create: 'pi pi-plus',
+  read: 'pi pi-eye',
+  update: 'pi pi-pencil',
+  delete: 'pi pi-trash',
+  notice: 'pi pi-bell'
+};
+
 export const MONTHS_OF_YEAR = [
   { key: 1, label: 'Січень' },
   { key: 2, label: 'Лютий' },

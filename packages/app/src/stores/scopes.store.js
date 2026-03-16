@@ -2,23 +2,29 @@ import { defineStore } from 'pinia';
 
 const STEP = 5n;
 
-const ACTIONS = ['create', 'read', 'update', 'delete', 'notice'];
+const ACTION_DEFINITIONS = [
+  { key: 'create', icon: 'pi pi-plus-circle', comment: 'Створення' },
+  { key: 'read', icon: 'pi pi-eye', comment: 'Перегляд' },
+  { key: 'update', icon: 'pi pi-pencil', comment: 'Редагування' },
+  { key: 'delete', icon: 'pi pi-trash', comment: 'Видалення' },
+  { key: 'notice', icon: 'pi pi-bell', comment: 'Сповіщення' }
+];
 
 const SCOPE_DEFINITIONS = [
-  { scope: 'user', comment: 'Користувачі' },
-  { scope: 'event', comment: 'Календар подій' },
-  { scope: 'channel', comment: 'Канали мережі' },
-  { scope: 'ipaddress', comment: 'IP-адреси мережі' },
-  { scope: 'mailbox', comment: 'Поштові скриньки' },
-  { scope: 'request', comment: 'Сервісна підтримка' },
-  { scope: 'inspector', comment: 'ПК SysInspector' },
-  { scope: 'report', comment: 'Сервісні звіти' },
-  { scope: 'organization', comment: 'Організації' },
-  { scope: 'subdivision', comment: 'Підрозділи' },
-  { scope: 'department', comment: 'Відділи' },
-  { scope: 'location', comment: 'Локації' },
-  { scope: 'position', comment: 'Посади' },
-  { scope: 'device', comment: 'Пристрої' }
+  { key: 'user', comment: 'Користувачі' },
+  { key: 'event', comment: 'Календар подій' },
+  { key: 'channel', comment: 'Канали мережі' },
+  { key: 'ipaddress', comment: 'IP-адреси мережі' },
+  { key: 'mailbox', comment: 'Поштові скриньки' },
+  { key: 'request', comment: 'Сервісна підтримка' },
+  { key: 'inspector', comment: 'ПК SysInspector' },
+  { key: 'report', comment: 'Сервісні звіти' },
+  { key: 'organization', comment: 'Організації' },
+  { key: 'subdivision', comment: 'Підрозділи' },
+  { key: 'department', comment: 'Відділи' },
+  { key: 'location', comment: 'Локації' },
+  { key: 'position', comment: 'Посади' },
+  { key: 'device', comment: 'Пристрої' }
 ];
 
 const SCOPE_ACTION_OFFSET = {
@@ -31,15 +37,21 @@ const SCOPE_ACTION_OFFSET = {
 
 const BIT_MAP = new Map();
 
-SCOPE_DEFINITIONS.forEach((def, index) => {
-  const resourceBit = BigInt(index) * STEP;
-  ACTIONS.forEach(action => {
-    const offset = SCOPE_ACTION_OFFSET[action];
-    BIT_MAP.set(`${def.scope}:${action}`, 1n << (resourceBit + offset));
-  });
-});
+for (let i = 0; i < SCOPE_DEFINITIONS.length; i++) {
+  const scope = SCOPE_DEFINITIONS[i];
+  const base = BigInt(i) * STEP;
+  for (const action of ACTION_DEFINITIONS) {
+    const offset = SCOPE_ACTION_OFFSET[action.key];
+    const bit = 1n << (base + offset);
+    BIT_MAP.set(`${scope.key}:${action.key}`, bit);
+  }
+}
 
 export const useScopeStore = defineStore('scope', () => {
+  function serialize(mask) {
+    return mask.toString();
+  }
+
   function deserialize(value) {
     if (!value) return 0n;
     try {
@@ -47,10 +59,6 @@ export const useScopeStore = defineStore('scope', () => {
     } catch {
       return 0n;
     }
-  }
-
-  function serialize(mask) {
-    return mask.toString();
   }
 
   function hasScope(userMask, permission) {
@@ -74,14 +82,18 @@ export const useScopeStore = defineStore('scope', () => {
   }
 
   function _buildRows(callback) {
-    return SCOPE_DEFINITIONS.map(def => ({
-      ...def,
-      create: callback(def.scope, 'create'),
-      read: callback(def.scope, 'read'),
-      update: callback(def.scope, 'update'),
-      delete: callback(def.scope, 'delete'),
-      notice: callback(def.scope, 'notice')
+    return SCOPE_DEFINITIONS.map(scope => ({
+      ...scope,
+      create: callback(scope.key, 'create'),
+      read: callback(scope.key, 'read'),
+      update: callback(scope.key, 'update'),
+      delete: callback(scope.key, 'delete'),
+      notice: callback(scope.key, 'notice')
     }));
+  }
+
+  function getScopeLength(maskStr) {
+    return toList(maskStr).length ?? 0;
   }
 
   function getSelectScope(value = false) {
@@ -103,9 +115,9 @@ export const useScopeStore = defineStore('scope', () => {
   function getMaskFromRows(rows = []) {
     let mask = 0n;
     for (const row of rows) {
-      for (const action of ACTIONS) {
-        if (row[action]) {
-          const bit = BIT_MAP.get(`${row.scope}:${action}`);
+      for (const action of ACTION_DEFINITIONS) {
+        if (row[action.key]) {
+          const bit = BIT_MAP.get(`${row.scope}:${action.key}`);
           if (bit) mask |= bit;
         }
       }
@@ -115,12 +127,13 @@ export const useScopeStore = defineStore('scope', () => {
 
   return {
     SCOPE_DEFINITIONS,
-    ACTIONS,
+    ACTION_DEFINITIONS,
     serialize,
     deserialize,
     toList,
     hasScope,
     hasAnyScope,
+    getScopeLength,
     getSelectScope,
     getDefaultScope,
     getCustomScope,
