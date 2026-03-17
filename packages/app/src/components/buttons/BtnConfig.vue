@@ -10,12 +10,7 @@ const visible = ref(false);
 <template>
   <button
     v-tooltip.left="'HD опції'"
-    :class="[
-      'group fixed top-1/2 right-0 z-50 block -translate-y-1/2 transform p-2',
-      'bg-surface-800 dark:bg-surface-700',
-      'rounded-none rounded-tl-md rounded-bl-md shadow-lg',
-      'cursor-pointer text-white opacity-80 hover:opacity-100'
-    ]"
+    class="group bg-surface-800 dark:bg-surface-700 fixed top-1/2 right-0 z-50 block -translate-y-1/2 transform cursor-pointer rounded-none rounded-tl-md rounded-bl-md p-2 text-white opacity-80 shadow-lg hover:opacity-100"
     type="button"
     @click="visible = !visible"
   >

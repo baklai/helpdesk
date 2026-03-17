@@ -5,7 +5,7 @@ import { PRIMARY_COLORS, SURFACE_COLORS } from '@/constants/theme.colors';
 import { useConfigStore } from '@/stores/config.store';
 
 defineProps({
-  visible: Boolean
+  visible: { type: Boolean, default: false }
 });
 
 defineEmits(['update:visible']);
