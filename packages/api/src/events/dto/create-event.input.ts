@@ -41,6 +41,6 @@ export class CreateEventInput {
   @Field(() => [String], { nullable: true, description: 'Список учасників' })
   @IsOptional()
   @IsArray({ message: 'Учасники мають бути масивом' })
-  @IsString({ each: true, message: 'Ім’я учасника має бути рядком' })
+  @IsString({ each: true, message: 'ім’я учасника має бути рядком' })
   readonly participants?: string[];
 }

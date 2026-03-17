@@ -1,14 +1,4 @@
-<script setup>
-import { onBeforeMount } from 'vue';
-
-import { useConfigStore } from '@/stores/config.store';
-
-const { initAppConfigs } = useConfigStore();
-
-onBeforeMount(() => {
-  initAppConfigs();
-});
-</script>
+<script setup></script>
 
 <template>
   <BtnConfig />
