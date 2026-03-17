@@ -1,6 +1,9 @@
 <script setup>
-import { inject, ref } from 'vue';
+import { mdiShieldAccountOutline } from '@mdi/js';
+import { computed } from 'vue';
 
+import { USER_ROLES } from '@/constants/ui.const';
+import { useAuthStore } from '@/stores/auth.store';
 import { useScopeStore } from '@/stores/scopes.store';
 
 defineProps({
@@ -9,24 +12,19 @@ defineProps({
 
 defineEmits(['update:visible']);
 
-const $helpdesk = inject('helpdesk');
+const authStore = useAuthStore();
+const { getScopeLength } = useScopeStore();
 
-const { getCustomScope } = useScopeStore();
-
-const columns = ref([
-  { field: 'create', header: 'Створення' },
-  { field: 'read', header: 'Читання' },
-  { field: 'update', header: 'Оновлення' },
-  { field: 'delete', header: 'Видалення' },
-  { field: 'notice', header: 'Повідомлення' }
-]);
-
-const scopes = ref(getCustomScope($helpdesk.user.scope));
+const user = computed(() => authStore?.user);
+const userRole = computed(() => USER_ROLES.find(role => role.key === authStore?.user?.role));
+const userScopeLength = computed(() =>
+  authStore?.user?.scope ? getScopeLength(authStore.user.scope) : 0
+);
 </script>
 
 <template>
   <Dialog
-    class="w-full max-w-240"
+    class="w-full max-w-200"
     closable
     dismissableMask
     :draggable="false"
@@ -41,92 +39,69 @@ const scopes = ref(getCustomScope($helpdesk.user.scope));
           <Avatar class="mr-4" icon="pi pi-user" size="large" />
           <div>
             <p class="m-0 font-bold">
-              {{ $helpdesk?.user?.fullname }}
+              {{ user?.fullname }}
             </p>
             <p class="line-height-3 text-surface-500 m-0">
-              {{ $helpdesk?.user?.email }}
+              {{ user?.email }}
             </p>
           </div>
         </div>
       </div>
     </template>
 
-    <div class="flex items-center">
-      <div class="flex flex-wrap">
-        <div class="w-full shrink-0 p-4 text-center md:w-2/5">
-          <Avatar
-            v-if="$helpdesk?.user?.logo"
-            class="h-16 w-16"
-            image="/img/user-logo.png"
-            shape="circle"
-          />
-          <div v-else class="flex flex-col items-center justify-center p-3">
-            <i class="pi pi-cloud-upload text-surface-500 text-4xl!" />
-            <p class="text-surface-500 mt-6 mb-0 text-sm">
-              Щоб завантажити, перетягніть логотип сюди
+    <div class="flex flex-1 flex-col gap-4 px-2 py-6">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-y-1">
+          <p class="text-muted-color text-xs font-medium tracking-wide uppercase">
+            Прізвище та ім'я
+          </p>
+          <p class="text-primary-500 text-xl font-bold">{{ user.fullname || '-' }}</p>
+        </div>
+
+        <div class="flex flex-row flex-wrap gap-4">
+          <div class="flex min-w-[calc(50%-0.5rem)] flex-1 flex-col gap-y-1">
+            <p class="text-muted-color text-xs font-medium tracking-wide uppercase">
+              Електронна пошта
             </p>
+            <p class="text-base">{{ user.email || '-' }}</p>
+          </div>
+
+          <div class="flex min-w-[calc(50%-0.5rem)] flex-1 flex-col gap-y-1">
+            <p class="text-muted-color text-xs font-medium tracking-wide uppercase">
+              Номер телефону
+            </p>
+            <p class="text-base">{{ user.phone || '-' }}</p>
           </div>
         </div>
+      </div>
 
-        <div class="w-full space-y-4 p-4 md:w-3/5">
-          <p class="text-lg font-bold">
-            Повне ім'я :
-            <span class="">{{ $helpdesk?.user?.fullname }}</span>
-          </p>
-          <p class="text-lg font-bold">
-            Електронна адреса :
-            <span class="">{{ $helpdesk?.user?.email }}</span>
-          </p>
-          <p class="text-lg font-bold">
-            Телефон :
-            <span class="">{{ $helpdesk?.user?.phone }}</span>
-          </p>
+      <Divider type="dashed" />
+
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-y-1">
+            <p class="text-muted-color text-xs font-medium tracking-wide uppercase">Поточна роль</p>
+            <p class="text-base font-medium">{{ userRole.key }}</p>
+          </div>
+          <Tag :value="userRole.label" />
         </div>
 
-        <div class="flex max-h-100 w-full">
-          <DataTable
-            v-model:value="scopes"
-            class="w-full overflow-x-auto"
-            responsiveLayout="scroll"
-            rowHover
-            scrollable
-            scrollHeight="flex"
-          >
-            <template #empty>
-              <div class="text-center">
-                <h5>Набір дозволів не знайдено</h5>
-              </div>
-            </template>
-
-            <Column class="font-bold" field="scope" frozen header="Дозволи">
-              <template #body="slotProps">
-                {{ slotProps.data.comment }}
-              </template>
-            </Column>
-
-            <Column
-              v-for="col of columns"
-              :key="col.field"
-              class="text-center!"
-              :field="col.field"
-              :header="col.header"
-              headerClass="text-center!"
-            >
-              <template #body="{ data, field }">
-                <i
-                  v-if="data[field] !== undefined"
-                  class="pi"
-                  :class="
-                    data[field]
-                      ? 'pi-check-circle text-green-500'
-                      : 'pi-minus-circle text-surface-500'
-                  "
-                />
-                <span v-else class="text-surface-500">-</span>
-              </template>
-            </Column>
-          </DataTable>
+        <div class="flex flex-col gap-y-1">
+          <p class="text-muted-color text-xs font-medium tracking-wide uppercase">Опис ролі</p>
+          <p class="text-base">
+            {{ userRole.comment }}
+          </p>
         </div>
+      </div>
+
+      <Divider type="dashed" />
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <AppIcon :path="mdiShieldAccountOutline" :size="20" />
+          <span class="text-lg font-medium uppercase">Права доступу</span>
+        </div>
+        <Tag :value="`Надано ${userScopeLength} дозволів`" />
       </div>
     </div>
   </Dialog>
