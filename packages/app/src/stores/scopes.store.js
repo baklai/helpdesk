@@ -48,6 +48,10 @@ for (let i = 0; i < SCOPE_DEFINITIONS.length; i++) {
 }
 
 export const useScopeStore = defineStore('scope', () => {
+  function count() {
+    return ACTION_DEFINITIONS.length * SCOPE_DEFINITIONS.length;
+  }
+
   function serialize(mask) {
     return mask.toString();
   }
@@ -112,12 +116,12 @@ export const useScopeStore = defineStore('scope', () => {
     });
   }
 
-  function getMaskFromRows(rows = []) {
+  function getMaskFromRows(scopes = []) {
     let mask = 0n;
-    for (const row of rows) {
+    for (const scope of scopes) {
       for (const action of ACTION_DEFINITIONS) {
-        if (row[action.key]) {
-          const bit = BIT_MAP.get(`${row.scope}:${action.key}`);
+        if (scope[action.key]) {
+          const bit = BIT_MAP.get(`${scope.key}:${action.key}`);
           if (bit) mask |= bit;
         }
       }
@@ -128,6 +132,7 @@ export const useScopeStore = defineStore('scope', () => {
   return {
     SCOPE_DEFINITIONS,
     ACTION_DEFINITIONS,
+    count,
     serialize,
     deserialize,
     toList,

@@ -150,7 +150,11 @@ export class ReportsService {
 
     try {
       const updated = await this.reportModel
-        .findByIdAndUpdate(id, { $set: { ...input, creator: user.id } }, { new: true })
+        .findByIdAndUpdate(
+          id,
+          { $set: { ...input, creator: user.id } },
+          { returnDocument: 'after' }
+        )
         .exec();
 
       if (!updated) {

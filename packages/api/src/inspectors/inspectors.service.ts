@@ -32,7 +32,7 @@ export class InspectorsService {
         .findOneAndUpdate(
           { ipaddress },
           { $set: { ...input, ipaddress } },
-          { new: true, upsert: true }
+          { returnDocument: 'after', upsert: true }
         )
         .exec();
 

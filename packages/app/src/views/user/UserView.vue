@@ -8,6 +8,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { FIND_ALL_USERS, FIND_ONE_USER, REMOVE_ONE_USER } from '@/graphql/apollo.gql';
+import { useScopeStore } from '@/stores/scopes.store';
 
 const toast = useToast();
 const router = useRouter();
@@ -28,6 +29,10 @@ const docs = computed(() => result.value?.users?.docs || []);
 const limit = computed(() => result.value?.users?.limit || 10);
 const offset = computed(() => result.value?.users?.offset || 0);
 const totalDocs = computed(() => result.value?.users?.totalDocs || 0);
+
+const { count, getScopeLength } = useScopeStore();
+
+const scopeCount = computed(() => count());
 
 const refMenu = ref();
 
@@ -147,7 +152,7 @@ const columns = ref([
         return (
           <Tag
             class="bg-surface-500/20! px-6 text-base! font-normal! text-black! dark:text-white!"
-            value={value ? `${value?.length} / ???` : '-'}
+            value={value ? `${getScopeLength(value)} / ${scopeCount.value}` : '-'}
           />
         );
       }

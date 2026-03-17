@@ -12,8 +12,8 @@ import * as yup from 'yup';
 import InputPasswordField from '@/components/fields/InputPasswordField.vue';
 import InputTextField from '@/components/fields/InputTextField.vue';
 import SelectButtonField from '@/components/fields/SelectButtonField.vue';
+import TableScopeField from '@/components/fields/TableScopeField.vue';
 import UserPartial from '@/components/partials/UserPartial.vue';
-import ScopeDataTable from '@/components/tables/ScopeDataTable.vue';
 import { USER_ROLES, USER_STATUS } from '@/constants/ui.const';
 import { useScopeStore } from '@/stores/scopes.store';
 
@@ -37,7 +37,7 @@ const { errors, handleSubmit, controlledValues, values, setValues } = useForm({
     email: yup.string().email('Невірний формат email').required('Потрібно вказати значення'),
     status: yup.string().required('Потрібно вказати значення'),
     role: yup.string().required('Потрібно вказати значення'),
-    scope: yup.string()
+    scope: yup.array()
   }),
   initialValues: {
     ...props.initialValues,
@@ -140,7 +140,7 @@ const panels = [
     icon: mdiAccountKeyOutline,
     items: [
       {
-        component: ScopeDataTable,
+        component: TableScopeField,
         name: 'scope'
       }
     ]

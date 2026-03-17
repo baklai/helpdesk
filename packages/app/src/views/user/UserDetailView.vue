@@ -14,7 +14,7 @@ import NotFoundView from '@/views/error/NotFoundView.vue';
 const route = useRoute();
 const router = useRouter();
 
-const { ACTION_DEFINITIONS, getCustomScope, getScopeLength } = useScopeStore();
+const { getCustomScope, getScopeLength } = useScopeStore();
 
 const { result, loading } = useQuery(
   FIND_ONE_USER,
@@ -170,41 +170,7 @@ const handleEdit = () => router.push({ name: 'user-edit', params: { id: route.pa
             <Tag severity="secondary" :value="`${userScopeLength} дозволів`" />
           </div>
 
-          <DataTable
-            class="min-w-full overflow-x-auto"
-            responsiveLayout="scroll"
-            rowHover
-            scrollable
-            scrollHeight="flex"
-            :value="userScopes"
-          >
-            <template #empty>
-              <div class="text-center">
-                <h5>Записів не знайдено</h5>
-              </div>
-            </template>
-
-            <Column class="font-bold!" field="scope" frozen header="">
-              <template #body="{ data }">
-                {{ data.comment }}
-              </template>
-            </Column>
-
-            <Column
-              v-for="col of ACTION_DEFINITIONS"
-              :key="col.key"
-              class="text-center!"
-              :field="col.key"
-              headerClass="text-center"
-            >
-              <template #header>
-                <p class="w-full text-center">{{ col.comment }}</p>
-              </template>
-              <template #body="{ data, field }">
-                <Checkbox v-model="data[field]" binary :indeterminate="!data[field]" readonly />
-              </template>
-            </Column>
-          </DataTable>
+          <SCOPEDataTable readonly :value="userScopes" />
         </div>
       </div>
     </div>

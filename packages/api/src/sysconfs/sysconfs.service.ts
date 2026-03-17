@@ -13,7 +13,11 @@ export class SysConfsService {
   async upsert(input: UpsertSysConfInput): Promise<SysConfEntity> {
     try {
       const result = await this.sysConfModel
-        .findOneAndUpdate({ key: input.key }, { $set: input }, { new: true, upsert: true })
+        .findOneAndUpdate(
+          { key: input.key },
+          { $set: input },
+          { returnDocument: 'after', upsert: true }
+        )
         .exec();
 
       return result;

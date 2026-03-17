@@ -95,22 +95,17 @@ export class UsersService extends BaseCrudService<
     }
 
     try {
+      const updateData = { ...input };
+
+      if (input?.password) {
+        updateData.password = await bcrypt.hash(
+          input.password,
+          Number(this.configService.get<number>('BCRYPT_SALT'))
+        );
+      }
+
       const updatedUser = await this.userModel
-        .findByIdAndUpdate(
-          id,
-          {
-            $set: input?.password
-              ? {
-                  ...input,
-                  password: await bcrypt.hash(
-                    input.password,
-                    Number(this.configService.get<number>('BCRYPT_SALT'))
-                  )
-                }
-              : input
-          },
-          { new: true }
-        )
+        .findByIdAndUpdate(id, { $set: updateData }, { returnDocument: 'after' })
         .exec();
 
       if (!updatedUser) {

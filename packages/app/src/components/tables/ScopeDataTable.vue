@@ -1,37 +1,20 @@
 <script setup>
-import { useFormContext } from 'vee-validate';
-import { ref } from 'vue';
+import { useScopeStore } from '@/stores/scopes.store';
 
-defineOptions({
-  inheritAttrs: false
+defineProps({
+  readonly: { type: Boolean, default: false }
 });
 
-const props = defineProps({
-  name: { type: String, required: true }
-});
-
-const { defineField } = useFormContext();
-const [value, attrs] = defineField(props.name);
-
-const columns = ref([
-  { field: 'create', header: 'Створити' },
-  { field: 'read', header: 'Читати' },
-  { field: 'update', header: 'Оновити' },
-  { field: 'delete', header: 'Видалити' },
-  { field: 'notice', header: 'Повідомлення' }
-]);
+const { ACTION_DEFINITIONS } = useScopeStore();
 </script>
 
 <template>
   <DataTable
-    v-bind="attrs"
-    v-model="value"
     class="min-w-full overflow-x-auto"
     responsiveLayout="scroll"
     rowHover
     scrollable
     scrollHeight="flex"
-    :value="value"
   >
     <template #empty>
       <div class="text-center">
@@ -39,23 +22,23 @@ const columns = ref([
       </div>
     </template>
 
-    <Column class="font-bold" field="scope" filterField="scope" frozen header="">
+    <Column class="font-bold" field="scope" frozen header="">
       <template #body="{ data }">
         {{ data.comment }}
       </template>
     </Column>
 
-    <Column
-      v-for="col of columns"
-      :key="col.field"
-      class="text-center"
-      :field="col.field"
-      :header="col.header"
-      headerClass="text-center"
-    >
+    <Column v-for="col of ACTION_DEFINITIONS" :key="col.key" class="text-center!" :field="col.key">
+      <template #header>
+        <p class="w-full text-center">{{ col.comment }}</p>
+      </template>
       <template #body="{ data, field }">
-        <Checkbox v-if="data[field] !== undefined" v-model="data[field]" :binary="true" />
-        <span v-else class="text-surface-500">-</span>
+        <Checkbox
+          v-model="data[field]"
+          :binary="true"
+          :indeterminate="!data[field]"
+          :readonly="readonly"
+        />
       </template>
     </Column>
   </DataTable>
