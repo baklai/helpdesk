@@ -169,7 +169,7 @@ const handleExecute = async item => {
 
     <AppLoading v-if="loading" />
 
-    <div v-else class="flex flex-wrap gap-4 overflow-y-auto">
+    <div v-else-if="reports?.length > 0" class="flex flex-wrap gap-4 overflow-y-auto">
       <Card
         v-for="item in reports"
         :key="item.id"
@@ -237,6 +237,20 @@ const handleExecute = async item => {
           </div>
         </template>
       </Card>
+    </div>
+
+    <div v-else class="flex h-full w-full items-stretch justify-center text-center">
+      <div class="m-auto flex flex-col gap-2">
+        <i class="pi pi-filter-slash text-surface-500 text-7xl!"></i>
+        <h5 class="text-2xl font-semibold">Записів не знайдено</h5>
+        <p class="text-surface-500 text-base">Спробуйте змінити пошукові запити у фільтрі</p>
+        <Button
+          class="m-auto my-4 w-max"
+          icon="pi pi-filter-slash text-sm"
+          label="Очистити фільтри"
+          @click="filter = null"
+        />
+      </div>
     </div>
   </div>
 </template>
