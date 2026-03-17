@@ -7,10 +7,9 @@ import * as yup from 'yup';
 import { useAuthStore } from '@/stores/auth.store';
 
 const toast = useToast();
-
 const auth = useAuthStore();
 
-const isSubmitSingup = ref(false);
+const loading = ref(false);
 
 const { errors, handleSubmit, defineField } = useForm({
   validationSchema: yup.object({
@@ -35,8 +34,8 @@ const [phone, phoneAttrs] = defineField('phone');
 
 const onSignup = handleSubmit(async values => {
   try {
+    loading.value = true;
     await auth.signup(values);
-    isSubmitSingup.value = true;
     toast.add({
       severity: 'success',
       summary: 'Інформація',
@@ -44,13 +43,14 @@ const onSignup = handleSubmit(async values => {
       life: 5000
     });
   } catch (err) {
-    isSubmitSingup.value = false;
     toast.add({
       severity: 'warn',
       summary: 'Попередження',
       detail: err.message,
       life: 5000
     });
+  } finally {
+    loading.value = false;
   }
 });
 </script>
@@ -63,7 +63,6 @@ const onSignup = handleSubmit(async values => {
     </div>
 
     <form
-      v-if="!isSubmitSingup"
       v-autocomplete-off
       class="flex w-100 flex-col justify-center gap-4"
       @submit.prevent="onSignup"
@@ -166,7 +165,7 @@ const onSignup = handleSubmit(async values => {
         </small>
       </div>
 
-      <Button icon="pi pi-user-plus" label="Зареєструватися" type="submit" />
+      <Button icon="pi pi-user-plus" label="Зареєструватися" :loading="loading" type="submit" />
 
       <p class="text-surface-500 text-center text-sm">Зареєструйтесь, або війдіть у додаток</p>
 

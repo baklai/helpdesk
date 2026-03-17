@@ -1,6 +1,7 @@
 <script setup>
 import { useToast } from 'primevue/usetoast';
 import { useForm } from 'vee-validate';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import * as yup from 'yup';
 
@@ -32,8 +33,12 @@ const [email, emailAttrs] = defineField('email');
 const [password, passwordAttrs] = defineField('password');
 const [remember, rememberAttrs] = defineField('remember');
 
+const loading = ref(false);
+
 const onSignin = handleSubmit(async values => {
   try {
+    loading.value = false;
+
     await auth.signin(values);
 
     toast.add({
@@ -51,6 +56,8 @@ const onSignin = handleSubmit(async values => {
       detail: err.message,
       life: 3000
     });
+  } finally {
+    loading.value = true;
   }
 });
 
@@ -155,6 +162,7 @@ const onChangeRemember = () => {
           :disabled="submitCount > SUBMIT_COUNT"
           icon="pi pi-sign-in"
           label="Увійти"
+          :loading="loading"
           type="submit"
         />
         <small
