@@ -20,6 +20,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { REPORT } from 'src/common/scope/user.scope';
 import type { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { UserShortEntity } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -51,7 +52,7 @@ export class ReportsResolver {
 
   @Mutation(() => ReportEntity, { name: 'createOneReport', description: 'Створити новий звіт' })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ report: ['create'] })
+  @Scope(REPORT.CREATE)
   async create(
     @JwtProfile() user: JwtPayload,
     @Args('input') input: CreateReportInput
@@ -64,7 +65,7 @@ export class ReportsResolver {
     description: 'Отримати список усіх звітів'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ report: ['read'] })
+  @Scope(REPORT.READ)
   async findAll(): Promise<ReportEntity[]> {
     return this.reportsService.findAll();
   }
@@ -74,7 +75,7 @@ export class ReportsResolver {
     description: 'Отримати звіт за ідентифікатором'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ report: ['read'] })
+  @Scope(REPORT.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<ReportEntity> {
     return this.reportsService.findOneById(id);
   }
@@ -84,7 +85,7 @@ export class ReportsResolver {
     description: 'Виконати звіт за ідентифікатором — повертає масив рядків таблиці'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ report: ['read'] })
+  @Scope(REPORT.READ)
   async executeById(@Args('id', { type: () => ID }) id: string): Promise<Record<string, any>[]> {
     return this.reportsService.executeById(id);
   }
@@ -94,7 +95,7 @@ export class ReportsResolver {
     description: 'Отримати список доступних колекцій та їхніх полів для конструктора звітів'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ report: ['read'] })
+  @Scope(REPORT.READ)
   getAvailableCollections(): ReportCollectionField[] {
     return this.reportsService.getAvailableCollections();
   }
@@ -104,7 +105,7 @@ export class ReportsResolver {
     description: 'Оновити дані звіту за ідентифікатором'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ report: ['update'] })
+  @Scope(REPORT.UPDATE)
   async updateOneById(
     @JwtProfile() user: JwtPayload,
     @Args('id', { type: () => ID }) id: string,
@@ -118,7 +119,7 @@ export class ReportsResolver {
     description: 'Видалити звіт за ідентифікатором'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ report: ['delete'] })
+  @Scope(REPORT.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<ReportEntity> {
     return this.reportsService.removeOneById(id);
   }

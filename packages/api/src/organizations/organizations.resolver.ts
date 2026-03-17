@@ -7,6 +7,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { ORGANIZATION } from 'src/common/scope/user.scope';
 
 import { CreateOrganizationInput } from './dto/create-organization.input';
 import { UpdateOrganizationInput } from './dto/update-organization.input';
@@ -23,7 +24,7 @@ export class OrganizationsResolver {
     description: 'Створити нову організацію'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ organization: ['create'] })
+  @Scope(ORGANIZATION.CREATE)
   async create(@Args('input') input: CreateOrganizationInput): Promise<OrganizationEntity> {
     return this.organizationsService.create(input);
   }
@@ -33,7 +34,7 @@ export class OrganizationsResolver {
     description: 'Отримати список усіх організацій'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ organization: ['read'] })
+  @Scope(ORGANIZATION.READ)
   async findAll(): Promise<OrganizationEntity[]> {
     return this.organizationsService.findAll();
   }
@@ -43,7 +44,7 @@ export class OrganizationsResolver {
     description: 'Отримати організацію за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ organization: ['read'] })
+  @Scope(ORGANIZATION.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<OrganizationEntity> {
     return this.organizationsService.findOneById(id);
   }
@@ -53,7 +54,7 @@ export class OrganizationsResolver {
     description: 'Оновити дані організації за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ organization: ['update'] })
+  @Scope(ORGANIZATION.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateOrganizationInput
@@ -66,7 +67,7 @@ export class OrganizationsResolver {
     description: 'Видалити організацію за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ organization: ['delete'] })
+  @Scope(ORGANIZATION.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<OrganizationEntity> {
     return this.organizationsService.removeOneById(id);
   }

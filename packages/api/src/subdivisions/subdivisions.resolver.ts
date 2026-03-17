@@ -7,6 +7,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { SUBDIVISION } from 'src/common/scope/user.scope';
 
 import { CreateSubdivisionInput } from './dto/create-subdivision.input';
 import { UpdateSubdivisionInput } from './dto/update-subdivision.input';
@@ -23,7 +24,7 @@ export class SubdivisionsResolver {
     description: 'Створити новий підрозділ'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ subdivision: ['create'] })
+  @Scope(SUBDIVISION.CREATE)
   async create(@Args('input') input: CreateSubdivisionInput): Promise<SubdivisionEntity> {
     return this.subdivisionsService.create(input);
   }
@@ -33,7 +34,7 @@ export class SubdivisionsResolver {
     description: 'Отримати список усіх підрозділів'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ subdivision: ['read'] })
+  @Scope(SUBDIVISION.READ)
   async findAll(): Promise<SubdivisionEntity[]> {
     return this.subdivisionsService.findAll();
   }
@@ -43,7 +44,7 @@ export class SubdivisionsResolver {
     description: 'Отримати підрозділ за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ subdivision: ['read'] })
+  @Scope(SUBDIVISION.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<SubdivisionEntity> {
     return this.subdivisionsService.findOneById(id);
   }
@@ -53,7 +54,7 @@ export class SubdivisionsResolver {
     description: 'Оновити дані підрозділу за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ subdivision: ['update'] })
+  @Scope(SUBDIVISION.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateSubdivisionInput
@@ -66,7 +67,7 @@ export class SubdivisionsResolver {
     description: 'Видалити підрозділ за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ subdivision: ['delete'] })
+  @Scope(SUBDIVISION.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<SubdivisionEntity> {
     return this.subdivisionsService.removeOneById(id);
   }

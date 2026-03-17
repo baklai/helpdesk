@@ -8,6 +8,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { USER } from 'src/common/scope/user.scope';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -21,7 +22,7 @@ export class UsersResolver {
 
   @Mutation(() => UserEntity, { name: 'createOneUser', description: 'Створити нового користувача' })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ user: ['create'] })
+  @Scope(USER.CREATE)
   async create(@Args('input') input: CreateUserInput): Promise<UserEntity> {
     return this.usersService.create(input);
   }
@@ -31,7 +32,7 @@ export class UsersResolver {
     description: 'Отримати список усіх користувачів'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ user: ['read'] })
+  @Scope(USER.READ)
   async findAll(@Args() args: PaginateArgs): Promise<UserPaginated> {
     return this.usersService.findAllPaginated(args);
   }
@@ -50,7 +51,7 @@ export class UsersResolver {
     description: 'Отримати користувача за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ user: ['read'] })
+  @Scope(USER.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<UserEntity> {
     return this.usersService.findOneById(id);
   }
@@ -60,7 +61,7 @@ export class UsersResolver {
     description: 'Оновити дані користувача за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER)
-  @Scope({ user: ['update'] })
+  @Scope(USER.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateUserInput
@@ -73,7 +74,7 @@ export class UsersResolver {
     description: 'Видалити користувача за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN)
-  @Scope({ user: ['delete'] })
+  @Scope(USER.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<UserShortEntity> {
     return this.usersService.removeOneById(id);
   }

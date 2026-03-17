@@ -7,6 +7,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { LOCATION } from 'src/common/scope/user.scope';
 
 import { CreateLocationInput } from './dto/create-location.input';
 import { UpdateLocationInput } from './dto/update-location.input';
@@ -23,7 +24,7 @@ export class LocationsResolver {
     description: 'Створити нову локацію'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ location: ['create'] })
+  @Scope(LOCATION.CREATE)
   async create(@Args('input') input: CreateLocationInput): Promise<LocationEntity> {
     return this.locationsService.create(input);
   }
@@ -33,7 +34,7 @@ export class LocationsResolver {
     description: 'Отримати список усіх локацій'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ location: ['read'] })
+  @Scope(LOCATION.READ)
   async findAll(): Promise<LocationEntity[]> {
     return this.locationsService.findAll();
   }
@@ -43,7 +44,7 @@ export class LocationsResolver {
     description: 'Пошук локації за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ location: ['read'] })
+  @Scope(LOCATION.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<LocationEntity> {
     return this.locationsService.findOneById(id);
   }
@@ -53,7 +54,7 @@ export class LocationsResolver {
     description: 'Оновити дані локації за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ location: ['update'] })
+  @Scope(LOCATION.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateLocationInput
@@ -66,7 +67,7 @@ export class LocationsResolver {
     description: 'Видалити локацію за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ location: ['delete'] })
+  @Scope(LOCATION.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<LocationEntity> {
     return this.locationsService.removeOneById(id);
   }

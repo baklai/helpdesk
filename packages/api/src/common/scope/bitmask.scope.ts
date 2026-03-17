@@ -6,11 +6,13 @@ export type { ScopeAction, ScopeResource };
 
 const BIT_MAP = new Map<string, bigint>();
 
-for (const [resource, entry] of Object.entries(SCOPE_REGISTRY)) {
-  for (const [action, offset] of Object.entries(SCOPE_ACTION_OFFSET)) {
-    BIT_MAP.set(`${resource}:${action}`, 1n << BigInt(entry.bit + offset));
+(Object.entries(SCOPE_REGISTRY) as [ScopeResource, { bit: bigint }][]).forEach(
+  ([resource, entry]) => {
+    (Object.entries(SCOPE_ACTION_OFFSET) as [ScopeAction, bigint][]).forEach(([action, offset]) => {
+      BIT_MAP.set(`${resource}:${action}`, 1n << (entry.bit + offset));
+    });
   }
-}
+);
 
 export function serializeScopeMask(mask: bigint): string {
   return mask.toString();
@@ -76,6 +78,12 @@ export function hasAnyScope(userMask: bigint, required: ScopeInput): boolean {
   const requiredMask = encodeScopeMask(required);
   if (requiredMask === 0n) return true;
   return (userMask & requiredMask) !== 0n;
+}
+
+export function hasScopeList(userMask: bigint, scopes: string[]): boolean {
+  const requiredMask = encodeScopeList(scopes);
+  if (requiredMask === 0n) return true;
+  return (userMask & requiredMask) === requiredMask;
 }
 
 export function getScopeMask(resource: ScopeResource, action: ScopeAction): bigint {

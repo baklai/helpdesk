@@ -9,6 +9,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { IPADDRESS } from 'src/common/scope/user.scope';
 import { DepartmentsService } from 'src/departments/departments.service';
 import { DepartmentEntity } from 'src/departments/entities/department.entity';
 import { DevicesService } from 'src/devices/devices.service';
@@ -45,7 +46,7 @@ export class IpaddressesResolver {
     description: 'Створити новий запис IP-адреси'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ ipaddress: ['create'] })
+  @Scope(IPADDRESS.CREATE)
   async create(@Args('input') input: CreateIpaddressInput): Promise<IpaddressEntity> {
     return this.ipaddressesService.create(input);
   }
@@ -55,7 +56,7 @@ export class IpaddressesResolver {
     description: 'Отримати список IP-адрес із пагінацією'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ ipaddress: ['read'] })
+  @Scope(IPADDRESS.READ)
   async findAll(@Args() args: PaginateArgs): Promise<IpaddressPaginated> {
     return this.ipaddressesService.findAllPaginated(args);
   }
@@ -65,7 +66,7 @@ export class IpaddressesResolver {
     description: 'Отримати запис IP-адреси за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ ipaddress: ['read'] })
+  @Scope(IPADDRESS.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string) {
     return this.ipaddressesService.findOneById(id);
   }
@@ -75,7 +76,7 @@ export class IpaddressesResolver {
     description: 'Отримати запис IP-адреси за IP-адресою'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ ipaddress: ['read'] })
+  @Scope(IPADDRESS.READ)
   async findOneByIP(@Args('ip', { type: () => String }) ip: string) {
     return this.ipaddressesService.findOneByIP(ip);
   }
@@ -85,7 +86,7 @@ export class IpaddressesResolver {
     description: 'Оновити дані IP-адреси за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ ipaddress: ['update'] })
+  @Scope(IPADDRESS.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateIpaddressInput
@@ -98,7 +99,7 @@ export class IpaddressesResolver {
     description: 'Видалити запис IP-адреси за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ ipaddress: ['delete'] })
+  @Scope(IPADDRESS.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string) {
     return this.ipaddressesService.removeOneById(id);
   }

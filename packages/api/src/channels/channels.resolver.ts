@@ -8,6 +8,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { CHANNEL } from 'src/common/scope/user.scope';
 
 import { ChannelsService } from './channels.service';
 import { CreateChannelInput } from './dto/create-channel.input';
@@ -21,7 +22,7 @@ export class ChannelsResolver {
 
   @Mutation(() => ChannelEntity, { name: 'createOneChannel', description: 'Створити новий канал' })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ channel: ['create'] })
+  @Scope(CHANNEL.CREATE)
   async create(@Args('input') input: CreateChannelInput): Promise<ChannelEntity> {
     return this.channelsService.create(input);
   }
@@ -31,7 +32,7 @@ export class ChannelsResolver {
     description: 'Отримати список усіх каналів'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ channel: ['read'] })
+  @Scope(CHANNEL.READ)
   async findAll(@Args() args: PaginateArgs): Promise<ChannelPaginated> {
     return this.channelsService.findAllPaginated(args);
   }
@@ -41,7 +42,7 @@ export class ChannelsResolver {
     description: 'Пошук каналу за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ channel: ['read'] })
+  @Scope(CHANNEL.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<ChannelEntity> {
     return this.channelsService.findOneById(id);
   }
@@ -51,7 +52,7 @@ export class ChannelsResolver {
     description: 'Оновити дані каналу за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ channel: ['update'] })
+  @Scope(CHANNEL.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateChannelInput
@@ -64,7 +65,7 @@ export class ChannelsResolver {
     description: 'Видалити канал за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ channel: ['delete'] })
+  @Scope(CHANNEL.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<ChannelEntity> {
     return this.channelsService.removeOneById(id);
   }

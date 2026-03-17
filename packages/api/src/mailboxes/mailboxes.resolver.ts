@@ -9,6 +9,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { MAILBOX } from 'src/common/scope/user.scope';
 import { DepartmentsService } from 'src/departments/departments.service';
 import { DepartmentEntity } from 'src/departments/entities/department.entity';
 import { IpaddressEntity } from 'src/ipaddresses/entities/ipaddress.entity';
@@ -40,7 +41,7 @@ export class MailboxesResolver {
     description: 'Створити нову поштову скриньку'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ mailbox: ['create'] })
+  @Scope(MAILBOX.CREATE)
   async create(@Args('input') input: CreateMailboxInput): Promise<MailboxEntity> {
     return this.mailboxesService.create(input);
   }
@@ -50,7 +51,7 @@ export class MailboxesResolver {
     description: 'Отримати список поштових скриньок із пагінацією'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ mailbox: ['read'] })
+  @Scope(MAILBOX.READ)
   async findAll(@Args() args: PaginateArgs): Promise<MailboxPaginated> {
     return this.mailboxesService.findAllPaginated(args);
   }
@@ -60,7 +61,7 @@ export class MailboxesResolver {
     description: 'Отримати поштову скриньку за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ mailbox: ['read'] })
+  @Scope(MAILBOX.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<MailboxEntity> {
     return this.mailboxesService.findOneById(id);
   }
@@ -70,7 +71,7 @@ export class MailboxesResolver {
     description: 'Оновити дані поштової скриньки за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ mailbox: ['update'] })
+  @Scope(MAILBOX.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateMailboxInput
@@ -83,7 +84,7 @@ export class MailboxesResolver {
     description: 'Видалити запис поштової скриньки за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ mailbox: ['delete'] })
+  @Scope(MAILBOX.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<MailboxEntity> {
     return this.mailboxesService.removeOneById(id);
   }

@@ -10,24 +10,26 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 
 import { SCOPE_KEY } from 'src/common/decorators/user-scope.decorator';
 import { UserRole } from 'src/common/enums/user-role.enum';
-import { type ScopeInput, UserScope } from 'src/common/scope/user.scope';
+import { UserScope } from 'src/common/scope/user.scope';
 
 @Injectable()
 export class UserScopeGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const required = this.reflector.getAllAndOverride<ScopeInput>(SCOPE_KEY, [
+    const requiredScopes = this.reflector.getAllAndOverride<string[]>(SCOPE_KEY, [
       context.getHandler(),
       context.getClass()
     ]);
 
-    if (!required || Object.keys(required).length === 0) {
+    if (!requiredScopes || requiredScopes.length === 0) {
       return true;
     }
 
     const ctx = GqlExecutionContext.create(context);
-    const { user } = ctx.getContext().req as { user?: { role?: string; scope?: unknown } };
+    const { user } = ctx.getContext().req as {
+      user?: { role?: string; scope?: unknown };
+    };
 
     if (!user) {
       throw new UnauthorizedException('Користувач не авторизований');
@@ -40,7 +42,7 @@ export class UserScopeGuard implements CanActivate {
     const rawScope = typeof user.scope === 'string' ? user.scope : undefined;
     const userMask = UserScope.deserialize(rawScope);
 
-    if (!UserScope.has(userMask, required)) {
+    if (!UserScope.hasList(userMask, requiredScopes)) {
       throw new ForbiddenException('Недостатньо повноважень для виконання цієї дії');
     }
 

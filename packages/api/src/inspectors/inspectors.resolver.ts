@@ -9,6 +9,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { INSPECTOR } from 'src/common/scope/user.scope';
 
 import { CreateInspectorInput } from './dto/create-inspector.input';
 import { InspectorEntity, InspectorPaginated } from './entities/inspector.entity';
@@ -32,7 +33,7 @@ export class InspectorsResolver {
   })
   @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ inspector: ['read'] })
+  @Scope(INSPECTOR.READ)
   async findAll(@Args() args: PaginateArgs): Promise<InspectorPaginated> {
     return this.inspectorsService.findAll(args);
   }
@@ -43,7 +44,7 @@ export class InspectorsResolver {
   })
   @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ inspector: ['read'] })
+  @Scope(INSPECTOR.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<InspectorEntity> {
     return this.inspectorsService.findOneById(id);
   }
@@ -54,7 +55,7 @@ export class InspectorsResolver {
   })
   @UseGuards(AccessTokenGuard, UserStatusGuard, UserRoleGuard)
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ inspector: ['delete'] })
+  @Scope(INSPECTOR.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<InspectorEntity> {
     return this.inspectorsService.removeOneById(id);
   }

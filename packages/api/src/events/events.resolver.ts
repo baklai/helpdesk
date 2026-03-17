@@ -7,6 +7,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { EVENT } from 'src/common/scope/user.scope';
 
 import { CreateEventInput } from './dto/create-event.input';
 import { EventArgs } from './dto/event.args';
@@ -21,7 +22,7 @@ export class EventsResolver {
 
   @Mutation(() => EventEntity, { name: 'createOneEvent', description: 'Створити нову подію' })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ event: ['create'] })
+  @Scope(EVENT.CREATE)
   async create(@Args('input') input: CreateEventInput): Promise<EventEntity> {
     return this.eventsService.create(input);
   }
@@ -31,7 +32,7 @@ export class EventsResolver {
     description: 'Отримати список подій за вказаний період'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ event: ['read'] })
+  @Scope(EVENT.READ)
   async findAll(@Args() args: EventArgs): Promise<EventEntity[]> {
     return this.eventsService.findAllByDateRange(args);
   }
@@ -41,7 +42,7 @@ export class EventsResolver {
     description: 'Отримати подію за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ event: ['read'] })
+  @Scope(EVENT.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<EventEntity> {
     return this.eventsService.findOneById(id);
   }
@@ -51,7 +52,7 @@ export class EventsResolver {
     description: 'Оновити дані події за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ event: ['update'] })
+  @Scope(EVENT.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateEventInput
@@ -64,7 +65,7 @@ export class EventsResolver {
     description: 'Видалити подію за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ event: ['delete'] })
+  @Scope(EVENT.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<EventEntity> {
     return this.eventsService.removeOneById(id);
   }

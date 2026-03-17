@@ -7,6 +7,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { DEVICE } from 'src/common/scope/user.scope';
 
 import { DevicesService } from './devices.service';
 import { CreateDeviceInput } from './dto/create-device.input';
@@ -20,7 +21,7 @@ export class DevicesResolver {
 
   @Mutation(() => DeviceEntity, { name: 'createOneDevice', description: 'Створити новий пристрій' })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ device: ['create'] })
+  @Scope(DEVICE.CREATE)
   async create(@Args('input') input: CreateDeviceInput): Promise<DeviceEntity> {
     return this.devicesService.create(input);
   }
@@ -30,7 +31,7 @@ export class DevicesResolver {
     description: 'Отримати список усіх пристроїв'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ device: ['read'] })
+  @Scope(DEVICE.READ)
   async findAll(): Promise<DeviceEntity[]> {
     return this.devicesService.findAll();
   }
@@ -40,7 +41,7 @@ export class DevicesResolver {
     description: 'Отримати пристрій за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ device: ['read'] })
+  @Scope(DEVICE.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<DeviceEntity> {
     return this.devicesService.findOneById(id);
   }
@@ -50,7 +51,7 @@ export class DevicesResolver {
     description: 'Оновити дані пристрою за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ device: ['update'] })
+  @Scope(DEVICE.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateDeviceInput
@@ -63,7 +64,7 @@ export class DevicesResolver {
     description: 'Видалити пристрій за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ device: ['delete'] })
+  @Scope(DEVICE.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<DeviceEntity> {
     return this.devicesService.removeOneById(id);
   }

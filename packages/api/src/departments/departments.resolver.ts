@@ -7,6 +7,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { DEPARTMENT } from 'src/common/scope/user.scope';
 
 import { DepartmentsService } from './departments.service';
 import { CreateDepartmentInput } from './dto/create-department.input';
@@ -23,7 +24,7 @@ export class DepartmentsResolver {
     description: 'Створити новий відділ'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ department: ['create'] })
+  @Scope(DEPARTMENT.CREATE)
   async create(@Args('input') input: CreateDepartmentInput): Promise<DepartmentEntity> {
     return this.departmentsService.create(input);
   }
@@ -33,7 +34,7 @@ export class DepartmentsResolver {
     description: 'Отримати список усіх відділів'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ department: ['read'] })
+  @Scope(DEPARTMENT.READ)
   async findAll(): Promise<DepartmentEntity[]> {
     return this.departmentsService.findAll();
   }
@@ -43,7 +44,7 @@ export class DepartmentsResolver {
     description: 'Отримати відділ за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ department: ['read'] })
+  @Scope(DEPARTMENT.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<DepartmentEntity> {
     return this.departmentsService.findOneById(id);
   }
@@ -53,7 +54,7 @@ export class DepartmentsResolver {
     description: 'Оновити дані відділу за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ department: ['update'] })
+  @Scope(DEPARTMENT.UPDATE)
   async updateOneById(
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateDepartmentInput
@@ -66,7 +67,7 @@ export class DepartmentsResolver {
     description: 'Видалити відділ за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ department: ['delete'] })
+  @Scope(DEPARTMENT.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<DepartmentEntity> {
     return this.departmentsService.removeOneById(id);
   }

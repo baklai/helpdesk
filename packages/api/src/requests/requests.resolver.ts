@@ -10,6 +10,7 @@ import { UserRole } from 'src/common/enums/user-role.enum';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { UserRoleGuard } from 'src/common/guards/user-role.guard';
 import { UserStatusGuard } from 'src/common/guards/user-status.guard';
+import { REQUEST } from 'src/common/scope/user.scope';
 import type { JwtPayload } from 'src/common/types/jwt-payload.type';
 import { DepartmentsService } from 'src/departments/departments.service';
 import { DepartmentEntity } from 'src/departments/entities/department.entity';
@@ -47,7 +48,7 @@ export class RequestsResolver {
     description: 'Створити новий запис у журналі заявок'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ request: ['create'] })
+  @Scope(REQUEST.CREATE)
   async create(
     @JwtProfile() user: JwtPayload,
     @Args('input') input: CreateRequestInput
@@ -60,7 +61,7 @@ export class RequestsResolver {
     description: 'Отримати список заявок із пагінацією та фільтрами'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ request: ['read'] })
+  @Scope(REQUEST.READ)
   async findAll(@Args() args: PaginateArgs): Promise<RequestPaginated> {
     return this.requestsService.findAllPaginated(args);
   }
@@ -70,7 +71,7 @@ export class RequestsResolver {
     description: 'Отримати заявку за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT, UserRole.CLIENT)
-  @Scope({ request: ['read'] })
+  @Scope(REQUEST.READ)
   async findOneById(@Args('id', { type: () => ID }) id: string): Promise<RequestEntity> {
     return this.requestsService.findOneById(id);
   }
@@ -80,7 +81,7 @@ export class RequestsResolver {
     description: 'Оновити дані заявки за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ request: ['update'] })
+  @Scope(REQUEST.UPDATE)
   async updateOneById(
     @JwtProfile() user: JwtPayload,
     @Args('id', { type: () => ID }) id: string,
@@ -94,7 +95,7 @@ export class RequestsResolver {
     description: 'Видалити запис заявки за ідентифікатором запису'
   })
   @Role(UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPPORT)
-  @Scope({ request: ['delete'] })
+  @Scope(REQUEST.DELETE)
   async removeOneById(@Args('id', { type: () => ID }) id: string): Promise<RequestEntity> {
     return this.requestsService.removeOneById(id);
   }
