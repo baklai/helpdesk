@@ -366,8 +366,8 @@ const router = createRouter({
               component: () => import('@/views/statistic/MailboxStatisticView.vue'),
               meta: {
                 icon: mdiChartBarStacked,
-                title: 'Статистика пошти',
-                description: 'Електронні скриньки сервісної підтримки'
+                title: 'Статистика сервісу',
+                description: 'Статистика серверу електронної пошти сервісної підтримки'
               }
             },
             {
@@ -376,8 +376,8 @@ const router = createRouter({
               component: () => import('@/views/statistic/RequestStatisticView.vue'),
               meta: {
                 icon: mdiChartBarStacked,
-                title: 'Статистика підтримки',
-                description: 'Статистика сервісної підтримки'
+                title: 'Статистика сервісу',
+                description: 'Статистика журналу заявок сервісної підтримки'
               }
             },
             {
@@ -386,7 +386,7 @@ const router = createRouter({
               component: () => import('@/views/statistic/InspectorStatisticView.vue'),
               meta: {
                 icon: mdiChartBarStacked,
-                title: 'Статистика ПК SysInspector',
+                title: 'Статистика сервісу',
                 description: 'Статистика ПК SysInspector сервісної підтримки'
               }
             }
