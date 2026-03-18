@@ -24,8 +24,8 @@ export default () => {
   return {
     HOST: process.env.HOST || HOST,
     PORT: parseInt(process.env.PORT || '', 10) || PORT,
-    CORS_ORIGIN: process.env.CORS_ORIGIN,
     MONGO_URI: process.env.MONGO_URI,
+    CORS_ORIGIN: process.env.CORS_ORIGIN,
     BCRYPT_SALT: parseInt(process.env.BCRYPT_SALT || '', 10) || BCRYPT_SALT,
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
     JWT_ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN ?? JWT_ACCESS_EXPIRES_IN,

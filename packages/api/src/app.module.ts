@@ -41,19 +41,20 @@ import { SysConfsModule } from './sysconfs/sysconfs.module';
 import { SysLogsModule } from './syslogs/syslogs.module';
 import { SysToolsModule } from './systools/systools.module';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
     ServeStaticModule.forRoot(
       {
         rootPath: join(__dirname, '..', 'app'),
-        serveRoot: '/app',
-        exclude: ['/api', '/api/(.*)']
+        exclude: ['/api', '/api/(.*)'],
+        serveRoot: '/app'
       },
       {
         rootPath: join(__dirname, '..', 'docs'),
-        serveRoot: '/docs',
-        exclude: ['/api', '/api/(.*)']
+        exclude: ['/api', '/api/(.*)'],
+        serveRoot: '/docs'
       }
     ),
     ConfigModule.forRoot({
@@ -101,7 +102,7 @@ import { UsersModule } from './users/users.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/app.graph.gql'),
+      autoSchemaFile: true,
       sortSchema: false,
       debug: process.env.NODE_ENV !== 'production',
       introspection: process.env.NODE_ENV !== 'production',
@@ -145,6 +146,7 @@ import { UsersModule } from './users/users.module';
     StatisticsModule,
     ChannelsModule
   ],
+  controllers: [AppController],
   providers: [
     AppService,
     AppResolver,
