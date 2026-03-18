@@ -22,7 +22,7 @@ import { createRouter, createWebHistory, RouterView } from 'vue-router';
 import { useScopeStore } from '@/stores/scopes.store';
 
 const router = createRouter({
-  history: createWebHistory('/app'),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',

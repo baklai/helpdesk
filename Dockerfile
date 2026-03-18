@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY packages/api/package*.json ./packages/api/
-
 RUN npm install --workspace api
 
 COPY packages/api/ ./packages/api/
@@ -17,7 +16,6 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY packages/app/package*.json ./packages/app/
-
 RUN npm install --workspace app
 
 COPY packages/app/ ./packages/app/
@@ -29,26 +27,29 @@ WORKDIR /app
 
 COPY package*.json ./
 COPY packages/docs/package*.json ./packages/docs/
-
 RUN npm install --workspace docs
+
 COPY packages/docs/ ./packages/docs/
 RUN npm run build --workspace docs
 
-FROM node:${NODE_VERSION}-alpine AS production
+FROM nginx:alpine AS production
 
-ENV TZ=Europe/Kyiv
-WORKDIR /app
-
-COPY --from=build-api /app/packages/api/dist/ ./dist/
-COPY --from=build-api /app/packages/api/package*.json ./ 
-COPY --from=build-api /app/packages/api/tsconfig*.json ./ 
-COPY --from=build-api /app/packages/api/nest-cli.json ./
+WORKDIR /usr/share/nginx/html
 
 COPY --from=build-app /app/packages/app/dist/ ./app/
 COPY --from=build-docs /app/packages/docs/.vitepress/dist/ ./docs/
 
+COPY --from=build-api /app/packages/api/dist/ /app/dist/
+COPY --from=build-api /app/packages/api/package*.json /app/
+COPY --from=build-api /app/packages/api/tsconfig*.json /app/
+COPY --from=build-api /app/packages/api/nest-cli.json /app/
+
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
+WORKDIR /app
+
 RUN npm install --omit=dev
 
-EXPOSE 3000
+EXPOSE 80 3000
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "nginx && node dist/main.js"]

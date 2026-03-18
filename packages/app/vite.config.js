@@ -7,7 +7,7 @@ import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/app/',
+  base: '/',
   plugins: [
     vue(),
     vueJsx(),

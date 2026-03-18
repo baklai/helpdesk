@@ -5,13 +5,11 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { Schema } from 'mongoose';
 import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
 import mongooseAutopopulate from 'mongoose-autopopulate';
 import mongoosePaginate from 'mongoose-paginate-v2';
-import { join } from 'path';
 
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
@@ -41,22 +39,9 @@ import { SysConfsModule } from './sysconfs/sysconfs.module';
 import { SysLogsModule } from './syslogs/syslogs.module';
 import { SysToolsModule } from './systools/systools.module';
 import { UsersModule } from './users/users.module';
-import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot(
-      {
-        rootPath: join(__dirname, '..', 'app'),
-        exclude: ['/api', '/api/(.*)'],
-        serveRoot: '/app'
-      },
-      {
-        rootPath: join(__dirname, '..', 'docs'),
-        exclude: ['/api', '/api/(.*)'],
-        serveRoot: '/docs'
-      }
-    ),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
@@ -146,7 +131,6 @@ import { AppController } from './app.controller';
     StatisticsModule,
     ChannelsModule
   ],
-  controllers: [AppController],
   providers: [
     AppService,
     AppResolver,
