@@ -40,7 +40,7 @@ const navLinks = computed(() => {
     'Системні додатки',
 
     {
-      label: 'Мережева інформація',
+      label: 'Мережеві дані',
       icon: mdiLan,
       items: [...buildLinks(['channels', 'ipaddresses', 'network-statistic'])]
     },
