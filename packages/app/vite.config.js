@@ -26,6 +26,7 @@ export default defineConfig({
     }
   },
   build: {
+    base: '/app/',
     rollupOptions: {
       output: {
         manualChunks: {

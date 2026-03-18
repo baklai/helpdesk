@@ -1,5 +1,5 @@
 const PORT = 3000;
-const HOST = '0.0.0.0';
+const HOST = '127.0.0.1';
 const BCRYPT_SALT = 10;
 const JWT_ACCESS_EXPIRES_IN = '15m';
 const JWT_REFRESH_EXPIRES_IN = '7d';

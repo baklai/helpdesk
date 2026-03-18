@@ -36,8 +36,11 @@ COPY --from=build-api /app/packages/api/package*.json ./
 
 RUN npm install --omit=dev
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 3000
+
+ENV PORT=3000
+ENV HOST=0.0.0.0
 
 CMD ["sh", "-c", "nginx && node dist/main.js"]
