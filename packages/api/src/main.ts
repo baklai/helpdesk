@@ -5,12 +5,27 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import { json, urlencoded } from 'express';
+import { existsSync, readFileSync } from 'fs';
 import helmet from 'helmet';
+import { join } from 'path';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  const keyPath = join(__dirname, '..', 'certs', 'server.key');
+  const certPath = join(__dirname, '..', 'certs', 'server.crt');
+
+  const useHttps = existsSync(keyPath) && existsSync(certPath);
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    ...(useHttps && process.env?.NODE_ENV === 'production'
+      ? {
+          httpsOptions: {
+            key: readFileSync(keyPath),
+            cert: readFileSync(certPath)
+          }
+        }
+      : {}),
     rawBody: true,
     bodyParser: false,
     logger: new ConsoleLogger({
