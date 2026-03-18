@@ -19,8 +19,8 @@
     "mongoose"
   ],
   "engines": {
-    "node": ">=20",
-    "npm": ">=10"
+    "node": ">=24",
+    "npm": ">=11"
   },
   "homepage": "https://github.com/baklai/helpdesk#readme",
   "bugs": {

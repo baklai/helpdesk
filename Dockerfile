@@ -1,4 +1,4 @@
-ARG NODE_VERSION=20.16.0
+ARG NODE_VERSION=24.12.0
 
 FROM node:${NODE_VERSION}-alpine AS build-api
 
@@ -43,9 +43,6 @@ FROM node:${NODE_VERSION}-alpine AS production
 
 ENV TZ=Europe/Kyiv
 
-ARG PORT
-ARG HOST
-
 WORKDIR /app
 
 COPY --from=build-api /app/packages/api/tsconfig*.json ./
@@ -58,9 +55,6 @@ COPY --from=build-api /app/packages/api/dist/ ./dist/
 COPY --from=build-app /app/packages/app/dist/ ./app/
 COPY --from=build-docs /app/packages/docs/.vitepress/dist/ ./docs/
 
-EXPOSE ${PORT}
-
-ENV PORT=${PORT}
-ENV HOST=${HOST}
+EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
