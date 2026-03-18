@@ -477,7 +477,7 @@ const handleSelected = async ({ id }) => {
       :limit="limit"
       :loading="loading"
       :offset="offset"
-      :storageKey="`app-datatable-${$route.name}`"
+      :storageKey="`app-datatable-${$route.name}-v1`"
       :totalDocs="totalDocs"
       @close-sidebar="doc = null"
       @create="handleCreate"

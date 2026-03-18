@@ -337,7 +337,7 @@ const handleAllDelete = () => {
       :limit="limit"
       :loading="loading"
       :offset="offset"
-      :storageKey="`app-datatable-${$route.name}`"
+      :storageKey="`app-datatable-${$route.name}-v1`"
       :totalDocs="totalDocs"
       @fetch="handleFetch"
       @open-menu="(event, data) => refMenu.toggle(event, data)"
