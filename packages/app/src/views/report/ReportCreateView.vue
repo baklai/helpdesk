@@ -1,18 +1,12 @@
 <script setup>
-import { useMutation, useQuery } from '@vue/apollo-composable';
+import { useMutation } from '@vue/apollo-composable';
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 
-import { CREATE_ONE_REPORT, GET_REPORT_COLLECTIONS } from '@/graphql/apollo.gql';
+import { CREATE_ONE_REPORT } from '@/graphql/apollo.gql';
 
 const router = useRouter();
 const toast = useToast();
-
-const { result: collectionsResult, loading: collectionsLoading } = useQuery(
-  GET_REPORT_COLLECTIONS,
-  null,
-  { fetchPolicy: 'cache-first' }
-);
 
 const {
   mutate: create,
@@ -60,13 +54,6 @@ onErrorCreate(({ graphQLErrors }) => {
 
     <Divider />
 
-    <AppLoading v-if="collectionsLoading" />
-
-    <ReportForm
-      v-else
-      :collections="collectionsResult?.collections || []"
-      @cancel="handleCancel"
-      @submit="handleSave"
-    />
+    <ReportForm @cancel="handleCancel" @submit="handleSave" />
   </div>
 </template>
