@@ -17,11 +17,21 @@ export class GraphqlLoggerInterceptor implements NestInterceptor {
     const start = Date.now();
 
     const userId = req?.user?.id || null;
-    const forwardedFor = req?.headers['x-forwarded-for'];
-    const rawIp = Array.isArray(forwardedFor)
-      ? forwardedFor[0]
-      : forwardedFor?.split(',')[0]?.trim();
-    const ipaddress = req?.ip || rawIp || '127.0.0.1';
+    const xForwardedFor = req?.headers['x-forwarded-for'];
+
+    let ipaddress: string;
+
+    if (xForwardedFor) {
+      ipaddress = Array.isArray(xForwardedFor)
+        ? xForwardedFor[0]
+        : xForwardedFor.split(',')[0].trim();
+    } else {
+      ipaddress = req?.ip || req?.socket?.remoteAddress || '127.0.0.1';
+    }
+
+    if (ipaddress.includes('::ffff:')) {
+      ipaddress = ipaddress.replace('::ffff:', '');
+    }
     const userAgent = req?.headers['user-agent'] || 'unknown';
     const method = info?.parentType?.name?.toUpperCase() || '-';
     const methodName = info?.fieldName || '-';

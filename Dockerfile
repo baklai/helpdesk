@@ -1,46 +1,46 @@
 ARG NODE_VERSION=24.12.0
 FROM node:${NODE_VERSION}-alpine AS base
-
 WORKDIR /app
+
+RUN npm install -g pm2
 
 COPY package*.json ./
 COPY packages/api/package*.json ./packages/api/
 COPY packages/app/package*.json ./packages/app/
 COPY packages/docs/package*.json ./packages/docs/
 
-RUN --mount=type=cache,target=/root/.npm \
-    npm install
+RUN --mount=type=cache,target=/root/.npm npm install
 
-FROM base AS build-api
-COPY packages/api/ ./packages/api/
+FROM base AS builder
+COPY . .
 RUN npm run build --workspace api
-
-FROM base AS build-app
-COPY packages/app/ ./packages/app/
 RUN npm run build --workspace app
-
-FROM base AS build-docs
-COPY packages/docs/ ./packages/docs/
 RUN npm run build --workspace docs
 
-FROM node:${NODE_VERSION}-alpine AS production
-
-RUN apk add --no-cache nginx
-
+FROM node:${NODE_VERSION}-alpine
 WORKDIR /app
 
-COPY --from=build-app /app/packages/app/dist/ /usr/share/nginx/html/app/
-COPY --from=build-docs /app/packages/docs/.vitepress/dist/ /usr/share/nginx/html/docs/
-COPY --from=build-api /app/packages/api/dist/ ./dist/
-COPY --from=build-api /app/packages/api/package*.json ./
+RUN apk add --no-cache nginx openssl && npm install -g pm2
 
+RUN mkdir -p /etc/nginx/certs && \
+    openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+    -keyout /etc/nginx/certs/privkey.pem \
+    -out /etc/nginx/certs/fullchain.pem \
+    -subj "/C=UA/ST=Kyiv/L=Kyiv/O=Helpdesk/OU=IT/CN=localhost"
+
+COPY --from=builder /app/packages/api/dist ./dist
+COPY --from=builder /app/packages/api/package*.json ./
 RUN npm install --omit=dev
 
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/packages/app/dist /usr/share/nginx/html/app
+COPY --from=builder /app/packages/docs/.vitepress/dist /usr/share/nginx/html/docs
 
-EXPOSE 80 3000
+COPY ./nginx.conf /etc/nginx/http.d/default.conf
+COPY ./ecosystem.config.js ./ecosystem.config.js
 
-ENV PORT=3000
-ENV HOST=0.0.0.0
+ENV TZ=Europe/Kyiv
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-CMD ["sh", "-c", "nginx && node dist/main.js"]
+EXPOSE 80 443 3000
+
+CMD ["pm2-runtime", "ecosystem.config.js"]

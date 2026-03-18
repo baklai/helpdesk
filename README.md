@@ -21,6 +21,7 @@ Helpdesk — сервіс підтримки, що надає оперативн
 | `JWT_REFRESH_EXPIRES_IN` | Термін дії refresh-токена (необов'язково, за замовчуванням 7d)          |
 | `VITE_APP_BASE_URL`      | Базова URL-адреса додатку                                               |
 | `VITE_API_BASE_URL`      | Базова URL-адреса API додатку                                           |
+| `VITE_DOCS_BASE_URL`     | Базова URL-адреса документації додатку                                  |
 
 ### Перевікра з [ESLint](https://eslint.org/)
 
@@ -38,32 +39,25 @@ npm run format
 
 ```bash
 services:
-  app:
+  helpdesk:
     image: baklai/helpdesk:latest
-    env_file: .env
+    container_name: helpdesk
     environment:
       - NODE_ENV=production
+      - MONGO_URI=mongodb://localhost:27017/helpdesk?authSource=admin
+      - BCRYPT_SALT=10
+      - JWT_ACCESS_SECRET=EXAMPLE-JWT-ACCESS-SECRET
+      - JWT_ACCESS_EXPIRES_IN=15m
+      - JWT_REFRESH_SECRET=EXAMPLE-JWT-REFRESH-SECRET
+      - JWT_REFRESH_EXPIRES_IN=7d
+      - CORS_ORIGIN=*
     ports:
-      - 3000:3000
-    volumes:
-      - ./certs:/app/certs
+      - '80:80'
+      - '443:443'
     restart: unless-stopped
-    container_name: helpdesk
 ```
 
-```bash
-services:
-  app:
-    image: baklai/helpdesk:latest
-    network_mode: host
-    env_file: .env
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - ./certs:/app/certs
-    restart: unless-stopped
-    container_name: helpdesk
-```
+Якщо сервер бази даних на тому ж хосту то MONGO_URI=mongodb://host.docker.internal:27017/helpdesk?authSource=admin
 
 ### Запустіть додаток
 

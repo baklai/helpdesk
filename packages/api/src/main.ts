@@ -22,7 +22,9 @@ async function bootstrap() {
     })
   });
 
-  app.set('trust proxy', 1);
+  app.setGlobalPrefix('api');
+
+  app.set('trust proxy', true);
 
   const configService = app.get(ConfigService);
 
@@ -49,7 +51,7 @@ async function bootstrap() {
   app.enableCors({
     origin: configService.get<string>('CORS_ORIGIN'),
     credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+    methods: 'POST,OPTIONS'
   });
 
   app.useGlobalPipes(

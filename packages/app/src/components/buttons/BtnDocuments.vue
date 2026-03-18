@@ -1,7 +1,7 @@
 <script setup>
 import { mdiHelpCircleOutline } from '@mdi/js';
 
-const docsBaseUrl = import.meta.env.VITE_DOCS_BASE_URL;
+const docsBaseUrl = import.meta.env.VITE_DOCS_BASE_URL || '/docs';
 </script>
 
 <template>

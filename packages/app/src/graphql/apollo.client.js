@@ -45,7 +45,7 @@ async function refreshAccessToken() {
 }
 
 const httpLink = new HttpLink({
-  uri: import.meta.env.VITE_API_BASE_URL,
+  uri: import.meta.env.VITE_API_BASE_URL || '/api',
   credentials: 'include'
 });
 

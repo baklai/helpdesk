@@ -7,7 +7,7 @@ import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/',
+  base: '/app/',
   plugins: [
     vue(),
     vueJsx(),
@@ -26,7 +26,6 @@ export default defineConfig({
     }
   },
   build: {
-    base: '/app/',
     rollupOptions: {
       output: {
         manualChunks: {
