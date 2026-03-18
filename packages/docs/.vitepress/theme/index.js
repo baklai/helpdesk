@@ -8,7 +8,5 @@ export default {
   Layout: () => {
     return h(DefaultTheme.Layout, null, {});
   },
-  enhanceApp({ app, router, siteData }) {
-    console.log(app, router, siteData);
-  }
+  enhanceApp({ _app, _router, _siteData }) {}
 };

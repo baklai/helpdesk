@@ -17,12 +17,12 @@ import {
   mdiWebCancel,
   mdiWebRemove
 } from '@mdi/js';
-import { createRouter, createWebHistory, RouterView } from 'vue-router';
+import { createRouter, createWebHashHistory, RouterView } from 'vue-router';
 
 import { useScopeStore } from '@/stores/scopes.store';
 
 const router = createRouter({
-  history: createWebHistory('/app'),
+  history: createWebHashHistory('/app'),
   routes: [
     {
       path: '/',
