@@ -3,7 +3,7 @@ import { type Response } from 'express';
 
 @Controller()
 export class AppController {
-  @Get('/')
+  @Get()
   redirectToApp(@Res() res: Response) {
     return res.redirect('/app');
   }
