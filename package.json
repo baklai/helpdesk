@@ -12,14 +12,8 @@
   "keywords": [
     "api",
     "app",
-    "docs",
-    "agent",
-    "storage"
+    "agent"
   ],
-  "engines": {
-    "node": ">=24",
-    "npm": ">=11"
-  },
   "homepage": "https://github.com/baklai/helpdesk#readme",
   "bugs": {
     "url": "https://github.com/baklai/helpdesk/issues"
