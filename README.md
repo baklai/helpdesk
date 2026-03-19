@@ -42,6 +42,18 @@ services:
   helpdesk:
     image: baklai/helpdesk:latest
     container_name: helpdesk
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: unless-stopped
+    depends_on:
+      - api
+      - app
+      - docs
+
+  api:
+    image: baklai/helpdesk-api:latest
+    container_name: helpdesk-api
     environment:
       - NODE_ENV=production
       - MONGO_URI=mongodb://localhost:27017/helpdesk?authSource=admin
@@ -51,9 +63,24 @@ services:
       - JWT_REFRESH_SECRET=EXAMPLE-JWT-REFRESH-SECRET
       - JWT_REFRESH_EXPIRES_IN=7d
       - CORS_ORIGIN=*
-    ports:
-      - '80:80'
-      - '443:443'
+    restart: unless-stopped
+
+  app:
+    image: baklai/helpdesk-app:latest
+    container_name: helpdesk-app
+    restart: unless-stopped
+
+  docs:
+    image: baklai/helpdesk-docs:latest
+    container_name: helpdesk-docs
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup
     restart: unless-stopped
 ```
 
@@ -83,8 +110,8 @@ docker compose down && docker rmi baklai/helpdesk && docker compose up -d && doc
 docker compose down
 ```
 
-Після запуску програми на порту (3000 за замовчуванням) ви можете відкрити
-у службу підтримки, ввівши http://localhost:3000/.
+Після запуску програми на порту (80, 443 за замовчуванням) ви можете відкрити
+у службу підтримки, ввівши http://localhost:80/.
 
 ## Створюйте образи Docker
 

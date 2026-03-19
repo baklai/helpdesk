@@ -1,5 +1,0 @@
-# vuepress build output
-dist/
-
-# vuepress cache
-cache/
