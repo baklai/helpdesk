@@ -75,12 +75,11 @@ services:
     container_name: helpdesk-docs
     restart: unless-stopped
 
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
+  storage:
+    image: baklai/helpdesk-storage:latest
+    container_name: helpdesk-storage
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 300 --cleanup
+      - /var/www/helpdesk/storage:/usr/share/nginx/html/files:rw
     restart: unless-stopped
 ```
 
