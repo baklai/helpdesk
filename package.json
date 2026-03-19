@@ -10,13 +10,11 @@
     "url": "https://baklai.github.io"
   },
   "keywords": [
-    "vue",
-    "vite",
-    "nest",
-    "pinia",
-    "graphql",
-    "primevue",
-    "mongoose"
+    "api",
+    "app",
+    "docs",
+    "agent",
+    "storage"
   ],
   "engines": {
     "node": ">=24",
@@ -30,32 +28,7 @@
     "type": "git",
     "url": "git+https://github.com/baklai/helpdesk.git"
   },
-  "scripts": {
-    "api": "npm --workspace api run dev",
-    "app": "npm --workspace app run dev",
-    "docs": "npm --workspace docs run dev",
-    "build": "npm run build --workspaces --if-present",
-    "docker-build": "docker compose -f compose.yml build",
-    "format": "prettier --write .",
-    "lint": "eslint . --fix"
-  },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
-    "@eslint/js": "^9.39.2",
-    "@types/eslint": "^9.6.1",
-    "@types/node": "^24.10.9",
-    "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-vue": "^10.7.0",
-    "globals": "^16.5.0",
-    "prettier": "^3.8.0",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "typescript": "~5.9.3",
-    "typescript-eslint": "^8.54.0",
-    "vue-eslint-parser": "^10.2.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+    "prettier": "^3.8.0"
+  }
 }
