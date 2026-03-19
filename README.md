@@ -10,8 +10,6 @@ Helpdesk — сервіс підтримки, що надає оперативн
 
 | Key                      | Comment                                                                 |
 | ------------------------ | ----------------------------------------------------------------------- |
-| `PORT`                   | Порт сервісу (необов'язково, за замовчуванням 3000)                     |
-| `HOST`                   | Хост сервісу (необов'язково, за замовчуванням 127.0.0.1)                |
 | `MONGO_URI`              | Рядок підключення до бази даних MongoDB                                 |
 | `CORS_ORIGIN`            | Дозволене джерело для міжсайтових запитів (CORS)                        |
 | `BCRYPT_SALT`            | Кількість раундів хешування bcrypt (необов'язково, за замовчуванням 10) |
@@ -19,9 +17,6 @@ Helpdesk — сервіс підтримки, що надає оперативн
 | `JWT_ACCESS_EXPIRES_IN`  | Термін дії access-токена (необов'язково, за замовчуванням 15m)          |
 | `JWT_REFRESH_SECRET`     | Секретний ключ для підпису refresh-токена                               |
 | `JWT_REFRESH_EXPIRES_IN` | Термін дії refresh-токена (необов'язково, за замовчуванням 7d)          |
-| `VITE_APP_BASE_URL`      | Базова URL-адреса додатку                                               |
-| `VITE_API_BASE_URL`      | Базова URL-адреса API додатку                                           |
-| `VITE_DOCS_BASE_URL`     | Базова URL-адреса документації додатку                                  |
 
 ### Перевікра з [ESLint](https://eslint.org/)
 
@@ -49,7 +44,6 @@ services:
     depends_on:
       - api
       - app
-      - docs
 
   api:
     image: baklai/helpdesk-api:latest
@@ -68,18 +62,6 @@ services:
   app:
     image: baklai/helpdesk-app:latest
     container_name: helpdesk-app
-    restart: unless-stopped
-
-  docs:
-    image: baklai/helpdesk-docs:latest
-    container_name: helpdesk-docs
-    restart: unless-stopped
-
-  storage:
-    image: baklai/helpdesk-storage:latest
-    container_name: helpdesk-storage
-    volumes:
-      - /var/www/helpdesk/storage:/usr/share/nginx/html/files:rw
     restart: unless-stopped
 ```
 
