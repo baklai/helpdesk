@@ -48,6 +48,8 @@ services:
   api:
     image: baklai/helpdesk-api:latest
     container_name: helpdesk-api
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     environment:
       - NODE_ENV=production
       - MONGO_URI=mongodb://localhost:27017/helpdesk?authSource=admin
